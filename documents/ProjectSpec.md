@@ -1,5 +1,9 @@
 # Projektarbetet: LTU – HT26
 
+<br/>
+[Projektarbete Orginal dokument](https://github.com/KarlqvistLars/LearningManagementSystemTeamC/blob/main/documents/Projektarbetet-Aktuellt-260826.pdf)
+<br/>
+
 ## Vad ska ni utveckla?
 
 Projektet ni skall arbeta med under den avslutande modulen är en läroplattform, ett så kallat LMS (*Learning Management System*), anpassat för Lexicons påbyggnadsutbildningar. Ett LMS förenklar och centraliserar kommunikationen mellan lärare, lärosäte och elev genom att samla schema, kursmaterial, övrig information, övningsuppgifter och inlämningar på ett och samma ställe.
