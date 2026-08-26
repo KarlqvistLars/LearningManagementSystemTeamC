@@ -1,6 +1,8 @@
 # LearningManagementSystemTeamC
  Läroplattform, ett så kallat LMS (Learning Management System)<br/>
  ### [Projektbeskrivning](https://github.com/KarlqvistLars/LearningManagementSystemTeamC/blob/main/documents/ProjectSpec.md)
+ ### [FrontEnd](https://github.com/KarlqvistLars/LearningManagementSystemTeamC/blob/main/frontend/README.md)
+ ### [BackEnd](https://github.com/KarlqvistLars/LearningManagementSystemTeamC/blob/main/backend/README.md)
 
  ## Git Workflow
 
