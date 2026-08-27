@@ -1,4 +1,4 @@
-# LearningManagementSystemTeamC
+# [LearningManagementSystemTeamC](https://github.com/KarlqvistLars/LearningManagementSystemTeamC)
 ## Backend
 
 ### [ER-diagram](https://www.figma.com/board/ePQ4LjCDGALCmYJZBlBem4/ER-diagram-LMS-TeamC?node-id=0-1&t=QukyBBMoBPTI9Spf-1)
