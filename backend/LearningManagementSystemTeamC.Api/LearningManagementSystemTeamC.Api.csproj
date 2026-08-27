@@ -15,4 +15,8 @@
     <ProjectReference Include="..\LearningManagementSystemTeamC.Infrastructure\LearningManagementSystemTeamC.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>
