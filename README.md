@@ -9,7 +9,7 @@
 
 * `main` – Stable production branch
 * `develop` – Integration branch
-* `feature/...` – Individual feature branches Ex. feature/new-feature
+* `feature/...` – Individual feature branches Ex. __feature/new-feature__
 
 ## Getting Started
 
