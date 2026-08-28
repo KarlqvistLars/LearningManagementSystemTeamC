@@ -6,10 +6,10 @@
  ### [BackEnd](https://github.com/KarlqvistLars/LearningManagementSystemTeamC/blob/main/backend/README.md)
 
  ## Ramverk och tekniker
-Applikationen har en backend byggd med .NET.
-Databasen är byggd med Entity Framework Core enligt code first-metoden.
-Frontend använder React + Vite.
-Vi använder ramverket Tailwind för css.
+* Applikationen har en backend byggd med .NET.
+* Databasen är byggd med Entity Framework Core enligt code first-metoden.
+* Frontend använder React + Vite.
+* Vi använder ramverket Tailwind för css.
  
  ## Git Workflow
 
