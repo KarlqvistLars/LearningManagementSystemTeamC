@@ -8,6 +8,10 @@
     <ProjectReference Include="..\LearningManagementSystemTeamC.Domain\LearningManagementSystemTeamC.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Courses\Commands\DeleteCourse\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
