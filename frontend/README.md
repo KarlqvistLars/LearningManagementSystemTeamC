@@ -3,6 +3,10 @@
 
 ### [Figma Design](https://www.figma.com/design/7YXtQ0te0mdlERqHRJxiIL/LMS-TeamC?node-id=0-1&t=OPCc0GwtBZrteVqk-1)
 
+```
+Starta frontend med : npm run dev
+```
+
 
  ## Git Workflow
 
