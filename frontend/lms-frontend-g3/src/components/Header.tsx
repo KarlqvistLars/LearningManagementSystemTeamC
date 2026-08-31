@@ -31,6 +31,14 @@ export function Header() {
                             Kurser
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink
+                            to="/login"
+                            className={linkClasses}
+                        >
+                            Login
+                        </NavLink>
+                    </li>
                 </ul>
             </nav>
         </header>
