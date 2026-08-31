@@ -1,4 +1,5 @@
-﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Domain.Courses;
 
 namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
@@ -16,7 +17,7 @@ public class CreateCourseHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Guid> Handle(
+    public async Task<CourseDto> Handle(
         CreateCourseCommand command,
         CancellationToken cancellationToken)
     {
@@ -38,6 +39,6 @@ public class CreateCourseHandler
         await _unitOfWork.SaveChangesAsync(
             cancellationToken);
 
-        return course.Id;
+        return new CourseDto(course.Id, course.CourseName, course.Description, course.StartDate, course.EndDate);
     }
 }

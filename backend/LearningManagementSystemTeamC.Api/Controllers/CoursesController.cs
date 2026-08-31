@@ -1,3 +1,5 @@
+using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,14 +33,14 @@ public class CoursesController : ControllerBase
             return BadRequest("Validation failed");
         }
 
-        var courseId = await _createCourseHandler.Handle(
+        var courseDto = await _createCourseHandler.Handle(
             command,
             cancellationToken);
 
-        // Should be GetById
+        // Should be GetById instead of Create
         return CreatedAtAction(
             nameof(Create),
-            new { id = courseId },
-            new { id = courseId });
+            new { id = courseDto.Id },
+            ApiResponse<CourseDto>.Ok(courseDto));
     }
 }

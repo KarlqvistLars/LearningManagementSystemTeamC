@@ -14,13 +14,13 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
         // for example CourseRules in Feature folders in Application project
         // Application/Courses/CourseRules.cs
 
-        builder.Property(x => x.Name)
+        builder.Property(x => x.CourseName)
             .IsRequired()
-            .HasMaxLength(200);
+            .HasMaxLength(CourseRules.CourseNameMaxLength);
 
         builder.Property(x => x.Description)
             .IsRequired()
-            .HasMaxLength(2000);
+            .HasMaxLength(CourseRules.DescriptionMaxLength);
 
         builder.Property(x => x.StartDate)
             .IsRequired();
