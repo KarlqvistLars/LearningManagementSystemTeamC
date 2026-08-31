@@ -1,3 +1,4 @@
+using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application;
 using LearningManagementSystemTeamC.Infrastructure;
 
@@ -7,9 +8,13 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // Handlers register
-builder.Services.AddApplication();
+//builder.Services.AddApplication();
 // Repositories register
-builder.Services.AddInfrastructure(builder.Configuration);
+//builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -20,6 +25,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapControllers();
+app.UseApiMiddlewares();
 
 app.Run();
