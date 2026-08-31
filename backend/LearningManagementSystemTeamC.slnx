@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/LearningManagementSystemTeamC.UnitTests/LearningManagementSystemTeamC.UnitTests.csproj" />
+  </Folder>
+  <Project Path="LearningManagementSystemTeamC.Api/LearningManagementSystemTeamC.Api.csproj" />
+  <Project Path="LearningManagementSystemTeamC.Application/LearningManagementSystemTeamC.Application.csproj" />
+  <Project Path="LearningManagementSystemTeamC.Domain/LearningManagementSystemTeamC.Domain.csproj" />
+  <Project Path="LearningManagementSystemTeamC.Infrastructure/LearningManagementSystemTeamC.Infrastructure.csproj" />
+</Solution>
