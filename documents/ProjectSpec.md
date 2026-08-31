@@ -247,10 +247,10 @@ Helhetsflöden baserade på use-cases.
 
 Under projektets gång förväntas ni redovisa vissa moment innan ni fortsätter. Detta för att undvika återvändsgränder och maximera er effektiva utvecklingstid.
 
-- [ ] Produkt-backlog skall godkännas innan ni startar implementation.
-- [ ] ER-diagram skall godkännas innan ni startar en implementation.
-- [ ] Wireframes skall uppvisas innan ni startar en implementation.
-- [ ] Sprint-backlog skall godkännas innan ni startar en ny sprint.
+~~- [ ] Produkt-backlog skall godkännas innan ni startar implementation.~~
+~~- [ ] ER-diagram skall godkännas innan ni startar en implementation.~~
+~~- [ ] Wireframes skall uppvisas innan ni startar en implementation.~~
+~~- [ ] Sprint-backlog skall godkännas innan ni startar en ny sprint.~~
 - [ ] Vid avslutad sprint skall alla leveransklara ändringar demonstreras vid sprintdemo.
 
 ## Planering
