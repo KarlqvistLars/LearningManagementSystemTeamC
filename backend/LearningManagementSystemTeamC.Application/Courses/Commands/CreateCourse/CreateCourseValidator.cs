@@ -1,36 +1,52 @@
-﻿namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
+﻿using LearningManagementSystemTeamC.Domain.Courses;
+
+namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 
 public class CreateCourseValidator
 {
-    public bool IsValid(CreateCourseCommand command)
+    public Dictionary<string, string[]> Validate(
+        CreateCourseCommand command)
     {
+        var errors = new Dictionary<string, string[]>();
+
         if (string.IsNullOrWhiteSpace(command.Name))
-            return false;
+        {
+            errors[nameof(command.Name)] =
+            [
+                CourseRules.CourseNameRequiredMessage
+            ];
+        }
+        else if (command.Name.Length > CourseRules.CourseNameMaxLength)
+        {
+            errors[nameof(command.Name)] =
+            [
+                CourseRules.CourseNameTooLongMessage
+            ];
+        }
 
         if (string.IsNullOrWhiteSpace(command.Description))
-            return false;
+        {
+            errors[nameof(command.Description)] =
+            [
+                CourseRules.DescriptionRequiredMessage
+            ];
+        }
+        else if (command.Description.Length > CourseRules.DescriptionMaxLength)
+        {
+            errors[nameof(command.Description)] =
+            [
+                CourseRules.DescriptionTooLongMessage
+            ];
+        }
 
         if (command.EndDate <= command.StartDate)
-            return false;
+        {
+            errors[nameof(command.EndDate)] =
+            [
+                CourseRules.InvalidDatesMessage
+            ];
+        }
 
-        return true;
+        return errors;
     }
-
-    /*
-    // OR: throw ValidationException and let
-    // ExceptionMiddleware handle the API response.
-
-    public void Validate(CreateCourseCommand command)
-    {
-        if (string.IsNullOrWhiteSpace(command.Name))
-            throw new ValidationException("Name is required.");
-
-        if (string.IsNullOrWhiteSpace(command.Description))
-            throw new ValidationException("Description is required.");
-
-        if (command.EndDate <= command.StartDate)
-            throw new ValidationException(
-                "End date must be after start date.");
-    }
-    */
 }

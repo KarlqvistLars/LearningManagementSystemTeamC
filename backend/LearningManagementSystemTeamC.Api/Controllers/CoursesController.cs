@@ -1,3 +1,4 @@
+using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
@@ -25,12 +26,15 @@ public class CoursesController : ControllerBase
     {
         // If not using other tools:
         // Run validator
-        var isValid = _createCourseValidator.IsValid(command);
+        var details = _createCourseValidator.Validate(command);
 
-        if (!isValid)
+        if (details.Count > 0)
         {
-            // No magic string, const instead
-            return BadRequest("Validation failed");
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    details));
         }
 
         var courseDto = await _createCourseHandler.Handle(
