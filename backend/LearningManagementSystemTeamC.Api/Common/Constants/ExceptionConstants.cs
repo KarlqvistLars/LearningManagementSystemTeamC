@@ -3,7 +3,7 @@
 public static class ExceptionConstants
 {
     public const string DefaultExceptionCode = "SERVER_ERROR";
-    public const string DefaultExceptionMessage = "Something went wrong";
+    public const string DefaultExceptionMessage = "Something went wrong.";
 
     public const string UnauthorizedCode = "UNAUTHORIZED";
     public const string UnauthorizedMessage = "Authentication is required.";
@@ -22,4 +22,7 @@ public static class ExceptionConstants
 
     public const string HttpErrorCode = "HTTP_ERROR";
     public const string HttpErrorMessage = "An HTTP error occurred.";
+
+    public const string ValidationFailedCode = "VALIDATION_ERROR";
+    public const string ValidationFailedMessage = "Validation failed.";
 }
