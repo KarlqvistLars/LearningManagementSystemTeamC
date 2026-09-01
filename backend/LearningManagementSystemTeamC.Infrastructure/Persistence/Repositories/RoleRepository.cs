@@ -1,0 +1,20 @@
+﻿using LearningManagementSystemTeamC.Application.Roles;
+using LearningManagementSystemTeamC.Domain.Roles;
+using Microsoft.EntityFrameworkCore;
+
+namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
+
+public class RoleRepository : IRoleRepository
+{
+    private readonly ApplicationDbContext _context;
+
+    public RoleRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<Role?> GetActiveById(Guid id)
+    {
+        return await _context.Roles.FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
+    }
+}
