@@ -1,0 +1,47 @@
+using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Api.Controllers;
+using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
+using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
+using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+
+namespace LearningManagementSystemTeamC.UnitTests;
+
+public class CoursesControllerTests
+{
+    [Fact]
+    public async Task Get_Courses_ReturnsOkResult()
+    {
+        // Arrange
+        var mockCreateCourseHandler = new Mock<ICreateCourseHandler>();
+        var mockGetCoursesHandler = new Mock<IGetCoursesHandler>();
+        var mockGetCourseHandler = new Mock<IGetCourseHandler>();
+        var mockCreateCourseValidator = new Mock<ICreateCourseValidator>();
+        mockGetCoursesHandler.Setup(handler => handler.Handle(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
+            new List<CourseDto> {
+                new CourseDto(
+                    Guid.NewGuid(),
+                    "Test Course",
+                    "A description.",
+                    DateTime.Parse("2024-06-01"),
+                    DateTime.Parse("2024-06-30"))
+            });
+
+        var controller = new CoursesController(
+            mockCreateCourseHandler.Object,
+            mockCreateCourseValidator.Object,
+            mockGetCoursesHandler.Object,
+            mockGetCourseHandler.Object);
+
+        // Act
+        var result = await controller.GetAll(CancellationToken.None);
+
+        // Assert
+        var okObjectResult = Assert.IsType<OkObjectResult>(result);
+        var returnValue = Assert.IsType<ApiResponse<IEnumerable<CourseDto>>>(okObjectResult.Value);
+        Assert.NotEmpty(returnValue.Data!);
+    }
+}

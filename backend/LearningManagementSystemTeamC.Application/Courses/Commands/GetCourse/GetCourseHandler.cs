@@ -2,7 +2,7 @@
 
 namespace LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
 
-public class GetCourseHandler
+public class GetCourseHandler : IGetCourseHandler
 {
     private readonly ICourseRepository _courseRepository;
 

@@ -2,7 +2,7 @@
 
 namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 
-public class CreateCourseValidator
+public class CreateCourseValidator : ICreateCourseValidator
 {
     public Dictionary<string, string[]> Validate(
         CreateCourseCommand command)
