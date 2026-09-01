@@ -7,7 +7,6 @@
 Starta frontend med : npm run dev
 ```
 
-
  ## Git Workflow
 
 * `main` – Stable production branch
