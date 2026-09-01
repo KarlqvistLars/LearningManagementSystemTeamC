@@ -15,8 +15,8 @@ public static class DependencyInjection
         services.AddScoped<GetCoursesHandler>();
         services.AddScoped<GetCourseHandler>();
 
-        //// Validators
-        //services.AddScoped<CreateCourseValidator>();
+        // Validators
+        services.AddScoped<CreateCourseValidator>();
 
         // or Featurebased
         //services.AddScoped<CreateCourseHandler>();
