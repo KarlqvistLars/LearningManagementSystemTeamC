@@ -1,4 +1,5 @@
 using LearningManagementSystemTeamC.Domain.Courses;
+using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 
 namespace LearningManagementSystemTeamC.Domain.Modules;
 
@@ -10,7 +11,7 @@ public class Module
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public Guid CourseId { get; set; }
-    public Course Course { get; set; } = null!;
+    public Course Course { get; private set; } = null!;
 
     public Module(
         string moduleName,
@@ -42,23 +43,23 @@ public class Module
         Guid courseId)
     {
         if (string.IsNullOrWhiteSpace(moduleName))
-            throw new ArgumentException(
-                "Course name cannot be empty.",
+            throw new DomainException(
+                ModuleRules.ModuleNameRequiredCode,
                 nameof(moduleName));
 
         if (string.IsNullOrWhiteSpace(description))
-            throw new ArgumentException(
-                "Description cannot be empty.",
+            throw new DomainException(
+                ModuleRules.ModuleDescriptionRequiredCode,
                 nameof(description));
 
         if (endDate <= startDate)
-            throw new ArgumentException(
-                "End date must be after start date.",
+            throw new DomainException(
+                ModuleRules.ModuleEndBeforeStartDateCode,
                 nameof(endDate));
                 
         if (courseId == Guid.Empty)
-            throw new ArgumentException(
-                "Course ID cannot be empty.",
+            throw new DomainException(
+                ModuleRules.CourseIdRequiredMessage,
                 nameof(courseId));
     }
 }
