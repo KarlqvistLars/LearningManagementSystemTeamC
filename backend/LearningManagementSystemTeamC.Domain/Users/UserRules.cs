@@ -2,6 +2,7 @@
 
 public class UserRules
 {
+    public const int EmailMaxLength = 100;
     public const string EmailRequiredCode = "USER_EMAIL_REQUIRED";
     public const string EmailRequiredMessage = "Email is required.";
 
