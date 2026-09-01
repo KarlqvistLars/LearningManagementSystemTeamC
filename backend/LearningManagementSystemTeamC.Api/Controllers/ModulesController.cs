@@ -26,6 +26,15 @@ public class ModulesController : ControllerBase
 
         var details = _getModuleValidator.Validate(query);
 
+        if (details.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    details));
+        }
+
         var modulesDto = await _getModuleHandler.Handle(query);
 
         return ApiResponse<IReadOnlyList<ModuleDto>>.Ok(modulesDto);
