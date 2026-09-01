@@ -1,4 +1,6 @@
-﻿namespace LearningManagementSystemTeamC.Domain.Courses;
+﻿using LearningManagementSystemTeamC.Domain.Modules;
+
+namespace LearningManagementSystemTeamC.Domain.Courses;
 
 public class Course
 {
@@ -12,6 +14,7 @@ public class Course
 
     public DateTime EndDate { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public ICollection<Module> Modules { get; set; } = [];
 
     public Course(
         string courseName,
