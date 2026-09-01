@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "KRNfbXvJjvQ=",
+  "success": true,
+  "projectFilePath": "/Users/konstantinos/Documents/VSprojects/slutprojekt/LearningManagementSystemTeamC/.git-rewrite/t/backend/LearningManagementSystemTeamC.Application/LearningManagementSystemTeamC.Application.csproj",
+  "expectedPackageFiles": [
+    "/Users/konstantinos/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.11/microsoft.extensions.dependencyinjection.abstractions.10.0.11.nupkg.sha512"
+  ],
+  "logs": []
+}
