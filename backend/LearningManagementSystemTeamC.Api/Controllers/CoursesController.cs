@@ -12,16 +12,16 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Route("api/courses")]
 public class CoursesController : ControllerBase
 {
-    private readonly CreateCourseHandler _createCourseHandler;
-    private readonly GetCoursesHandler _getCoursesHandler;
-    private readonly GetCourseHandler _getCourseHandler;
-    private readonly CreateCourseValidator _createCourseValidator;
+    private readonly ICreateCourseHandler _createCourseHandler;
+    private readonly IGetCoursesHandler _getCoursesHandler;
+    private readonly IGetCourseHandler _getCourseHandler;
+    private readonly ICreateCourseValidator _createCourseValidator;
 
     public CoursesController(
-        CreateCourseHandler createCourseHandler,
-        CreateCourseValidator createCourseValidator,
-        GetCoursesHandler getCoursesHandler,
-        GetCourseHandler getCourseHandler)
+        ICreateCourseHandler createCourseHandler,
+        ICreateCourseValidator createCourseValidator,
+        IGetCoursesHandler getCoursesHandler,
+        IGetCourseHandler getCourseHandler)
     {
         _createCourseHandler = createCourseHandler;
         _createCourseValidator = createCourseValidator;
