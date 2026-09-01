@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses;
+using LearningManagementSystemTeamC.Application.Users;
 using LearningManagementSystemTeamC.Infrastructure.Persistence;
 using LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ public static class DependencyInjection
         );
 
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        //services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

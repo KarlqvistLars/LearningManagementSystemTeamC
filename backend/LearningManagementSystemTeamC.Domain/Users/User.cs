@@ -16,7 +16,7 @@ public class User
 
     private User() { }
 
-    public  User(string email, Guid roleId)
+    public User(string email, Guid roleId)
     {
         if (string.IsNullOrWhiteSpace(email))
             throw new DomainException(UserRules.EmailRequiredCode, UserRules.EmailRequiredMessage);
