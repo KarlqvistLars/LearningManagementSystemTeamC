@@ -18,24 +18,24 @@ public class Activity
         string activityName,
         ActivityType type,
         string description,
-        DateTime startTime,
-        DateTime endTime,
+        DateTime startDate,
+        DateTime endDate,
         Guid moduleId)
     {
         Validate(
             activityName,
             type,
             description,
-            startTime,
-            endTime,
+            startDate,
+            endDate,
             moduleId);
 
         Id = Guid.NewGuid();
         ActivityName = activityName;
         Type = type;
         Description = description;
-        StartDate = startTime;
-        EndDate = endTime;
+        StartDate = startDate;
+        EndDate = endDate;
         ModuleId = moduleId;
     }
 
@@ -43,8 +43,8 @@ public class Activity
         string activityName,
         ActivityType type,
         string description,
-        DateTime startTime,
-        DateTime endTime,
+        DateTime startDate,
+        DateTime endDate,
         Guid moduleId)
     {
         if (string.IsNullOrWhiteSpace(activityName))
@@ -62,10 +62,10 @@ public class Activity
                 ActivityRules.ActivityDescriptionRequiredCode,
                 nameof(description));
 
-        if (endTime <= startTime)
+        if (endDate <= startDate)
             throw new DomainException(
                 ActivityRules.ActivityEndBeforeStartTimeCode,
-                nameof(endTime));
+                nameof(endDate));
 
         if (moduleId == Guid.Empty)
             throw new DomainException(
