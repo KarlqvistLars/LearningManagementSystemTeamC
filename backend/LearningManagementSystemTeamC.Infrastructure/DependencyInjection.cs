@@ -3,6 +3,7 @@ using LearningManagementSystemTeamC.Application.Courses;
 using LearningManagementSystemTeamC.Application.Users;
 using LearningManagementSystemTeamC.Infrastructure.Persistence;
 using LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
+using LearningManagementSystemTeamC.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,7 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         //services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
         return services;
     }
 }

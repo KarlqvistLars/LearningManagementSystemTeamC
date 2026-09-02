@@ -23,4 +23,7 @@ public class RoleRules
 
     public const string DefaultRoleNotFoundCode = "ROLE_DEFAULT_NOT_FOUND";
     public const string DefaultRoleNotFoundMessage = "Default role group is not found";
+
+    public const string RoleNotFoundCode = "ROLE_NOT_FOUND";
+    public const string RoleNotFoundMessage = "Role is not found";
 }
