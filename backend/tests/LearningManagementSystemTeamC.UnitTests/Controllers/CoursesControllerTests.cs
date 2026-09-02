@@ -29,7 +29,7 @@ public class CoursesControllerTests
             .Setup(handler => handler.Handle(It.IsAny<CancellationToken>()))
             .ReturnsAsync(courses);
 
-        var controller = new CourseController();
+        var controller = new CoursesController();
 
         // Act
         var result = await controller.GetAll(mockGetCoursesHandler.Object, CancellationToken.None);

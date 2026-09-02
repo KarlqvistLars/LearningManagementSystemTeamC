@@ -10,9 +10,9 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UserController: ControllerBase
+public class UsersController : ControllerBase
 {
-    public UserController()
+    public UsersController()
     {
     }
 
