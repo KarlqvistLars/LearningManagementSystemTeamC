@@ -9,6 +9,7 @@ public class User
     public Guid RoleId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public string PasswordHash { get; private set; } = string.Empty;
 
     public void Disable() => IsActive = false;
 
@@ -16,16 +17,20 @@ public class User
 
     private User() { }
 
-    public User(string email, Guid roleId)
+    public User(string email, string passwordHash, Guid roleId)
     {
         if (string.IsNullOrWhiteSpace(email))
             throw new DomainException(UserRules.EmailRequiredCode, UserRules.EmailRequiredMessage);
+
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new DomainException(UserRules.PasswordRequiredCode, UserRules.PasswordRequiredMessage);
 
         if (roleId == Guid.Empty)
             throw new DomainException(UserRules.RoleRequiredCode, UserRules.RoleRequiredMessage);
 
         Id = Guid.NewGuid();
         Email = email;
+        PasswordHash = passwordHash;
         RoleId = roleId;
         IsActive = true;
         CreatedAt = DateTime.UtcNow;

@@ -16,6 +16,18 @@ namespace LearningManagementSystemTeamC.Api.Common.Mappers
                     StatusCodes.Status400BadRequest,
                     null
                 ),
+                NotFoundException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status404NotFound,
+                    null
+                ),
+                ConflictException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status409Conflict,
+                    null
+                ),
                 _ => (
                     ExceptionConstants.DefaultExceptionCode,
                     ExceptionConstants.DefaultExceptionMessage,

@@ -1,30 +1,46 @@
-﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Roles;
+using LearningManagementSystemTeamC.Domain.Common.Exceptions;
+using LearningManagementSystemTeamC.Domain.Roles;
+using LearningManagementSystemTeamC.Domain.Users;
 
 namespace LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 
 public class CreateUserHandler
 {
     private readonly IUserRepository _userRepository;
+    private readonly IRoleRepository _roleRepository;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateUserHandler(IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public CreateUserHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IRoleRepository roleRepository, IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _roleRepository = roleRepository;
+        _passwordHasher = passwordHasher;
     }
-    public async Task Handle(CreateUserCommand command, CancellationToken cancellationToken)
+    public async Task<UserDto> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
-        // check if role exists by id
-        // if not, throw RoleNotFound
+        var existingRole = await _roleRepository.GetActiveById(command.RoleId) ?? throw new NotFoundException(
+                RoleRules.RoleNotFoundCode,
+                RoleRules.RoleNotFoundMessage);
 
-        // check if user exists by email
-        // if yes, throw EmailRegistered
+        if (await _userRepository.GetByEmail(command.Email) != null)
+            throw new ConflictException(
+                UserRules.EmailRegisteredCode,
+                UserRules.EmailRegisteredMessage);
 
-        // new user creation
-        // userRepo add
-        // unitOfWork save
+        var passwordHash = _passwordHasher.Hash(command.Password);
 
-        // return new UserDto
-        //await _userRepository.AddAsync(user, cancellationToken);
+        var user = new User(
+            command.Email,
+            passwordHash,
+            existingRole.Id);
+
+        await _userRepository.AddAsync(user, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return new UserDto(user.Id, user.Email);
     }
 }
