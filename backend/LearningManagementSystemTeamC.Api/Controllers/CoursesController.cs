@@ -33,16 +33,16 @@ public class CoursesController : ControllerBase
     public CoursesController() { }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromServices] IGetCoursesHandler _getCoursesHandler, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll([FromServices] IGetCoursesHandler getCoursesHandler, CancellationToken cancellationToken)
     {
-        var courses = await _getCoursesHandler.Handle(cancellationToken);
+        var courses = await getCoursesHandler.Handle(cancellationToken);
         return Ok(ApiResponse<IEnumerable<CourseDto>>.Ok(courses));
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id, [FromServices] IGetCourseHandler _getCourseHandler, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById(Guid id, [FromServices] IGetCourseHandler getCourseHandler, CancellationToken cancellationToken)
     {
-        var course = await _getCourseHandler.Handle(id, cancellationToken);
+        var course = await getCourseHandler.Handle(id, cancellationToken);
         if (course == null)
         {
             return NotFound(ApiResponse<CourseDto>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
@@ -53,11 +53,11 @@ public class CoursesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateCourseCommand command,
-        [FromServices] ICreateCourseHandler _createCourseHandler,
-        [FromServices] IValidator<CreateCourseCommand> _createCourseValidator,
+        [FromServices] ICreateCourseHandler createCourseHandler,
+        [FromServices] IValidator<CreateCourseCommand> createCourseValidator,
         CancellationToken cancellationToken)
     {
-        var details = _createCourseValidator.Validate(command);
+        var details = createCourseValidator.Validate(command);
 
         if (details.Count > 0)
         {
@@ -68,7 +68,7 @@ public class CoursesController : ControllerBase
                     details));
         }
 
-        var courseDto = await _createCourseHandler.Handle(
+        var courseDto = await createCourseHandler.Handle(
             command,
             cancellationToken);
 
