@@ -29,4 +29,6 @@ app.UseHttpsRedirection();
 
 app.UseApiMiddlewares();
 
+app.MapControllers();
+
 app.Run();
