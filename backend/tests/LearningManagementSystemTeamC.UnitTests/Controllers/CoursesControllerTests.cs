@@ -16,27 +16,6 @@ public class CoursesControllerTests
     public async Task Get_Courses_ReturnsOkResult()
     {
         // Arrange
-        //var mockCreateCourseHandler = new Mock<ICreateCourseHandler>();
-        //var mockGetCoursesHandler = new Mock<IGetCoursesHandler>();
-        //var mockGetCourseHandler = new Mock<IGetCourseHandler>();
-        //var mockCreateCourseValidator = new Mock<IValidator<CreateC>>();
-        //mockGetCoursesHandler.Setup(handler => handler.Handle(It.IsAny<CancellationToken>()))
-        //    .ReturnsAsync(
-        //    new List<CourseDto> {
-        //        new CourseDto(
-        //            Guid.NewGuid(),
-        //            "Test Course",
-        //            "A description.",
-        //            DateTime.Parse("2024-06-01"),
-        //            DateTime.Parse("2024-06-30"))
-        //    });
-
-        //var controller = new CoursesController(
-        //    mockCreateCourseHandler.Object,
-        //    mockCreateCourseValidator.Object,
-        //    mockGetCoursesHandler.Object,
-        //    mockGetCourseHandler.Object);
-
         var mockGetCoursesHandler = new Mock<IGetCoursesHandler>();
 
         var courses = new List<CourseDto>
@@ -56,7 +35,7 @@ public class CoursesControllerTests
         var controller = new CoursesController();
 
         // Act
-        var result = await controller.GetAll(CancellationToken.None);
+        var result = await controller.GetAll(mockGetCoursesHandler.Object, CancellationToken.None);
 
         // Assert
         var okObjectResult = Assert.IsType<OkObjectResult>(result);
