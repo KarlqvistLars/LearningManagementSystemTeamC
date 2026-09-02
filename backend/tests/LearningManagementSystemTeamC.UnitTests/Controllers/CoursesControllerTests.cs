@@ -1,6 +1,7 @@
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Controllers;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
@@ -15,26 +16,44 @@ public class CoursesControllerTests
     public async Task Get_Courses_ReturnsOkResult()
     {
         // Arrange
-        var mockCreateCourseHandler = new Mock<ICreateCourseHandler>();
-        var mockGetCoursesHandler = new Mock<IGetCoursesHandler>();
-        var mockGetCourseHandler = new Mock<IGetCourseHandler>();
-        var mockCreateCourseValidator = new Mock<ICreateCourseValidator>();
-        mockGetCoursesHandler.Setup(handler => handler.Handle(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(
-            new List<CourseDto> {
-                new CourseDto(
-                    Guid.NewGuid(),
-                    "Test Course",
-                    "A description.",
-                    DateTime.Parse("2024-06-01"),
-                    DateTime.Parse("2024-06-30"))
-            });
+        //var mockCreateCourseHandler = new Mock<ICreateCourseHandler>();
+        //var mockGetCoursesHandler = new Mock<IGetCoursesHandler>();
+        //var mockGetCourseHandler = new Mock<IGetCourseHandler>();
+        //var mockCreateCourseValidator = new Mock<IValidator<CreateC>>();
+        //mockGetCoursesHandler.Setup(handler => handler.Handle(It.IsAny<CancellationToken>()))
+        //    .ReturnsAsync(
+        //    new List<CourseDto> {
+        //        new CourseDto(
+        //            Guid.NewGuid(),
+        //            "Test Course",
+        //            "A description.",
+        //            DateTime.Parse("2024-06-01"),
+        //            DateTime.Parse("2024-06-30"))
+        //    });
 
-        var controller = new CoursesController(
-            mockCreateCourseHandler.Object,
-            mockCreateCourseValidator.Object,
-            mockGetCoursesHandler.Object,
-            mockGetCourseHandler.Object);
+        //var controller = new CoursesController(
+        //    mockCreateCourseHandler.Object,
+        //    mockCreateCourseValidator.Object,
+        //    mockGetCoursesHandler.Object,
+        //    mockGetCourseHandler.Object);
+
+        var mockGetCoursesHandler = new Mock<IGetCoursesHandler>();
+
+        var courses = new List<CourseDto>
+        {
+            new(
+                Guid.NewGuid(),
+                "Test Course",
+                "A description.",
+                DateTime.Parse("2024-06-01"),
+                DateTime.Parse("2024-06-30"))
+        };
+
+        mockGetCoursesHandler
+            .Setup(handler => handler.Handle(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(courses);
+
+        var controller = new CoursesController();
 
         // Act
         var result = await controller.GetAll(CancellationToken.None);

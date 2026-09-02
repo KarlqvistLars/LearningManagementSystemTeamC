@@ -1,4 +1,5 @@
-﻿using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
+﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,7 @@ public static class DependencyInjection
         services.AddScoped<GetCourseHandler>();
 
         // Validators
-        services.AddScoped<CreateCourseValidator>();
+        services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
 
         // or Featurebased
         //services.AddScoped<CreateCourseHandler>();

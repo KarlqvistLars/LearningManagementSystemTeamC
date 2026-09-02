@@ -1,6 +1,7 @@
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
@@ -12,32 +13,34 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Route("api/courses")]
 public class CoursesController : ControllerBase
 {
-    private readonly ICreateCourseHandler _createCourseHandler;
-    private readonly IGetCoursesHandler _getCoursesHandler;
-    private readonly IGetCourseHandler _getCourseHandler;
-    private readonly ICreateCourseValidator _createCourseValidator;
+    //private readonly ICreateCourseHandler _createCourseHandler;
+    //private readonly IGetCoursesHandler _getCoursesHandler;
+    //private readonly IGetCourseHandler _getCourseHandler;
+    //private readonly IValidator<CreateCourseCommand> _createCourseValidator;
 
-    public CoursesController(
-        ICreateCourseHandler createCourseHandler,
-        ICreateCourseValidator createCourseValidator,
-        IGetCoursesHandler getCoursesHandler,
-        IGetCourseHandler getCourseHandler)
-    {
-        _createCourseHandler = createCourseHandler;
-        _createCourseValidator = createCourseValidator;
-        _getCoursesHandler = getCoursesHandler;
-        _getCourseHandler = getCourseHandler;
-    }
+    //public CoursesController(
+    //    ICreateCourseHandler createCourseHandler,
+    //    IValidator<CreateCourseCommand> createCourseValidator,
+    //    IGetCoursesHandler getCoursesHandler,
+    //    IGetCourseHandler getCourseHandler)
+    //{
+    //    _createCourseHandler = createCourseHandler;
+    //    _createCourseValidator = createCourseValidator;
+    //    _getCoursesHandler = getCoursesHandler;
+    //    _getCourseHandler = getCourseHandler;
+    //}
+
+    public CoursesController() { }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll([FromServices] IGetCoursesHandler _getCoursesHandler, CancellationToken cancellationToken)
     {
         var courses = await _getCoursesHandler.Handle(cancellationToken);
         return Ok(ApiResponse<IEnumerable<CourseDto>>.Ok(courses));
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById(Guid id, [FromServices] IGetCourseHandler _getCourseHandler, CancellationToken cancellationToken)
     {
         var course = await _getCourseHandler.Handle(id, cancellationToken);
         if (course == null)
@@ -50,6 +53,8 @@ public class CoursesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateCourseCommand command,
+        [FromServices] ICreateCourseHandler _createCourseHandler,
+        [FromServices] IValidator<CreateCourseCommand> _createCourseValidator,
         CancellationToken cancellationToken)
     {
         var details = _createCourseValidator.Validate(command);
