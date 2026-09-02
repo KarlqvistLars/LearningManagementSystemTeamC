@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,19 +12,14 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Route("api/users")]
 public class UserController: ControllerBase
 {
-    private readonly CreateUserHandler _createUserHandler;
-    private readonly CreateUserValidator _createUserValidator;
-
-    public UserController(CreateUserHandler createUserHandler, CreateUserValidator createUserValidator)
+    public UserController()
     {
-        _createUserHandler = createUserHandler;
-        _createUserValidator = createUserValidator;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create(CreateUserCommand command, [FromServices] ICreateUserHandler createUserHandler, [FromServices] IValidator<CreateUserCommand> createUserValidator, CancellationToken cancellationToken)
     {
-        var details = _createUserValidator.Validate(command);
+        var details = createUserValidator.Validate(command);
 
         if (details.Count > 0)
         {
@@ -33,7 +29,7 @@ public class UserController: ControllerBase
                     details));
         }
 
-        var userDto = await _createUserHandler.Handle(command, cancellationToken);
+        var userDto = await createUserHandler.Handle(command, cancellationToken);
 
         return CreatedAtAction(nameof(Create), new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
     }

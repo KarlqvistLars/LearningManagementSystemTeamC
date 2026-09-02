@@ -2,6 +2,7 @@
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
+using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LearningManagementSystemTeamC.Application;
@@ -18,6 +19,7 @@ public static class DependencyInjection
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
+        services.AddScoped<IValidator<CreateUserCommand>, CreateUserValidator>();
 
         return services;
     }

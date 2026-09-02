@@ -13,7 +13,7 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Route("api/courses")]
 public class CourseController : ControllerBase
 {
-    public CoursesController() { }
+    public CourseController() { }
 
     [HttpGet]
     public async Task<IActionResult> GetAll([FromServices] IGetCoursesHandler getCoursesHandler, CancellationToken cancellationToken)

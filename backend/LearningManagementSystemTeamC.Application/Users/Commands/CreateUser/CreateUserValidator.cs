@@ -1,8 +1,9 @@
-﻿using LearningManagementSystemTeamC.Domain.Users;
+﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Domain.Users;
 
 namespace LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 
-public class CreateUserValidator
+public class CreateUserValidator : IValidator<CreateUserCommand>
 {
     public Dictionary<string, string[]> Validate(
        CreateUserCommand command)
