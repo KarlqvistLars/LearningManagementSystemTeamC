@@ -1,5 +1,6 @@
 using LearningManagementSystemTeamC.Domain.Courses;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
+using LearningManagementSystemTeamC.Domain.Activities;
 
 namespace LearningManagementSystemTeamC.Domain.Modules;
 
@@ -12,6 +13,7 @@ public class Module
     public DateTime EndDate { get; set; }
     public Guid CourseId { get; set; }
     public Course Course { get; private set; } = null!;
+    public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
 
     public Module(
         string moduleName,
