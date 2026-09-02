@@ -1,6 +1,7 @@
 using LearningManagementSystemTeamC.Domain.Courses;
 using LearningManagementSystemTeamC.Domain.Modules;
 using Microsoft.EntityFrameworkCore;
+using LearningManagementSystemTeamC.Domain.Activities;
 
 namespace LearningManagementSystemTeamC.Infrastructure.Persistence;
 
