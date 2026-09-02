@@ -10,10 +10,6 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
     {
         builder.HasKey(x => x.Id);
 
-        // No magic string or number, use const, store it in
-        // for example CourseRules in Feature folders in Application project
-        // Application/Courses/CourseRules.cs
-
         builder.Property(x => x.CourseName)
             .IsRequired()
             .HasMaxLength(CourseRules.CourseNameMaxLength);
