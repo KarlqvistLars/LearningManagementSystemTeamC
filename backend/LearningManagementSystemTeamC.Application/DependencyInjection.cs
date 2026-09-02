@@ -12,16 +12,12 @@ public static class DependencyInjection
         this IServiceCollection services)
     {
         // Handlers
-        services.AddScoped<CreateCourseHandler>();
-        services.AddScoped<GetCoursesHandler>();
-        services.AddScoped<GetCourseHandler>();
+        services.AddScoped<ICreateCourseHandler, CreateCourseHandler>();
+        services.AddScoped<IGetCoursesHandler, GetCoursesHandler>();
+        services.AddScoped<IGetCourseHandler, GetCourseHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
-
-        // or Featurebased
-        //services.AddScoped<CreateCourseHandler>();
-        //services.AddScoped<CreateCourseValidator>();
 
         return services;
     }
