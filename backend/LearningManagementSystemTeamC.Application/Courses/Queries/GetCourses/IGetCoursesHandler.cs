@@ -1,6 +1,6 @@
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 
-namespace LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
+namespace LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 
 public interface IGetCoursesHandler
 {

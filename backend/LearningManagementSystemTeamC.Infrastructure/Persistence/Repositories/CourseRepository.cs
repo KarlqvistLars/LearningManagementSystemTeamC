@@ -1,8 +1,6 @@
-using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Courses;
 using LearningManagementSystemTeamC.Domain.Courses;
 using Microsoft.EntityFrameworkCore;
-using LearningManagementSystemTeamC.Application.Common.Mappers;
 
 namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
 
@@ -15,18 +13,15 @@ public class CourseRepository : ICourseRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<CourseDto>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Course>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _context.Courses
-            .Select(CourseMapper.CourseToDto)
-            .ToListAsync(cancellationToken);
+        return await _context.Courses.ToListAsync(cancellationToken);
     }
 
-    public async Task<CourseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _context.Courses
             .Where(course => course.Id == id)
-            .Select(CourseMapper.CourseToDto)
             .SingleOrDefaultAsync(cancellationToken);
     }
 
