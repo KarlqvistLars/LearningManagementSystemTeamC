@@ -1,9 +1,6 @@
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Controllers;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
-using LearningManagementSystemTeamC.Application.Common.Interfaces;
-using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
-using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -32,7 +29,7 @@ public class CoursesControllerTests
             .Setup(handler => handler.Handle(It.IsAny<CancellationToken>()))
             .ReturnsAsync(courses);
 
-        var controller = new CoursesController();
+        var controller = new CourseController();
 
         // Act
         var result = await controller.GetAll(mockGetCoursesHandler.Object, CancellationToken.None);
