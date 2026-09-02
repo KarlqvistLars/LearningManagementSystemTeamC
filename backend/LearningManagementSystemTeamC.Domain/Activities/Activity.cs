@@ -7,16 +7,16 @@ public class Activity
 {
     public Guid Id { get; set; }
     public string ActivityName { get; set; }
-    public string ActivityType { get; set; }
+    public ActivityType Type { get; set; }
     public string Description { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
     public Guid ModuleId { get; set; }
     public Module Module { get; private set; } = null!;
 
     public Activity(
         string activityName,
-        string activityType,
+        ActivityType type,
         string description,
         DateTime startTime,
         DateTime endTime,
@@ -24,7 +24,7 @@ public class Activity
     {
         Validate(
             activityName,
-            activityType,
+            type,
             description,
             startTime,
             endTime,
@@ -32,16 +32,16 @@ public class Activity
 
         Id = Guid.NewGuid();
         ActivityName = activityName;
-        ActivityType = activityType;
+        Type = type;
         Description = description;
-        StartTime = startTime;
-        EndTime = endTime;
+        StartDate = startTime;
+        EndDate = endTime;
         ModuleId = moduleId;
     }
 
     private static void Validate(
         string activityName,
-        string activityType,
+        ActivityType type,
         string description,
         DateTime startTime,
         DateTime endTime,
@@ -52,10 +52,10 @@ public class Activity
                 ActivityRules.ActivityNameRequiredCode,
                 nameof(activityName));
 
-        if (string.IsNullOrWhiteSpace(activityType))
+        if (!Enum.IsDefined(typeof(ActivityType), type))
             throw new DomainException(
                 ActivityRules.ActivityTypeRequiredCode,
-                nameof(activityType));
+                nameof(type));
 
         if (string.IsNullOrWhiteSpace(description))
             throw new DomainException(
