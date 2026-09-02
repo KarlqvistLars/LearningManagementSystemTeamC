@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Mappers;
 
-namespace LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
+namespace LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 
 public class GetCoursesHandler : IGetCoursesHandler
 {
@@ -13,6 +14,7 @@ public class GetCoursesHandler : IGetCoursesHandler
 
     public async Task<IEnumerable<CourseDto>> Handle(CancellationToken cancellationToken)
     {
-        return await _courseRepository.GetAllAsync(cancellationToken);
+        var result = await _courseRepository.GetAllAsync(cancellationToken);
+        return result.Any() ? result.Select(course => CourseMapper.CourseToDto(course)) : Enumerable.Empty<CourseDto>();
     }
 }

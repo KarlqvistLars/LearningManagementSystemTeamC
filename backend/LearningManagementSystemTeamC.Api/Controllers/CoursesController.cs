@@ -3,8 +3,8 @@ using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
-using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
-using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
+using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
+using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
@@ -13,23 +13,6 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Route("api/courses")]
 public class CoursesController : ControllerBase
 {
-    //private readonly ICreateCourseHandler _createCourseHandler;
-    //private readonly IGetCoursesHandler _getCoursesHandler;
-    //private readonly IGetCourseHandler _getCourseHandler;
-    //private readonly IValidator<CreateCourseCommand> _createCourseValidator;
-
-    //public CoursesController(
-    //    ICreateCourseHandler createCourseHandler,
-    //    IValidator<CreateCourseCommand> createCourseValidator,
-    //    IGetCoursesHandler getCoursesHandler,
-    //    IGetCourseHandler getCourseHandler)
-    //{
-    //    _createCourseHandler = createCourseHandler;
-    //    _createCourseValidator = createCourseValidator;
-    //    _getCoursesHandler = getCoursesHandler;
-    //    _getCourseHandler = getCourseHandler;
-    //}
-
     public CoursesController() { }
 
     [HttpGet]
@@ -40,9 +23,9 @@ public class CoursesController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id, [FromServices] IGetCourseHandler getCourseHandler, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById(Guid id, [FromServices] IGetCourseByIdHandler getCourseHandler, CancellationToken cancellationToken)
     {
-        var course = await getCourseHandler.Handle(id, cancellationToken);
+        var course = await getCourseHandler.Handle(new GetCourseByIdQuery(id), cancellationToken);
         if (course == null)
         {
             return NotFound(ApiResponse<CourseDto>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));

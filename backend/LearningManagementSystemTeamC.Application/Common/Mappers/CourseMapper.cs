@@ -6,11 +6,11 @@ namespace LearningManagementSystemTeamC.Application.Common.Mappers;
 
 public static class CourseMapper
 {
-    public static readonly Expression<Func<Course, CourseDto>> CourseToDto =
-    course => new CourseDto(
-        course.Id,
-        course.CourseName,
-        course.Description,
-        course.StartDate,
-        course.EndDate);
+    public static CourseDto CourseToDto(Course course) =>
+        new CourseDto(
+            course.Id,
+            course.CourseName,
+            course.Description,
+            course.StartDate,
+            course.EndDate);
 }

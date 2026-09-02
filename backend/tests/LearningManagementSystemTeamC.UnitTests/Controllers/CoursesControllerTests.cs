@@ -4,7 +4,7 @@ using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourse;
-using LearningManagementSystemTeamC.Application.Courses.Commands.GetCourses;
+using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
