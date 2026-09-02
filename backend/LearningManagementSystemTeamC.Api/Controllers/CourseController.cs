@@ -8,12 +8,12 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
 [Route("api/courses")]
-public class CoursesController : ControllerBase
+public class CourseController : ControllerBase
 {
     private readonly CreateCourseHandler _createCourseHandler;
     private readonly CreateCourseValidator _createCourseValidator;
 
-    public CoursesController(CreateCourseHandler createCourseHandler, CreateCourseValidator createCourseValidator)
+    public CourseController(CreateCourseHandler createCourseHandler, CreateCourseValidator createCourseValidator)
     {
         _createCourseHandler = createCourseHandler;
         _createCourseValidator = createCourseValidator;

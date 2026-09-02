@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Application.Roles;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Roles;
@@ -41,6 +42,6 @@ public class CreateUserHandler
 
         await _userRepository.AddAsync(user, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return new UserDto(user.Id, user.Email);
+        return UserMapper.ToDto(user);
     }
 }

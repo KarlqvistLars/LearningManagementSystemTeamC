@@ -21,6 +21,10 @@ public class User
     {
         if (string.IsNullOrWhiteSpace(email))
             throw new DomainException(UserRules.EmailRequiredCode, UserRules.EmailRequiredMessage);
+        if (email.Length > UserRules.EmailMaxLength)
+            throw new DomainException(
+                UserRules.EmailTooLongCode,
+                UserRules.EmailTooLongMessage(UserRules.EmailMaxLength));
 
         if (string.IsNullOrWhiteSpace(passwordHash))
             throw new DomainException(UserRules.PasswordRequiredCode, UserRules.PasswordRequiredMessage);
