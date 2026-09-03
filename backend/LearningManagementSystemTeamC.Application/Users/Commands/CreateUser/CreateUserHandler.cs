@@ -34,12 +34,9 @@ public class CreateUserHandler : ICreateUserHandler
                 UserRules.EmailRegisteredCode,
                 UserRules.EmailRegisteredMessage);
 
-        var passwordHash = _passwordHasher.Hash(command.Password);
-        var normalizedEmail = StringNormalizer.NormalizeEmail(command.Email);
-
         var user = new User(
-            normalizedEmail,
-            passwordHash,
+            StringNormalizer.NormalizeEmail(command.Email),
+            _passwordHasher.Hash(command.Password),
             existingRole.Id);
 
         await _userRepository.AddAsync(user, cancellationToken);

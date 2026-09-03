@@ -6,13 +6,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Configuration
 
 public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
-    private readonly ApplicationDbContext _context;
-
-    public RoleConfiguration(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.HasKey(x => x.Id);

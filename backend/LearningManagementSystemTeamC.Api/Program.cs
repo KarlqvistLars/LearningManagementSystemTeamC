@@ -24,6 +24,8 @@ app.UseHttpsRedirection();
 
 app.UseApiMiddlewares();
 
+await app.SeedDatabaseAsync();
+
 app.MapControllers();
 
 app.Run();
