@@ -9,22 +9,18 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Route("api/modules/{moduleId}/activities")]
 public class ActivitiesController : ControllerBase
 {
-    private readonly GetActivitiesByModuleHandler _getActivitiesByModuleHandler;
-
-    public ActivitiesController(GetActivitiesByModuleHandler getActivitiesByModuleHandler)
-    {
-        _getActivitiesByModuleHandler = getActivitiesByModuleHandler;
-    }
+    public ActivitiesController() { }
 
     [HttpGet]
     public async Task<IActionResult> GetByModule(
         Guid moduleId,
+        [FromServices] IGetActivitiesByModuleHandler getActivitiesByModuleHandler,
         CancellationToken cancellationToken)
     {
-        var activitiesDto = await _getActivitiesByModuleHandler.Handle(
-            new GetActivitiesByModuleQuery(moduleId));
+        var activities = await getActivitiesByModuleHandler.Handle(
+            new GetActivitiesByModuleQuery(moduleId),
+            cancellationToken);
 
-        return Ok(
-            ApiResponse<IReadOnlyList<ActivityDto>>.Ok(activitiesDto));
+        return Ok(ApiResponse<IReadOnlyList<ActivityDto>>.Ok(activities));
     }
 }

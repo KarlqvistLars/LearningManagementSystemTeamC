@@ -3,7 +3,7 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 
 namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
 
-public class GetActivitiesByModuleHandler
+public class GetActivitiesByModuleHandler : IGetActivitiesByModuleHandler
 {
     private readonly IActivityRepository _activityRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,8 @@ public class GetActivitiesByModuleHandler
     }
 
     public async Task<IReadOnlyList<ActivityDto>> Handle(
-        GetActivitiesByModuleQuery query)
+        GetActivitiesByModuleQuery query,
+        CancellationToken cancellationToken)
     {
         var activities = await _activityRepository.GetActivitiesByModuleIdAsync(query.ModuleId);
 
