@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
 
 namespace LearningManagementSystemTeamC.Application;
 
@@ -10,6 +11,7 @@ public static class DependencyInjection
     {
         // Handlers
         services.AddScoped<CreateCourseHandler>();
+        services.AddScoped<GetActivitiesByModuleHandler>();
 
         //// Validators
         //services.AddScoped<CreateCourseValidator>();
