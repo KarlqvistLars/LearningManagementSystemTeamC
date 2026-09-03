@@ -2,6 +2,7 @@
 using LearningManagementSystemTeamC.Application.Courses;
 using LearningManagementSystemTeamC.Application.Roles;
 using LearningManagementSystemTeamC.Application.Users;
+using LearningManagementSystemTeamC.Application.Modules;
 using LearningManagementSystemTeamC.Infrastructure.Persistence;
 using LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
 using LearningManagementSystemTeamC.Infrastructure.Security;
@@ -24,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IModuleRepository, ModuleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         return services;
