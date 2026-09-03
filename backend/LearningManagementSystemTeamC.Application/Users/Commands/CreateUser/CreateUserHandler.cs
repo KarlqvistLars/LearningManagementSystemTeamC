@@ -25,11 +25,11 @@ public class CreateUserHandler : ICreateUserHandler
     }
     public async Task<UserDto> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
-        var existingRole = await _roleRepository.GetActiveById(command.RoleId) ?? throw new NotFoundException(
+        var existingRole = await _roleRepository.GetActiveByIdAsync(command.RoleId, cancellationToken) ?? throw new NotFoundException(
                 RoleRules.RoleNotFoundCode,
                 RoleRules.RoleNotFoundMessage);
 
-        if (await _userRepository.GetByEmail(command.Email) != null)
+        if (await _userRepository.GetByEmailAsync(command.Email, cancellationToken) != null)
             throw new ConflictException(
                 UserRules.EmailRegisteredCode,
                 UserRules.EmailRegisteredMessage);

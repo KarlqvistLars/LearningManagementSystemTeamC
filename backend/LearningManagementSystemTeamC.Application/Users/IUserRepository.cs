@@ -5,5 +5,6 @@ namespace LearningManagementSystemTeamC.Application.Users;
 public interface IUserRepository
 {
     Task AddAsync(User user, CancellationToken cancellationToken);
-    Task<User?> GetByEmail(string email);
+    Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
+    Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 }

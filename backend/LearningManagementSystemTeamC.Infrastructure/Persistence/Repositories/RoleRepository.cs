@@ -13,8 +13,8 @@ public class RoleRepository : IRoleRepository
         _context = context;
     }
 
-    public async Task<Role?> GetActiveById(Guid id)
+    public async Task<Role?> GetActiveByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _context.Roles.FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
+        return await _context.Roles.FirstOrDefaultAsync(x => x.Id == id && x.IsActive, cancellationToken);
     }
 }

@@ -3,6 +3,7 @@ using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
@@ -31,7 +32,13 @@ public class UsersController : ControllerBase
 
         var userDto = await createUserHandler.Handle(command, cancellationToken);
         // TODO get by ID
-        return CreatedAtAction(nameof(Create), new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
+        return CreatedAtAction(nameof(GetById), new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
     }
 
+    [HttpGet("{id:guid}", Name = EndpointNameConstants.GetUserById)]
+    public async Task<IActionResult> GetById([FromRoute] Guid id, [FromServices] IGetUserByIdHandler getUserByIdHandler, CancellationToken cancellationToken)
+    {
+        var userDto = await getUserByIdHandler.Handle(new GetUserByIdQuery(id), cancellationToken);
+        return Ok(ApiResponse<UserDto>.Ok(userDto));
+    }
 }
