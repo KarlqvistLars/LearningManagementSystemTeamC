@@ -1,8 +1,9 @@
-﻿using LearningManagementSystemTeamC.Domain.Courses;
+﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Domain.Courses;
 
 namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 
-public class CreateCourseValidator
+public class CreateCourseValidator : IValidator<CreateCourseCommand>
 {
     public Dictionary<string, string[]> Validate(
         CreateCourseCommand command)
