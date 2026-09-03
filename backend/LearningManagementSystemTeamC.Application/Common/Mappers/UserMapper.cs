@@ -1,15 +1,13 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Domain.Roles;
 using LearningManagementSystemTeamC.Domain.Users;
-using System.Linq.Expressions;
 
 namespace LearningManagementSystemTeamC.Application.Common.Mappers;
 
 public class UserMapper
 {
-    public static UserDto ToDto(User user)
+    public static UserDto ToDto(User user, Role role)
     {
-        return new UserDto(user.Id, user.Email);
+        return new UserDto(user.Id, user.Email, role.Id, role.Name);
     }
-
-    public static readonly Expression<Func<User, UserDto>> Projection = user => new UserDto(user.Id, user.Email);
 }
