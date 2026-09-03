@@ -1,3 +1,3 @@
-namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivityByModule;
+namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
 
 public record GetActivitiesByModuleQuery(Guid ModuleId);
