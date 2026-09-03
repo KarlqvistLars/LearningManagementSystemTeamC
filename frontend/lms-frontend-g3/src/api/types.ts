@@ -7,10 +7,10 @@ export type ApiResponse<T> =
     | {
         success: false;
         data?: never;
-        error: ApiErrors[];
+        error: ApiError;
     };
 
-export interface ApiErrors {
+export interface ApiError {
     code: string;
     message: string;
     details?: Record<string, string[]>;
