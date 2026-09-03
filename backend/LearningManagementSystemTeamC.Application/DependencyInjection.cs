@@ -16,6 +16,7 @@ public static class DependencyInjection
         services.AddScoped<ICreateCourseHandler, CreateCourseHandler>();
         services.AddScoped<IGetCoursesHandler, GetCoursesHandler>();
         services.AddScoped<IGetCourseByIdHandler, GetCourseByIdHandler>();
+        services.AddScoped<ICreateUserHandler, CreateUserHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
