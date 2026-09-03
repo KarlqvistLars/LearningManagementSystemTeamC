@@ -6,6 +6,7 @@ using LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LearningManagementSystemTeamC.Application.Activities;
 
 namespace LearningManagementSystemTeamC.Infrastructure;
 
@@ -22,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IModuleRepository, ModuleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IActivityRepository, ActivityRepository>();  
 
         return services;
     }
