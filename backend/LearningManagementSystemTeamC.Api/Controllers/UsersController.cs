@@ -4,6 +4,8 @@ using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
+using LearningManagementSystemTeamC.Domain.Roles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
@@ -17,6 +19,7 @@ public class UsersController : ControllerBase
     {
     }
 
+    [Authorize(Roles = RoleRules.TeacherRoleCode)]
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserCommand command, [FromServices] ICreateUserHandler createUserHandler, [FromServices] IValidator<CreateUserCommand> createUserValidator, CancellationToken cancellationToken)
     {
