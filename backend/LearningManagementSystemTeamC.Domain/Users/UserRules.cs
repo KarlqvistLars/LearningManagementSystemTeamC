@@ -26,4 +26,7 @@ public class UserRules
     public static string EmailTooLongMessage(int maxLength) =>
          $"Email is too long. Maximum length can not exceed {maxLength} characters.";
 
+    public const string UserNotFoundCode = "USER_NOT_FOUND";
+    public const string UserNotFoundMessage = "User not found.";
+
 }

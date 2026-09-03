@@ -3,6 +3,7 @@ using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LearningManagementSystemTeamC.Application;
@@ -17,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<IGetCoursesHandler, GetCoursesHandler>();
         services.AddScoped<IGetCourseByIdHandler, GetCourseByIdHandler>();
         services.AddScoped<ICreateUserHandler, CreateUserHandler>();
+        services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
