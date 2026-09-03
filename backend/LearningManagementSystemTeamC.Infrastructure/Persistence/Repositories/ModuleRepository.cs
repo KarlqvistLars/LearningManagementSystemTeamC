@@ -16,7 +16,6 @@ public class ModuleRepository : IModuleRepository
     public async Task<IReadOnlyList<Module>> GetModulesByCourseIdAsync(Guid courseId, CancellationToken cancellationToken)
     {
         return await _context.Modules
-            .Include(x => x.Course)
             .Where(x => x.CourseId == courseId)
             .ToListAsync(cancellationToken);
     }

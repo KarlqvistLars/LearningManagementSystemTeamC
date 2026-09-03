@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260901083355_AddModule")]
+    [Migration("20260903122809_AddModule")]
     partial class AddModule
     {
         /// <inheritdoc />
@@ -89,18 +89,11 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Modules.Module", b =>
                 {
-                    b.HasOne("LearningManagementSystemTeamC.Domain.Courses.Course", "Course")
-                        .WithMany("Modules")
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Courses.Course", null)
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Course");
-                });
-
-            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Courses.Course", b =>
-                {
-                    b.Navigation("Modules");
                 });
 #pragma warning restore 612, 618
         }

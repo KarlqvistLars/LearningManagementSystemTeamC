@@ -1,3 +1,4 @@
+using LearningManagementSystemTeamC.Domain.Courses;
 using LearningManagementSystemTeamC.Domain.Modules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -24,9 +25,11 @@ public class ModuleConfiguration : IEntityTypeConfiguration<Module>
         builder.Property(x => x.EndDate)
             .IsRequired();
 
-        builder.HasOne(x => x.Course)
-            .WithMany(x => x.Modules)
-            .HasForeignKey(x => x.CourseId);
+        builder.HasOne<Course>()
+            .WithMany()
+            .HasForeignKey(x => x.CourseId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
         
     }
 }
