@@ -12,8 +12,8 @@ public class RoleSeeder
 
         var roles = new[]
         {
-            new Role("Teacher", "TEACHER"),
-            new Role("Student", "STUDENT"),
+            new Role(RoleRules.TeacherRoleName, RoleRules.TeacherRoleCode),
+            new Role(RoleRules.StudentRoleName, RoleRules.StudentRoleCode),
         };
 
         db.Roles.AddRange(roles);

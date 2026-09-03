@@ -5,6 +5,12 @@ public class RoleRules
     public const int NameMaxLength = 50;
     public const int CodeMaxLength = 50;
 
+    public const string DefaultRoleCode = "STUDENT";
+    public const string TeacherRoleCode = "TEACHER";
+    public const string TeacherRoleName = "Teacher";
+    public const string StudentRoleCode = "STUDENT";
+    public const string StudentRoleName = "Student";
+
     public const string NameEmptyCode = "ROLE_NAME_EMPTY";
     public const string NameEmptyMessage = "Role name can not be empty";
 
