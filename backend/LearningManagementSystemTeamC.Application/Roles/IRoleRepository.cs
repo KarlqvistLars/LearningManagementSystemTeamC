@@ -5,5 +5,6 @@ namespace LearningManagementSystemTeamC.Application.Roles;
 public interface IRoleRepository
 {
     Task<Role?> GetActiveByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<Role?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<Role?> GetDefaultRoleAsync(CancellationToken cancellationToken);
 }

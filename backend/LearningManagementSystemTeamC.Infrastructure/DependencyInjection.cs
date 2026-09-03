@@ -1,8 +1,9 @@
-﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+﻿using LearningManagementSystemTeamC.Application.Auth;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses;
+using LearningManagementSystemTeamC.Application.Modules;
 using LearningManagementSystemTeamC.Application.Roles;
 using LearningManagementSystemTeamC.Application.Users;
-using LearningManagementSystemTeamC.Application.Modules;
 using LearningManagementSystemTeamC.Infrastructure.Persistence;
 using LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
 using LearningManagementSystemTeamC.Infrastructure.Security;
@@ -19,7 +20,7 @@ public static class DependencyInjection
         IConfiguration config)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(config.GetConnectionString("Default"))
+            options.UseSqlServer(config.GetConnectionString("Default"))
         );
 
         services.AddScoped<ICourseRepository, CourseRepository>();
@@ -28,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IModuleRepository, ModuleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
         return services;
     }
 }
