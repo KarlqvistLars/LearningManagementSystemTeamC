@@ -54,9 +54,11 @@ public static class MiddlewareExtensions
         app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseHttpsRedirection();
-
+        app.UseCorsPolicy();
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.MapControllers();
 
         return app;
     }
