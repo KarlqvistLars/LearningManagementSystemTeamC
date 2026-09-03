@@ -1,9 +1,9 @@
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 
-namespace LearningManagementSystemTeamC.Application.Modules.Query.GetModule;
+namespace LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
 
-public class GetModuleHandler
+public class GetModuleHandler : IGetModuleHandler
 {
     private readonly IModuleRepository _moduleRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -17,9 +17,9 @@ public class GetModuleHandler
     }
 
     public async Task<IReadOnlyList<ModuleDto>> Handle(
-        GetModuleQuery query)
+        GetModuleQuery query, CancellationToken cancellationToken)
     {
-        var modules = await _moduleRepository.GetModulesByCourseIdAsync(query.CourseId);
+        var modules = await _moduleRepository.GetModulesByCourseIdAsync(query.CourseId, cancellationToken);
 
         return modules.Select(module => new ModuleDto(
             module.Id,
