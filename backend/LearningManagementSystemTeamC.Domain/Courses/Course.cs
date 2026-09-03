@@ -1,4 +1,6 @@
-﻿namespace LearningManagementSystemTeamC.Domain.Courses;
+﻿using LearningManagementSystemTeamC.Domain.Modules;
+
+namespace LearningManagementSystemTeamC.Domain.Courses;
 
 public class Course
 {
