@@ -3,16 +3,23 @@ import type { ApiResponse } from "./types";
 const API_URL = "https://localhost:7001/api";
 
 export async function apiFetch<T>(
-    endpoint: string,
-    options?: RequestInit
+  endpoint: string,
+  options?: RequestInit,
 ): Promise<ApiResponse<T>> {
-    const response = await fetch(`${API_URL}${endpoint}`, {
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
+  const token = localStorage.getItem("access_token");
 
-    return response.json();
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : {}),
+      ...options?.headers,
+    },
+  });
+
+  return response.json();
 }
