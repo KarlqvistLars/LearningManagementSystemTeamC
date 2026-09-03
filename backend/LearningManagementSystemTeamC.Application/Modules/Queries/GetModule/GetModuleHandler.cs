@@ -27,7 +27,7 @@ public class GetModuleHandler : IGetModuleHandler
         GetModuleQuery query, CancellationToken cancellationToken)
     {
         var checkIfCourseExist = await _courseRepository.GetByIdAsync(query.CourseId, cancellationToken)
-        ?? throw new DomainException(ModuleRules.InvalidCourseIdMessage, nameof(query.CourseId));
+        ?? throw new DomainException(ModuleRules.InvalidCourseIdCode, ModuleRules.InvalidCourseIdMessage);
 
         var modules = await _moduleRepository.GetModulesByCourseIdAsync(query.CourseId, cancellationToken);
 
