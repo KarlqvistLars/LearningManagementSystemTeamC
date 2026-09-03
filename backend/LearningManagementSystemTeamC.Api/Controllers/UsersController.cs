@@ -30,7 +30,7 @@ public class UsersController : ControllerBase
         }
 
         var userDto = await createUserHandler.Handle(command, cancellationToken);
-
+        // TODO get by ID
         return CreatedAtAction(nameof(Create), new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
     }
 

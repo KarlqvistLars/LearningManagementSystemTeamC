@@ -9,11 +9,6 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Handlers register
-//builder.Services.AddApplication();
-// Repositories register
-//builder.Services.AddInfrastructure(builder.Configuration);
-
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
