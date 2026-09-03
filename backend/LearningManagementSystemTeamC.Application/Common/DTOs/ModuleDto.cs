@@ -1,5 +1,3 @@
-using LearningManagementSystemTeamC.Domain.Courses;
-
 namespace LearningManagementSystemTeamC.Application.Common.DTOs;
 
 public record ModuleDto(

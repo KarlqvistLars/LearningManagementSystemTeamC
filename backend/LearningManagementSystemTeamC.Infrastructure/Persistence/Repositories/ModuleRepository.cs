@@ -13,11 +13,11 @@ public class ModuleRepository : IModuleRepository
         _context = context;
     }
 
-    public async Task<IReadOnlyList<Module>> GetModulesByCourseIdAsync(Guid courseId)
+    public async Task<IReadOnlyList<Module>> GetModulesByCourseIdAsync(Guid courseId, CancellationToken cancellationToken)
     {
         return await _context.Modules
             .Include(x => x.Course)
             .Where(x => x.CourseId == courseId)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 }
