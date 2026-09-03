@@ -43,22 +43,22 @@ public class Module
     {
         if (string.IsNullOrWhiteSpace(moduleName))
             throw new DomainException(
-                ModuleRules.ModuleNameRequiredMessage,
-                nameof(moduleName));
+                ModuleRules.ModuleNameRequiredCode,
+                ModuleRules.ModuleNameRequiredMessage);
 
         if (string.IsNullOrWhiteSpace(description))
             throw new DomainException(
-                ModuleRules.ModuleDescriptionRequiredMessage,
-                nameof(description));
+                ModuleRules.ModuleDescriptionRequiredCode,
+                ModuleRules.ModuleDescriptionRequiredMessage);
 
         if (endDate <= startDate)
             throw new DomainException(
-                ModuleRules.ModuleEndBeforeStartDateMessage,
-                nameof(endDate));
+                ModuleRules.ModuleEndBeforeStartDateCode,
+                ModuleRules.ModuleEndBeforeStartDateMessage);
                 
         if (courseId == Guid.Empty)
             throw new DomainException(
-                ModuleRules.CourseIdRequiredMessage,
-                nameof(courseId));
+                ModuleRules.CourseIdRequiredCode,
+                ModuleRules.CourseIdRequiredMessage);
     }
 }
