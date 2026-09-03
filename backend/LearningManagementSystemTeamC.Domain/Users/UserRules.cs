@@ -29,4 +29,10 @@ public class UserRules
     public const string UserNotFoundCode = "USER_NOT_FOUND";
     public const string UserNotFoundMessage = "User not found.";
 
+    public const string CredentialInvalidCode = "USER_CREDENTIAL_INVALID";
+    public const string CredentialInvalidMessage = "Credentials are invalid.";
+
+    public const string AccountNotAvailableCode = "USER_ACCOUNT_NOT_AVAILABLE";
+    public const string AccountNotAvailableMessage = "User account is not available.";
+
 }

@@ -1,11 +1,13 @@
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application;
+using LearningManagementSystemTeamC.Application.Auth;
 using LearningManagementSystemTeamC.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.ActiveSwaggerAuthentication();
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
 builder.Services
     .AddApplication()

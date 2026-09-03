@@ -18,6 +18,11 @@ public class RoleRepository : IRoleRepository
         return await _context.Roles.FirstOrDefaultAsync(x => x.Id == id && x.IsActive, cancellationToken);
     }
 
+    public async Task<Role?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _context.Roles.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
     public async Task<Role?> GetDefaultRoleAsync(CancellationToken cancellationToken)
     {
         return await _context.Roles.FirstOrDefaultAsync(x => x.Code == RoleRules.DefaultRoleCode && x.IsActive, cancellationToken);

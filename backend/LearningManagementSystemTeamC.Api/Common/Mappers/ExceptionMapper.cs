@@ -16,6 +16,12 @@ namespace LearningManagementSystemTeamC.Api.Common.Mappers
                     StatusCodes.Status400BadRequest,
                     null
                 ),
+                UnauthorizedException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status401Unauthorized,
+                    null
+                ),
                 NotFoundException e => (
                     e.Code,
                     e.Message,

@@ -1,12 +1,12 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Common.Services;
 
-namespace LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
+namespace LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 
-public class CreateUserValidator : IValidator<CreateUserCommand>
+public class LoginValidator : IValidator<LoginCommand>
 {
     public Dictionary<string, string[]> Validate(
-       CreateUserCommand command)
+        LoginCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 
@@ -19,11 +19,6 @@ public class CreateUserValidator : IValidator<CreateUserCommand>
             command.Password,
             errors,
             nameof(command.Password));
-
-        UserValidation.ValidateRoleId(
-            command.RoleId,
-            errors,
-            nameof(command.RoleId));
 
         return errors;
     }
