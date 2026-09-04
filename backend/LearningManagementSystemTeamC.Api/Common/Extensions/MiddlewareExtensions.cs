@@ -1,8 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Middlewares;
-using Swashbuckle.AspNetCore;
-using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace LearningManagementSystemTeamC.Api.Common.Extensions;
 
@@ -56,8 +54,11 @@ public static class MiddlewareExtensions
         app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseHttpsRedirection();
-
+        app.UseCorsPolicy();
+        app.UseAuthentication();
         app.UseAuthorization();
+
+        app.MapControllers();
 
         return app;
     }

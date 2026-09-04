@@ -10,6 +10,26 @@ namespace LearningManagementSystemTeamC.Api.Common.Mappers
         {
             return ex switch
             {
+                UnauthorizedException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status401Unauthorized,
+                    null
+                ),
+
+                NotFoundException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status404NotFound,
+                    null
+                ),
+
+                ConflictException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status409Conflict,
+                    null
+                ),
                 DomainException e => (
                     e.Code,
                     e.Message,
