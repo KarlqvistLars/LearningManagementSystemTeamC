@@ -1,6 +1,6 @@
 import type { ApiResponse } from "./types";
 
-const API_URL = "https://localhost:7001/api";
+const API_URL = "http://localhost:5094/api";
 
 export async function apiFetch<T>(
   endpoint: string,
@@ -21,5 +21,5 @@ export async function apiFetch<T>(
     },
   });
 
-  return response.json();
+    return await response.json();
 }
