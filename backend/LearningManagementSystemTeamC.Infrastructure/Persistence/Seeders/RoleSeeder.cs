@@ -5,7 +5,7 @@ namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Seeders;
 
 public class RoleSeeder
 {
-    public static async Task SeedRoles(ApplicationDbContext db)
+    public static async Task SeedAsync(ApplicationDbContext db)
     {
         if (await db.Roles.AnyAsync())
             return;

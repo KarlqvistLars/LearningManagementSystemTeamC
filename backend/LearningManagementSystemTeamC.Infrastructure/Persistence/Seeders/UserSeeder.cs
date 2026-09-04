@@ -6,7 +6,7 @@ namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Seeders;
 
 public class UserSeeder
 {
-    public static async Task SeedUsers(ApplicationDbContext db)
+    public static async Task SeedAsync(ApplicationDbContext db)
     {
         if (await db.Users.AnyAsync())
             return;
