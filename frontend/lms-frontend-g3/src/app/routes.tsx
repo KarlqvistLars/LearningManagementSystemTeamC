@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
-import { CoursePage } from "../features/courses/CoursePage";
+import { CoursePage } from "../features/courses/pages/CoursePage";
 import { NotFoundPage } from "../features/not-found/NotFoundPage";
 import { LoginPage } from "../features/login/LoginPage";
 import { RegisterPage } from "../features/register/RegisterPage";
