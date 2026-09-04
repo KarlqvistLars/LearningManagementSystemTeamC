@@ -11,7 +11,8 @@ public static class DbSeedExtensions
 
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        await RoleSeeder.SeedRoles(db);
-        await UserSeeder.SeedUsers(db);
+        await RoleSeeder.SeedAsync(db);
+        await UserSeeder.SeedAsync(db);
+        await CourseSeeder.SeedAsync(db);
     }
 }
