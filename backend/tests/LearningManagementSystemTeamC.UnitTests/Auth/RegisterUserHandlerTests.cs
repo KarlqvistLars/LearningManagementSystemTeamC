@@ -88,6 +88,15 @@ public class RegisterUserHandlerTests
         var testPass = "testpass";
         var testHashedPass = "hashed-password";
 
+        var studentRole = new Role(
+            RoleRules.StudentRoleName,
+            RoleRules.StudentRoleCode);
+
+        roleRepository
+            .Setup(repository => repository.GetDefaultRoleAsync(
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(studentRole);
+
         var existingUser = new User(
             testEmail,
             testHashedPass,
