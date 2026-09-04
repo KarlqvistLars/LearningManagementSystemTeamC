@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Application.Common.Services;
 using LearningManagementSystemTeamC.Application.Roles;
@@ -15,14 +16,16 @@ public class LoginHandler : ILoginHandler
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IJwtTokenService _jwtTokenService;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly JwtSettings _jwtSettings;
 
-    public LoginHandler(IUserRepository userRepository, IRoleRepository roleRepository, IJwtTokenService jwtTokenService, IOptions<JwtSettings> jwtSettings)
+    public LoginHandler(IUserRepository userRepository, IRoleRepository roleRepository, IJwtTokenService jwtTokenService, IOptions<JwtSettings> jwtSettings, IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _jwtTokenService = jwtTokenService;
         _jwtSettings = jwtSettings.Value;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<LoginResultDto> HandleAsync(LoginCommand command, CancellationToken cancellationToken)
@@ -33,10 +36,9 @@ public class LoginHandler : ILoginHandler
                 UserRules.AccountNotAvailableCode,
                 UserRules.AccountNotAvailableMessage);
 
-        var passwordDoesMatch = BCrypt.Net.BCrypt.Verify(
-                command.Password,
-                existingUser.PasswordHash
-            );
+        var passwordDoesMatch = _passwordHasher.Verify(
+            command.Password,
+            existingUser.PasswordHash);
 
         if (!passwordDoesMatch)
             throw new UnauthorizedException(
