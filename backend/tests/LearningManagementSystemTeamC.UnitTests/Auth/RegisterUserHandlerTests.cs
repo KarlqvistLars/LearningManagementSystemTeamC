@@ -135,4 +135,50 @@ public class RegisterUserHandlerTests
                 It.IsAny<CancellationToken>()),
             Times.Never);
     }
+
+    [Fact]
+    public async Task Handle_DefaultRoleDoesNotExist_ThrowsNotFoundException()
+    {
+        // Arrange
+        var userRepository = new Mock<IUserRepository>();
+        var roleRepository = new Mock<IRoleRepository>();
+        var passwordHasher = new Mock<IPasswordHasher>();
+        var unitOfWork = new Mock<IUnitOfWork>();
+
+        var testEmail = "test@lms.com";
+        var testPass = "testpass";
+
+        roleRepository
+            .Setup(repository => repository.GetDefaultRoleAsync(
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Role?)null);
+
+        var handler = new RegisterUserHandler(
+            userRepository.Object,
+            unitOfWork.Object,
+            roleRepository.Object,
+            passwordHasher.Object);
+
+        var command = new RegisterUserCommand(
+            testEmail,
+            testPass);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+            handler.Handle(
+                command,
+                CancellationToken.None));
+
+        userRepository.Verify(
+            repository => repository.AddAsync(
+                It.IsAny<User>(),
+                It.IsAny<CancellationToken>()),
+            Times.Never);
+
+        unitOfWork.Verify(
+            unitOfWork => unitOfWork.SaveChangesAsync(
+                It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
 }
