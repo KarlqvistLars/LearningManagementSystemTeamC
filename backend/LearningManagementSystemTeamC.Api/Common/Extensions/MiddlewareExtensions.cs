@@ -45,11 +45,20 @@ public static class MiddlewareExtensions
                     null));
         });
 
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
         app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseHttpsRedirection();
-
+        app.UseCorsPolicy();
+        app.UseAuthentication();
         app.UseAuthorization();
+
+        app.MapControllers();
 
         return app;
     }

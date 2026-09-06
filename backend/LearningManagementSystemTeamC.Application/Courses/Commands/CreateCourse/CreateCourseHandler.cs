@@ -4,7 +4,7 @@ using LearningManagementSystemTeamC.Domain.Courses;
 
 namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 
-public class CreateCourseHandler
+public class CreateCourseHandler : ICreateCourseHandler
 {
     private readonly ICourseRepository _courseRepository;
     private readonly IUnitOfWork _unitOfWork;
