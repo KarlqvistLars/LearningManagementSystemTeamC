@@ -13,6 +13,13 @@ public class ModuleRepository : IModuleRepository
         _context = context;
     }
 
+    public async Task<Module?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _context.Modules
+            .Where(x => x.Id == id)
+            .SingleOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<IReadOnlyList<Module>> GetModulesByCourseIdAsync(Guid courseId, CancellationToken cancellationToken)
     {
         return await _context.Modules

@@ -34,6 +34,14 @@ public class Module
         CourseId = courseId;
     }
 
+    public void Update(string name, string description, DateTime startDate, DateTime endDate)
+    {
+        ModuleName = name;
+        Description = description;
+        StartDate = startDate;
+        EndDate = endDate;
+    }
+
     private static void Validate(
         string moduleName,
         string description,
@@ -61,4 +69,5 @@ public class Module
                 ModuleRules.CourseIdRequiredCode,
                 ModuleRules.CourseIdRequiredMessage);
     }
+
 }
