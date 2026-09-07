@@ -5,7 +5,7 @@ namespace LearningManagementSystemTeamC.Domain.Modules;
 
 public class Module
 {
-    public Guid Id { get; private set; }
+public Guid Id { get; private set; }
     public string ModuleName { get; private set; }
     public string Description { get; private set; }
     public DateTime StartDate { get; private set; }
