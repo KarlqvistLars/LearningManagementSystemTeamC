@@ -1,10 +1,10 @@
-using System.Reflection;
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
+using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +17,22 @@ public class ModulesController : ControllerBase
 
     public ModulesController() { }
 
-    [HttpGet("{courseId}")]
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult> GetById(Guid id, [FromServices] IGetModuleByIdHandler getModuleByIdHandler,
+        CancellationToken cancellationToken)
+    {
+        var module = await getModuleByIdHandler.Handle(new GetModuleByIdQuery(id), cancellationToken);
+        if (module == null)
+        {
+            return NotFound(ApiResponse<ModuleDto>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
+        }
+        return Ok(ApiResponse<ModuleDto>.Ok(module));
+    }
+
+    [HttpGet("course/{courseId:guid}")]
     public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModuleByCourseId(Guid courseId, 
-    [FromServices]IGetModulesHandler getModuleHandler,
-    CancellationToken cancellationToken)
+        [FromServices]IGetModulesHandler getModuleHandler,
+        CancellationToken cancellationToken)
     {
         var modules = await getModuleHandler.Handle(new GetModulesQuery(courseId), cancellationToken);
         if (modules.Count == 0)

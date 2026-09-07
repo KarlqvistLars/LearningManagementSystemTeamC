@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
+﻿using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
@@ -7,6 +6,7 @@ using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
+using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IGetModulesHandler, GetModulesHandler>();
+        services.AddScoped<IGetModuleByIdHandler, GetModuleByIdHandler>();
         services.AddScoped<ICreateModuleHandler, CreateModuleHandler>();
         services.AddScoped<IEditModuleHandler, EditModuleHandler>();
         services.AddScoped<ILoginHandler, LoginHandler>();
