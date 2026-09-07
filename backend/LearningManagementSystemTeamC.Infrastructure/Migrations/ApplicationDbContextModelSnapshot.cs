@@ -119,13 +119,11 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 
 modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", b =>
                 {
-                    b.HasOne("LearningManagementSystemTeamC.Domain.Modules.Module", "Module")
-                        .WithMany("Activities")
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Modules.Module", null)
+                        .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Module");
                 });
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Roles.Role", b =>
@@ -208,11 +206,6 @@ modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", 
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Modules.Module", b =>
-                {
-                    b.Navigation("Activities");
                 });
 #pragma warning restore 612, 618
         }

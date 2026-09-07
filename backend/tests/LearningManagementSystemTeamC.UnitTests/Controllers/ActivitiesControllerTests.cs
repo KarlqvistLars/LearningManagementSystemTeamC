@@ -25,8 +25,7 @@ public class ActivitiesControllerTests
                 DateTime.Parse("2024-06-01"),
                 DateTime.Parse("2024-06-02"),
                 ActivityType.Lecture,
-                moduleId,
-                "Programming Basics")
+                moduleId)
         };
 
         var mockHandler = new Mock<IGetActivitiesByModuleIdHandler>();

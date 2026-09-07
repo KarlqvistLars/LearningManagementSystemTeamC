@@ -1,5 +1,4 @@
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
-using LearningManagementSystemTeamC.Domain.Modules;
 
 namespace LearningManagementSystemTeamC.Domain.Activities;
 
@@ -12,7 +11,6 @@ public class Activity
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public Guid ModuleId { get; set; }
-    public Module Module { get; private set; } = null!;
 
     public Activity(
         string activityName,

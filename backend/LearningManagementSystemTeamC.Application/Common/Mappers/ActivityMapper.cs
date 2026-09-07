@@ -13,6 +13,5 @@ public static class ActivityMapper
             activity.StartDate,
             activity.EndDate,
             activity.Type,
-            activity.ModuleId,
-            activity.Module.ModuleName);
+            activity.ModuleId);
 }

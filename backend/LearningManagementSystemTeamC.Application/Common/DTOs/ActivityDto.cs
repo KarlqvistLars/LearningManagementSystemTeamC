@@ -9,6 +9,5 @@ public record ActivityDto(
     DateTime StartDate,
     DateTime EndDate,
     ActivityType Type,
-    Guid ModuleId,
-    string ModuleName
+    Guid ModuleId
 );

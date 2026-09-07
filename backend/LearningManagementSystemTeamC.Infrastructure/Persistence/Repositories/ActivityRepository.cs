@@ -16,7 +16,6 @@ public class ActivityRepository : IActivityRepository
     public async Task<IReadOnlyList<Activity>> GetActivitiesByModuleIdAsync(Guid moduleId)
     {
         return await _context.Activities
-            .Include(x => x.Module)
             .Where(x => x.ModuleId == moduleId)
             .ToListAsync();
     }

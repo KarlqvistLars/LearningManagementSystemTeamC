@@ -6,5 +6,4 @@ export interface ActivityDto {
     startDate: string;
     endDate: string;
     moduleId: string;
-    moduleName: string;
 }
