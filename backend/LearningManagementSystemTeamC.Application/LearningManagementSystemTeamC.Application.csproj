@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Courses\Commands\DeleteCourse\" />
+    <Folder Include="Enrollments\Commands\" />
   </ItemGroup>
 
   <PropertyGroup>
