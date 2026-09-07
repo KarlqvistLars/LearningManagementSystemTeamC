@@ -5,6 +5,8 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
+using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
+using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
@@ -59,5 +61,27 @@ public class CoursesController : ControllerBase
             nameof(GetById),
             new { id = courseDto.Id },
             ApiResponse<CourseDto>.Ok(courseDto));
+    }
+
+    [HttpGet("student/{id}/courses")]
+    public async Task<IActionResult> GetCoursesByUserId(Guid userId, [FromServices] IGetEnrollmentsByUserIdHandler getCoursesByUserIdHandler, CancellationToken cancellationToken)
+    {
+        var courses = await getCoursesByUserIdHandler.Handle(new GetEnrollmentsByUserIdQuery(userId), cancellationToken);
+        if (!courses.Any())
+        {
+            return NotFound(ApiResponse<IEnumerable<CourseDto>>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
+        }
+        return Ok(ApiResponse<IEnumerable<CourseDto>>.Ok(courses));
+    }
+
+    [HttpGet("{id}/enrollments")]
+    public async Task<IActionResult> GetEnrollmentsByCourseId(Guid courseId, [FromServices] IGetEnrollmentsByCourseIdHandler getEnrollmentsByCourseIdHandler, CancellationToken cancellationToken)
+    {
+        var enrollments = await getEnrollmentsByCourseIdHandler.Handle(new GetEnrollmentsByCourseIdQuery(courseId), cancellationToken);
+        if (!enrollments.Any())
+        {
+            return NotFound(ApiResponse<IEnumerable<CourseEnrollmentDto>>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
+        }
+        return Ok(ApiResponse<IEnumerable<CourseEnrollmentDto>>.Ok(enrollments));
     }
 }
