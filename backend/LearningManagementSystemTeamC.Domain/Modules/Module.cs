@@ -53,8 +53,8 @@ public class Module
 
         if (endDate <= startDate)
             throw new DomainException(
-                ModuleRules.ModuleEndBeforeStartDateCode,
-                ModuleRules.ModuleEndBeforeStartDateMessage);
+                ModuleRules.InvalidModuleDateCode,
+                ModuleRules.InvalidModuleDateMessage);
                 
         if (courseId == Guid.Empty)
             throw new DomainException(

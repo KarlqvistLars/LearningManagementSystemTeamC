@@ -19,4 +19,11 @@ public class ModuleRepository : IModuleRepository
             .Where(x => x.CourseId == courseId)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task AddAsync(Module module, CancellationToken cancellationToken)
+    {
+        await _context.Modules.AddAsync(module, cancellationToken);
+    }
+
+
 }
