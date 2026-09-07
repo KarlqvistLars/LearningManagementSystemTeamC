@@ -1,5 +1,6 @@
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Common.Mappers;
 
 namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
 
@@ -22,15 +23,8 @@ public class GetActivitiesByModuleHandler : IGetActivitiesByModuleHandler
     {
         var activities = await _activityRepository.GetActivitiesByModuleIdAsync(query.ModuleId);
 
-        return activities.Select(activity => new ActivityDto(
-            activity.Id,
-            activity.ActivityName,
-            activity.Description,
-            activity.StartDate,
-            activity.EndDate,
-            activity.Type,
-            activity.ModuleId,
-            activity.Module.ModuleName))
+        return activities
+            .Select(ActivityMapper.ActivityToDto)
             .ToList();
     }
 }
