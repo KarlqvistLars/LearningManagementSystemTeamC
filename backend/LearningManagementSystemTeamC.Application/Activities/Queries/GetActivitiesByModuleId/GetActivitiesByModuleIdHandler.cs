@@ -5,15 +5,15 @@ using LearningManagementSystemTeamC.Application.Modules;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Modules;
 
-namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
+namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 
-public class GetActivitiesByModuleHandler : IGetActivitiesByModuleHandler
+public class GetActivitiesByModuleIdHandler : IGetActivitiesByModuleIdHandler
 {
     private readonly IActivityRepository _activityRepository;
     private readonly IModuleRepository _moduleRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetActivitiesByModuleHandler(
+    public GetActivitiesByModuleIdHandler(
         IActivityRepository activityRepository,
         IModuleRepository moduleRepository,
         IUnitOfWork unitOfWork)
@@ -24,7 +24,7 @@ public class GetActivitiesByModuleHandler : IGetActivitiesByModuleHandler
     }
 
     public async Task<IReadOnlyList<ActivityDto>> Handle(
-        GetActivitiesByModuleQuery query,
+        GetActivitiesByModuleIdQuery query,
         CancellationToken cancellationToken)
     {
         var module = await _moduleRepository.GetByIdAsync(query.ModuleId, cancellationToken)

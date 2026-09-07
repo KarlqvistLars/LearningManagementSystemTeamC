@@ -1,5 +1,5 @@
 using LearningManagementSystemTeamC.Api.Common.Contracts;
-using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +14,11 @@ public class ActivitiesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetByModule(
         Guid moduleId,
-        [FromServices] IGetActivitiesByModuleHandler getActivitiesByModuleHandler,
+        [FromServices] IGetActivitiesByModuleIdHandler getActivitiesByModuleHandler,
         CancellationToken cancellationToken)
     {
         var activities = await getActivitiesByModuleHandler.Handle(
-            new GetActivitiesByModuleQuery(moduleId),
+            new GetActivitiesByModuleIdQuery(moduleId),
             cancellationToken);
 
         return Ok(ApiResponse<IReadOnlyList<ActivityDto>>.Ok(activities));

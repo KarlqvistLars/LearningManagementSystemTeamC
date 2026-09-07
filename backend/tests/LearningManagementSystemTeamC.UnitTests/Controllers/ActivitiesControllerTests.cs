@@ -1,6 +1,6 @@
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Controllers;
-using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Domain.Activities;
 using Microsoft.AspNetCore.Mvc;
@@ -29,10 +29,10 @@ public class ActivitiesControllerTests
                 "Programming Basics")
         };
 
-        var mockHandler = new Mock<IGetActivitiesByModuleHandler>();
+        var mockHandler = new Mock<IGetActivitiesByModuleIdHandler>();
         mockHandler
             .Setup(handler => handler.Handle(
-                It.IsAny<GetActivitiesByModuleQuery>(),
+                It.IsAny<GetActivitiesByModuleIdQuery>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(activities);
 
@@ -53,10 +53,10 @@ public class ActivitiesControllerTests
         // Arrange
         var moduleId = Guid.NewGuid();
 
-        var mockHandler = new Mock<IGetActivitiesByModuleHandler>();
+        var mockHandler = new Mock<IGetActivitiesByModuleIdHandler>();
         mockHandler
             .Setup(handler => handler.Handle(
-                It.IsAny<GetActivitiesByModuleQuery>(),
+                It.IsAny<GetActivitiesByModuleIdQuery>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<ActivityDto>());
 

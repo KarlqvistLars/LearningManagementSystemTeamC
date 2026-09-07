@@ -1,10 +1,10 @@
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 
-namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModule;
+namespace LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 
-public interface IGetActivitiesByModuleHandler
+public interface IGetActivitiesByModuleIdHandler
 {
     Task<IReadOnlyList<ActivityDto>> Handle(
-        GetActivitiesByModuleQuery query,
+        GetActivitiesByModuleIdQuery query,
         CancellationToken cancellationToken);
 }
