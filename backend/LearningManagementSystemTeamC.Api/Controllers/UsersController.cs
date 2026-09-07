@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
+using LearningManagementSystemTeamC.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ public class UsersController : ControllerBase
     {
     }
 
-    [Authorize(policy: PolicyConstants.TeacherOnly)]
+    [Authorize(Roles = RoleRules.TeacherRoleCode)]
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserCommand command, [FromServices] ICreateUserHandler createUserHandler, [FromServices] IValidator<CreateUserCommand> createUserValidator, CancellationToken cancellationToken)
     {
@@ -34,7 +35,6 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
     }
 
-    [Authorize(policy: PolicyConstants.TeacherOnly)]
     [HttpGet("{id:guid}", Name = EndpointNameConstants.GetUserById)]
     public async Task<IActionResult> GetById([FromRoute] Guid id, [FromServices] IGetUserByIdHandler getUserByIdHandler, CancellationToken cancellationToken)
     {
