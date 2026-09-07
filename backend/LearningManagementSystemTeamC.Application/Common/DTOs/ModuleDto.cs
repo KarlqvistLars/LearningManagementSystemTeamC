@@ -1,5 +1,3 @@
-using LearningManagementSystemTeamC.Domain.Courses;
-
 namespace LearningManagementSystemTeamC.Application.Common.DTOs;
 
 public record ModuleDto(
@@ -8,6 +6,5 @@ public record ModuleDto(
     string Description,
     DateTime StartDate,
     DateTime EndDate,
-    Guid CourseId,
-    string CourseName
+    Guid CourseId
     );

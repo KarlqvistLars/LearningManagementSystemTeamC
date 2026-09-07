@@ -6,13 +6,12 @@ namespace LearningManagementSystemTeamC.Domain.Modules;
 
 public class Module
 {
-    public Guid Id { get; set; }
-    public string ModuleName { get; set; }
-    public string Description { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public Guid CourseId { get; set; }
-    public Course Course { get; private set; } = null!;
+public Guid Id { get; private set; }
+    public string ModuleName { get; private set; }
+    public string Description { get; private set; }
+    public DateTime StartDate { get; private set; }
+    public DateTime EndDate { get; private set; }
+    public Guid CourseId { get; private set; }
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
 
     public Module(
@@ -47,21 +46,21 @@ public class Module
         if (string.IsNullOrWhiteSpace(moduleName))
             throw new DomainException(
                 ModuleRules.ModuleNameRequiredCode,
-                nameof(moduleName));
+                ModuleRules.ModuleNameRequiredMessage);
 
         if (string.IsNullOrWhiteSpace(description))
             throw new DomainException(
                 ModuleRules.ModuleDescriptionRequiredCode,
-                nameof(description));
+                ModuleRules.ModuleDescriptionRequiredMessage);
 
         if (endDate <= startDate)
             throw new DomainException(
                 ModuleRules.ModuleEndBeforeStartDateCode,
-                nameof(endDate));
+                ModuleRules.ModuleEndBeforeStartDateMessage);
                 
         if (courseId == Guid.Empty)
             throw new DomainException(
-                ModuleRules.CourseIdRequiredMessage,
-                nameof(courseId));
+                ModuleRules.CourseIdRequiredCode,
+                ModuleRules.CourseIdRequiredMessage);
     }
 }
