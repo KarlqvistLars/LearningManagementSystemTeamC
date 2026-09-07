@@ -6,6 +6,7 @@ import { CoursePage } from "../features/courses/pages/CoursePage";
 import { NotFoundPage } from "../features/not-found/NotFoundPage";
 import { LoginPage } from "../features/login/LoginPage";
 import { RegisterPage } from "../features/register/RegisterPage";
+import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
 
 export function AppRoutes() {
@@ -19,6 +20,7 @@ export function AppRoutes() {
           <Route index element={<MainPage />} />
 
           <Route path="courses" element={<CoursePage />} />
+          <Route path="modules/:moduleId/activities" element={<ModuleActivitiesPage />} />
         </Route>
       </Route>
 
