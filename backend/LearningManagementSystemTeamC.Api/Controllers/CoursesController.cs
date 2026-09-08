@@ -69,7 +69,7 @@ public class CoursesController : ControllerBase
             ApiResponse<CourseDto>.Ok(courseDto));
     }
 
-    [HttpGet("student/{userId}/courses")]
+    [HttpGet("~/api/student/{userId}/courses")]
     public async Task<IActionResult> GetCoursesByUserId(Guid userId, [FromServices] IGetEnrollmentsByUserIdHandler getCoursesByUserIdHandler, CancellationToken cancellationToken)
     {
         var courses = await getCoursesByUserIdHandler.Handle(new GetEnrollmentsByUserIdQuery(userId), cancellationToken);
