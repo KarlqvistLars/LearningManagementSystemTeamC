@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LearningManagementSystemTeamC.Application.Activities;
+using LearningManagementSystemTeamC.Application.Enrollments;
 
 namespace LearningManagementSystemTeamC.Infrastructure;
 
@@ -32,6 +33,7 @@ public static class DependencyInjection
         services.AddScoped<IActivityRepository, ActivityRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
+        services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
         return services;
     }
 }
