@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
+using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollments;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
@@ -24,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IGetModuleHandler, GetModuleHandler>();
+        services.AddScoped<IGetEnrollmentsHandler, GetEnrollmentsHandler>();
         services.AddScoped<ILoginHandler, LoginHandler>();
 
         // Validators

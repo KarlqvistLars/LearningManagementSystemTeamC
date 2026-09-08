@@ -28,12 +28,12 @@ public class CreateEnrollmentHandler : ICreateEnrollmentHandler
         await _enrollmentRepository.AddAsync(enrollment, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new EnrollmentDto {
-            Id = enrollment.Id,
-            UserId = enrollment.UserId,
-            CourseId = enrollment.CourseId,
-            EnrolledAt = enrollment.EnrolledAt,
-            IsActive = enrollment.IsActive
-        };
+        return new EnrollmentDto(
+            enrollment.Id,
+            enrollment.UserId,
+            enrollment.CourseId,
+            enrollment.EnrolledAt,
+            enrollment.IsActive
+        );
     }
 }
