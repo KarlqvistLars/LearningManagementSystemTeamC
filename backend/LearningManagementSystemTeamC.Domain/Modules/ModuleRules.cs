@@ -22,5 +22,7 @@ public static class ModuleRules
     public const string InvalidModuleIdMessage = "Module ID is invalid";
     public const string InvalidCourseIdCode ="COURSE_ID_INVALID";
     public const string InvalidCourseIdMessage = "Course ID is invalid.";
+    public const string ModuleNotFoundCode = "MODULE_NOT_FOUND";
+    public const string ModuleNotFoundMessage = "Module not found.";
 
 }
