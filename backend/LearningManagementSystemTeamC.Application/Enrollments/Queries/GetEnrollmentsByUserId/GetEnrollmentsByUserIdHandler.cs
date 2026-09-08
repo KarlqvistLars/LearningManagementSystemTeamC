@@ -4,7 +4,7 @@ using LearningManagementSystemTeamC.Application.Courses;
 
 namespace LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 
-public class GetEnrollmentsByUserIdHandler
+public class GetEnrollmentsByUserIdHandler : IGetEnrollmentsByUserIdHandler
 {
     private readonly IEnrollmentRepository _enrollmentRepository;
     private readonly ICourseRepository _courseRepository;
