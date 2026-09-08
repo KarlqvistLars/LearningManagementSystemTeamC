@@ -30,11 +30,13 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 
                     b.Property<string>("ActivityName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -117,15 +119,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.ToTable("Modules");
                 });
 
-modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", b =>
-                {
-                    b.HasOne("LearningManagementSystemTeamC.Domain.Modules.Module", null)
-                        .WithMany()
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -188,6 +181,15 @@ modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", 
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", b =>
+                {
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Modules.Module", null)
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Modules.Module", b =>
