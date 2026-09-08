@@ -11,6 +11,7 @@ using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using Microsoft.Extensions.DependencyInjection;
+using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 
 namespace LearningManagementSystemTeamC.Application;
 
@@ -30,6 +31,7 @@ public static class DependencyInjection
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IGetModuleHandler, GetModuleHandler>();
         services.AddScoped<ILoginHandler, LoginHandler>();
+        services.AddScoped<IEnrollUserInCourseHandler, EnrollUserInCourseHandler>();
         services.AddScoped<IUpdateUserHandler, UpdateUserHandler>();
 
         // Validators

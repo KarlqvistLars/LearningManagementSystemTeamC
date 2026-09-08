@@ -5,19 +5,24 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
+using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
+using LearningManagementSystemTeamC.Domain.Roles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
+//[Authorize(Roles = RoleRules.DefaultRoleCode)]
 [Route("api/courses")]
 public class CoursesController : ControllerBase
 {
     public CoursesController() { }
 
     [HttpGet]
+    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
     public async Task<IActionResult> GetAll([FromServices] IGetCoursesHandler getCoursesHandler, CancellationToken cancellationToken)
     {
         var courses = await getCoursesHandler.Handle(cancellationToken);
@@ -36,6 +41,7 @@ public class CoursesController : ControllerBase
     }
 
     [HttpPost]
+    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
     public async Task<IActionResult> Create(
         CreateCourseCommand command,
         [FromServices] ICreateCourseHandler createCourseHandler,
@@ -63,7 +69,7 @@ public class CoursesController : ControllerBase
             ApiResponse<CourseDto>.Ok(courseDto));
     }
 
-    [HttpGet("student/{id}/courses")]
+    [HttpGet("student/{userId}/courses")]
     public async Task<IActionResult> GetCoursesByUserId(Guid userId, [FromServices] IGetEnrollmentsByUserIdHandler getCoursesByUserIdHandler, CancellationToken cancellationToken)
     {
         var courses = await getCoursesByUserIdHandler.Handle(new GetEnrollmentsByUserIdQuery(userId), cancellationToken);
@@ -74,7 +80,8 @@ public class CoursesController : ControllerBase
         return Ok(ApiResponse<IEnumerable<CourseDto>>.Ok(courses));
     }
 
-    [HttpGet("{id}/enrollments")]
+    [HttpGet("{courseId}/enrollments")]
+    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
     public async Task<IActionResult> GetEnrollmentsByCourseId(Guid courseId, [FromServices] IGetEnrollmentsByCourseIdHandler getEnrollmentsByCourseIdHandler, CancellationToken cancellationToken)
     {
         var enrollments = await getEnrollmentsByCourseIdHandler.Handle(new GetEnrollmentsByCourseIdQuery(courseId), cancellationToken);
@@ -83,5 +90,14 @@ public class CoursesController : ControllerBase
             return NotFound(ApiResponse<IEnumerable<CourseEnrollmentDto>>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
         }
         return Ok(ApiResponse<IEnumerable<CourseEnrollmentDto>>.Ok(enrollments));
+    }
+
+    [HttpPost("{courseId}/enroll/{userId}")]
+    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
+    public async Task<IActionResult> EnrollUserInCourse(Guid courseId, Guid userId, [FromServices] IEnrollUserInCourseHandler enrollUserInCourseHandler, CancellationToken cancellationToken)
+    {
+        var enrollment = await enrollUserInCourseHandler.Handle(new EnrollUserInCourseCommand(userId, courseId), cancellationToken);
+        return enrollment ? Ok(ApiResponse<bool>.Ok(enrollment)) 
+            : BadRequest(ApiResponse<bool>.Fail(ExceptionConstants.DefaultExceptionCode, ExceptionConstants.DefaultExceptionMessage));
     }
 }
