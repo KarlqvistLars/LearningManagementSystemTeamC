@@ -18,6 +18,8 @@ public static class ModuleRules
     public const string InvalidModuleDateMessage =  "End date must be after start date.";
     public const string CourseIdRequiredCode = "COURSE_ID_REQUIRED";
     public const string CourseIdRequiredMessage = "Course ID is required.";
+    public const string InvalidModuleIdCode = "MODULE_ID_INVALID";
+    public const string InvalidModuleIdMessage = "Module ID is invalid";
     public const string InvalidCourseIdCode ="COURSE_ID_INVALID";
     public const string InvalidCourseIdMessage = "Course ID is invalid.";
 

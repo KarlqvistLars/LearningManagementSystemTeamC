@@ -25,7 +25,7 @@ public class EditModuleHandler : IEditModuleHandler
 
         if (module is null)
         {
-            throw new DomainException(ModuleRules.InvalidCourseIdCode, ModuleRules.InvalidCourseIdMessage);
+            throw new DomainException(ModuleRules.InvalidModuleIdCode, ModuleRules.InvalidModuleIdMessage);
         }
 
         module.Update(
