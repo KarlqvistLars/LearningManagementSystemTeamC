@@ -24,23 +24,6 @@ export function CourseList() {
     }
   }, [loading]);
 
-  async function handleDeleteCourse(id: string | null) {
-    if (id !== null) {
-      try {
-        //Delete api call
-
-        //if (course was deleted successfully) {
-        if (id !== null) {
-          alert("Course deleted successfully.");
-          //Handle successful deletion
-        }
-      } catch (error) {
-        console.error(error);
-        //Handle deletion error
-      }
-    }
-  }
-
   async function handleEditCourse(id: string | null) {
     if (id !== null) {
       try {
@@ -66,7 +49,6 @@ export function CourseList() {
             <CourseSummaryCard
               key={course.id}
               course={course}
-              onDelete={handleDeleteCourse}
               onEdit={handleEditCourse}
             />
           ))

@@ -7,6 +7,9 @@ export function CoursePage() {
         <h1 className="mb-6 text-4xl font-bold text-slate-600">Kurser</h1>
         <CourseList />
       </div>
+      <div>
+        <button>Create new course</button>
+      </div>
     </section>
   );
 }
