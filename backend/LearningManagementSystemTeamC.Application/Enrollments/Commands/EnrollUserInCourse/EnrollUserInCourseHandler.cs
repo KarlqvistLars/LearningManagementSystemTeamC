@@ -32,6 +32,9 @@ public class EnrollUserInCourseHandler : IEnrollUserInCourseHandler
         var user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken) ??
             throw new NotFoundException(UserRules.UserNotFoundCode, UserRules.UserNotFoundMessage);
 
+        if (!user.IsActive)
+            throw new UnauthorizedException(UserRules.AccountNotAvailableCode, UserRules.AccountNotAvailableMessage);
+
         var course = await _courseRepository.GetByIdAsync(command.CourseId, cancellationToken) ??
             throw new NotFoundException(CourseRules.CourseNotFoundCode, CourseRules.CourseNotFoundMessage);
 
