@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #141720;
-  --color-menu: #19383A;
+  --color-background: #0D0F14;
+  --color-menu: #141720;
 
   --color-primary: #F0A04B;
   --color-primary-title-text: #FFFFFF;
@@ -33,4 +33,5 @@
 body {
   margin: 0;
   font-family: var(--font-sans);
+  background-color: var(--color-background);
 }
