@@ -60,7 +60,7 @@ export function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="flex w-full flex-col gap-10">
-            <div>
+            <div className="flex w-full flex-col gap-5">
               <div className="text-primary-display-text">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <FormInput
