@@ -4,7 +4,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
 import { CoursePage } from "../features/courses/pages/CoursePage";
 import { NotFoundPage } from "../features/not-found/NotFoundPage";
-import { LoginPage } from "../features/login/LoginPage";
+import { LoginPage } from "../features/login/pages/LoginPage";
 import { RegisterPage } from "../features/register/RegisterPage";
 import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
