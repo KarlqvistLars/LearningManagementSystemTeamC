@@ -4,7 +4,6 @@ namespace LearningManagementSystemTeamC.Domain.UserInfos;
 
 public class UserInfo
 {
-    public Guid Id { get; private set; }
     public Guid UserId { get; private set; }
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
@@ -28,7 +27,6 @@ public class UserInfo
             postalCode,
             city);
 
-        Id = Guid.NewGuid();
         UserId = userId;
         FirstName = fName;
         LastName = lName;
