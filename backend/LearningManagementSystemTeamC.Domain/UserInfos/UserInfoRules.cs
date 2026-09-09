@@ -44,4 +44,7 @@ public static class UserInfoRules
 
     public static string CityTooLongMessage(int maxLength)
         => $"City cannot exceed {maxLength} characters.";
+
+    public const string UserInfoNotFoundCode = "USERINFO_NOT_FOUND";
+    public const string UserInfoNotFoundMessage = "User info not found.";
 }

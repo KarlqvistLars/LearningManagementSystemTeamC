@@ -108,6 +108,6 @@ public class UpdateUserHandler : IUpdateUserHandler
         await _unitOfWork.SaveChangesAsync(
             cancellationToken);
 
-        return UserMapper.ToDto(existingUser, existingRole);
+        return UserMapper.ToDto(existingUser, existingRole, firstName, lastName);
     }
 }
