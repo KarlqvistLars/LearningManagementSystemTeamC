@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigate, useNavigate, Link } from "react-router";
 
-import { useAuth } from "../../auth/AuthContext";
-import { AuthTabs } from "../../auth/components/AuthTabs";
+import { useAuth } from "../AuthContext";
+import { AuthTabs } from "../components/AuthTabs";
 import { FormTitle } from "../../../shared/components/FormTitle";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormLabel } from "../../../shared/components/FormLabel";

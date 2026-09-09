@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { apiFetch } from "../../api/client";
+import { apiFetch } from "../../../api/client";
 
 interface RegisterUserResponse {
   id: string;
