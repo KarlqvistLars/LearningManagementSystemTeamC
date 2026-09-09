@@ -43,3 +43,21 @@ export async function register(
 
   return result.data;
 }
+
+export async function forgotPassword(email: string): Promise<void> {
+  const result: ApiResponse<void> = await apiFetch<void>(
+    "/auth/forgot-password",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+      }),
+    },
+  );
+
+  if (!result.success) {
+    throw new Error(
+      result.error?.message || "Failed to send password reset email",
+    );
+  }
+}
