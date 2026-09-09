@@ -34,6 +34,14 @@ public Guid Id { get; private set; }
         CourseId = courseId;
     }
 
+    public void Update(string name, string description, DateTime startDate, DateTime endDate)
+    {
+        ModuleName = name;
+        Description = description;
+        StartDate = startDate;
+        EndDate = endDate;
+    }
+
     private static void Validate(
         string moduleName,
         string description,
@@ -53,12 +61,13 @@ public Guid Id { get; private set; }
 
         if (endDate <= startDate)
             throw new DomainException(
-                ModuleRules.ModuleEndBeforeStartDateCode,
-                ModuleRules.ModuleEndBeforeStartDateMessage);
+                ModuleRules.InvalidModuleDateCode,
+                ModuleRules.InvalidModuleDateMessage);
                 
         if (courseId == Guid.Empty)
             throw new DomainException(
                 ModuleRules.CourseIdRequiredCode,
                 ModuleRules.CourseIdRequiredMessage);
     }
+
 }

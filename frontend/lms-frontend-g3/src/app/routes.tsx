@@ -8,21 +8,22 @@ import { LoginPage } from "../features/login/LoginPage";
 import { RegisterPage } from "../features/register/RegisterPage";
 import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
+import { ModulePage } from "../features/modules/pages/ModulePage";
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/courses" element={<CoursePage />} />
-          <Route
-            path="/modules/:moduleId/activities"
-            element={<ModuleActivitiesPage />}
-          />
-        </Route>{" "}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<MainPage />} />
+
+          <Route path="courses" element={<CoursePage />} />
+          <Route path="courses/:courseId/modules" element={<ModulePage />} />
+          <Route path="modules/:moduleId/activities" element={<ModuleActivitiesPage />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
