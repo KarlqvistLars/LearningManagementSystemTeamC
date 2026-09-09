@@ -5,31 +5,40 @@ namespace LearningManagementSystemTeamC.Domain.UserInfos;
 public class UserInfo
 {
     public Guid UserId { get; private set; }
+
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
-    public DateTime DateOfBirth { get; private set; }
-    public string PhoneNumber { get; private set; } = string.Empty;
-    public string Address { get; private set; } = string.Empty;
-    public string PostalCode { get; private set; } = string.Empty;
-    public string City { get; private set; } = string.Empty;
+
+    public DateTime? DateOfBirth { get; private set; }
+    public string? PhoneNumber { get; private set; }
+    public string? Address { get; private set; }
+    public string? PostalCode { get; private set; }
+    public string? City { get; private set; }
 
     private UserInfo() { }
 
-    public UserInfo(Guid userId, string fName, string lName, DateTime dateOfBirth, string phoneNumber, string address, string postalCode, string city)
+    public UserInfo(
+        Guid userId,
+        string firstName,
+        string lastName)
     {
         Validate(
             userId,
-            fName,
-            lName,
-            dateOfBirth,
-            phoneNumber,
-            address,
-            postalCode,
-            city);
+            firstName,
+            lastName);
 
         UserId = userId;
-        FirstName = fName;
-        LastName = lName;
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    public void UpdateProfile(
+        DateTime? dateOfBirth,
+        string? phoneNumber,
+        string? address,
+        string? postalCode,
+        string? city)
+    {
         DateOfBirth = dateOfBirth;
         PhoneNumber = phoneNumber;
         Address = address;
@@ -39,36 +48,34 @@ public class UserInfo
 
     private static void Validate(
         Guid userId,
-        string fName,
-        string lName,
-        DateTime dateOfBirth,
-        string phoneNumber,
-        string address,
-        string postalCode,
-        string city)
+        string firstName,
+        string lastName)
     {
         if (userId == Guid.Empty)
-            throw new DomainException(UserInfoRules.UserIdRequiredCode, UserInfoRules.UserIdRequiredMessage);
+            throw new DomainException(
+                UserInfoRules.UserIdRequiredCode,
+                UserInfoRules.UserIdRequiredMessage);
 
-        if (string.IsNullOrWhiteSpace(fName))
-            throw new DomainException(UserInfoRules.FirstNameRequiredCode, UserInfoRules.FirstNameRequiredMessage);
+        if (string.IsNullOrWhiteSpace(firstName))
+            throw new DomainException(
+                UserInfoRules.FirstNameRequiredCode,
+                UserInfoRules.FirstNameRequiredMessage);
 
-        if (string.IsNullOrWhiteSpace(lName))
-            throw new DomainException(UserInfoRules.LastNameRequiredCode, UserInfoRules.LastNameRequiredMessage);
+        if (firstName.Length > UserInfoRules.FirstNameMaxLength)
+            throw new DomainException(
+                UserInfoRules.FirstNameTooLongCode,
+                UserInfoRules.FirstNameTooLongMessage(
+                    UserInfoRules.FirstNameMaxLength));
 
-        if (dateOfBirth == DateTime.MinValue)
-            throw new DomainException(UserInfoRules.DateOfBirthRequiredCode, UserInfoRules.DateOfBirthRequiredMessage);
+        if (string.IsNullOrWhiteSpace(lastName))
+            throw new DomainException(
+                UserInfoRules.LastNameRequiredCode,
+                UserInfoRules.LastNameRequiredMessage);
 
-        if (string.IsNullOrWhiteSpace(phoneNumber))
-            throw new DomainException(UserInfoRules.PhoneNumberRequiredCode, UserInfoRules.PhoneNumberRequiredMessage);
-
-        if (string.IsNullOrWhiteSpace(address))
-            throw new DomainException(UserInfoRules.AddressRequiredCode, UserInfoRules.AddressRequiredMessage);
-
-        if (string.IsNullOrWhiteSpace(postalCode))
-            throw new DomainException(UserInfoRules.PostalCodeRequiredCode, UserInfoRules.PostalCodeRequiredMessage);
-
-        if (string.IsNullOrWhiteSpace(city))
-            throw new DomainException(UserInfoRules.CityRequiredCode, UserInfoRules.CityRequiredMessage);
+        if (lastName.Length > UserInfoRules.LastNameMaxLength)
+            throw new DomainException(
+                UserInfoRules.LastNameTooLongCode,
+                UserInfoRules.LastNameTooLongMessage(
+                    UserInfoRules.LastNameMaxLength));
     }
 }

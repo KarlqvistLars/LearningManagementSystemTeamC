@@ -9,6 +9,7 @@ public static class UserInfoRules
     public const string FirstNameRequiredMessage = "First name is required.";
     public const int FirstNameMaxLength = 100;
     public const string FirstNameTooLongCode = "USERINFO_FIRSTNAME_TOO_LONG";
+
     public static string FirstNameTooLongMessage(int maxLength)
         => $"First name cannot exceed {maxLength} characters.";
 
@@ -16,37 +17,31 @@ public static class UserInfoRules
     public const string LastNameRequiredMessage = "Last name is required.";
     public const int LastNameMaxLength = 100;
     public const string LastNameTooLongCode = "USERINFO_LASTNAME_TOO_LONG";
+
     public static string LastNameTooLongMessage(int maxLength)
         => $"Last name cannot exceed {maxLength} characters.";
 
-    public const string DateOfBirthRequiredCode = "USERINFO_DATEOFBIRTH_REQUIRED";
-    public const string DateOfBirthRequiredMessage = "Date of birth is required.";
-
-    public const string PhoneNumberRequiredCode = "USERINFO_PHONENUMBER_REQUIRED";
-    public const string PhoneNumberRequiredMessage = "Phone number is required.";
     public const int PhoneNumberMaxLength = 30;
     public const string PhoneNumberTooLongCode = "USERINFO_PHONENUMBER_TOO_LONG";
+
     public static string PhoneNumberTooLongMessage(int maxLength)
         => $"Phone number cannot exceed {maxLength} characters.";
 
-    public const string AddressRequiredCode = "USERINFO_ADDRESS_REQUIRED";
-    public const string AddressRequiredMessage = "Address is required.";
     public const int AddressMaxLength = 200;
     public const string AddressTooLongCode = "USERINFO_ADDRESS_TOO_LONG";
+
     public static string AddressTooLongMessage(int maxLength)
         => $"Address cannot exceed {maxLength} characters.";
 
-    public const string PostalCodeRequiredCode = "USERINFO_POSTALCODE_REQUIRED";
-    public const string PostalCodeRequiredMessage = "Postal code is required.";
     public const int PostalCodeMaxLength = 20;
     public const string PostalCodeTooLongCode = "USERINFO_POSTALCODE_TOO_LONG";
+
     public static string PostalCodeTooLongMessage(int maxLength)
         => $"Postal code cannot exceed {maxLength} characters.";
 
-    public const string CityRequiredCode = "USERINFO_CITY_REQUIRED";
-    public const string CityRequiredMessage = "City is required.";
     public const int CityMaxLength = 100;
     public const string CityTooLongCode = "USERINFO_CITY_TOO_LONG";
+
     public static string CityTooLongMessage(int maxLength)
         => $"City cannot exceed {maxLength} characters.";
 }

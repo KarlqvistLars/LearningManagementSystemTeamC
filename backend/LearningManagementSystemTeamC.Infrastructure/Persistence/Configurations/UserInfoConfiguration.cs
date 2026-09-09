@@ -22,23 +22,18 @@ public class UserInfoConfiguration : IEntityTypeConfiguration<UserInfo>
             .IsRequired()
             .HasMaxLength(UserInfoRules.LastNameMaxLength);
 
-        builder.Property(x => x.DateOfBirth)
-            .IsRequired();
+        builder.Property(x => x.DateOfBirth);
 
         builder.Property(x => x.PhoneNumber)
-            .IsRequired()
             .HasMaxLength(UserInfoRules.PhoneNumberMaxLength);
 
         builder.Property(x => x.Address)
-            .IsRequired()
             .HasMaxLength(UserInfoRules.AddressMaxLength);
 
         builder.Property(x => x.PostalCode)
-            .IsRequired()
             .HasMaxLength(UserInfoRules.PostalCodeMaxLength);
 
         builder.Property(x => x.City)
-            .IsRequired()
             .HasMaxLength(UserInfoRules.CityMaxLength);
 
         builder.HasOne<User>()
