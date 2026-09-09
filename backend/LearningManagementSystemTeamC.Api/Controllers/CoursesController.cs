@@ -23,7 +23,7 @@ public class CoursesController : ControllerBase
     public CoursesController() { }
 
     [HttpGet]
-    [Authorize(Roles = RoleRules.TeacherRoleCode)]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> GetAll([FromServices] IGetCoursesHandler getCoursesHandler, CancellationToken cancellationToken)
     {
         var courses = await getCoursesHandler.Handle(cancellationToken);
