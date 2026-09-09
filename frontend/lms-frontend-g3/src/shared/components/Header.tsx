@@ -1,16 +1,16 @@
 import { Link } from "react-router";
-import { Logo } from "../../shared/components/Logo";
+import { Logo } from "./Logo";
 import { useAuth } from "../../features/auth/AuthContext";
-import { MenuFullName } from "../../shared/components/MenuFullName";
+import { MenuFullName } from "./MenuFullName";
 
-export default function Header() {
+export function Header() {
   const { user } = useAuth();
 
   const initial = user?.firstName?.charAt(0).toUpperCase();
 
   return (
-    <header className="h-16 bg-background">
-      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
+    <header className="h-16 bg-menu">
+      <div className="mx-auto flex h-full items-center justify-between px-6">
         <Logo />
 
         {user && (

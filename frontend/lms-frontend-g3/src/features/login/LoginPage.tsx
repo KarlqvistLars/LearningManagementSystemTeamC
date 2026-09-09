@@ -76,7 +76,7 @@ export function LoginPage() {
   }
 
   return (
-    <section className="min-h-screen bg-slate-100 px-6 py-20">
+    <section className="flex-1 bg-slate-100 px-6 py-20">
       <div className="mx-auto max-w-5xl">
         <h1 className="mb-6 text-center text-4xl font-bold !text-black">
           Login
