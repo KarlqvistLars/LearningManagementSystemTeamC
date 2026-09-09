@@ -1,4 +1,5 @@
-﻿using LearningManagementSystemTeamC.Application.Auth;
+﻿using LearningManagementSystemTeamC.Application.Activities;
+using LearningManagementSystemTeamC.Application.Auth;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses;
 using LearningManagementSystemTeamC.Application.Modules;
@@ -10,7 +11,6 @@ using LearningManagementSystemTeamC.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using LearningManagementSystemTeamC.Application.Activities;
 
 namespace LearningManagementSystemTeamC.Infrastructure;
 
@@ -32,6 +32,7 @@ public static class DependencyInjection
         services.AddScoped<IActivityRepository, ActivityRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
+        services.AddScoped<IUserInfoRepository, UserInfoRepository>();
         return services;
     }
 }
