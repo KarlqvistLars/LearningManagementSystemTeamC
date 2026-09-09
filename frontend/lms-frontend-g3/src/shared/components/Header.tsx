@@ -9,8 +9,8 @@ export function Header() {
   const initial = user?.firstName?.charAt(0).toUpperCase();
 
   return (
-    <header className="h-16 bg-menu">
-      <div className="mx-auto flex h-full items-center justify-between px-6">
+    <header className="px-6 py-1 bg-menu border border-border">
+      <div className="mx-auto flex h-full items-center justify-between">
         <Logo />
 
         {user && (

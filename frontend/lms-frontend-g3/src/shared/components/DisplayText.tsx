@@ -3,9 +3,5 @@ interface DisplayTextProps {
 }
 
 export function DisplayText({ text }: DisplayTextProps) {
-  return (
-    <span className="text-sm text-center text-primary-display-text">
-      {text}
-    </span>
-  );
+  return <span className="text-lg text-primary-display-text">{text}</span>;
 }
