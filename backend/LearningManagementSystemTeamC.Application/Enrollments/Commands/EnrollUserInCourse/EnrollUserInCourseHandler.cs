@@ -38,6 +38,10 @@ public class EnrollUserInCourseHandler : IEnrollUserInCourseHandler
         var course = await _courseRepository.GetByIdAsync(command.CourseId, cancellationToken) ??
             throw new NotFoundException(CourseRules.CourseNotFoundCode, CourseRules.CourseNotFoundMessage);
 
+        var existingEnrollment = await _enrollmentRepository.GetByUserIdAndCourseIdAsync(command.UserId, command.CourseId, cancellationToken);
+        if (existingEnrollment != null)
+            throw new ConflictException(EnrollmentRules.UserAlreadyEnrolledCode, EnrollmentRules.UserAlreadyEnrolledMessage);
+
         var enrollment = new Enrollment(command.UserId, command.CourseId);
 
         await _enrollmentRepository.AddAsync(enrollment, cancellationToken);

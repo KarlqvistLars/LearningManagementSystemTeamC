@@ -37,5 +37,11 @@ namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories
                 .Where(e => e.UserId == userId)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<Enrollment?> GetByUserIdAndCourseIdAsync(Guid userId, Guid courseId, CancellationToken cancellationToken)
+        {
+            return await _context.Enrollments
+                .FirstOrDefaultAsync(e => e.UserId == userId && e.CourseId == courseId, cancellationToken);
+        }
     }
 }
