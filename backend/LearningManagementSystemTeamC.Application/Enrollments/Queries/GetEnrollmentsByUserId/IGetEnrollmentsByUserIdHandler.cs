@@ -4,5 +4,5 @@ namespace LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrol
 
 public interface IGetEnrollmentsByUserIdHandler
 {
-    Task<IEnumerable<CourseDto>> Handle(GetEnrollmentsByUserIdQuery query, CancellationToken cancellationToken);
+    Task<IEnumerable<EnrollmentDto>> Handle(GetEnrollmentsByUserIdQuery query, CancellationToken cancellationToken);
 }

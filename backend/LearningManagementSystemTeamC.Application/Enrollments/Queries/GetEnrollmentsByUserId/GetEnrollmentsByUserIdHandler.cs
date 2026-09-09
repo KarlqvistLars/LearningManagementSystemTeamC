@@ -23,7 +23,7 @@ public class GetEnrollmentsByUserIdHandler : IGetEnrollmentsByUserIdHandler
         _userRepository = userRepository;
     }
 
-    public async Task<IEnumerable<CourseDto>> Handle(GetEnrollmentsByUserIdQuery query, CancellationToken cancellationToken)
+    public async Task<IEnumerable<EnrollmentDto>> Handle(GetEnrollmentsByUserIdQuery query, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(query.UserId, cancellationToken);
         if (user == null)
@@ -39,9 +39,7 @@ public class GetEnrollmentsByUserIdHandler : IGetEnrollmentsByUserIdHandler
                 UserRules.AccountNotAvailableMessage);
         }
 
-        var result = await _enrollmentRepository.GetByUserIdAsync(query.UserId, cancellationToken);
-        var enrolledCourses = result.Select(e => e.CourseId).ToList();
-        var courses = await _courseRepository.GetCoursesByIdsAsync(enrolledCourses, cancellationToken);
-        return courses.Select(c => CourseMapper.CourseToDto(c));
+        var enrollments = await _enrollmentRepository.GetByUserIdAsync(query.UserId, cancellationToken);
+        return enrollments.Select(e => EnrollmentMapper.EnrollmentToDto(e));
     }
 }
