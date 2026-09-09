@@ -1,7 +1,7 @@
 import type { Course } from "../types";
 import { CourseSummaryCard } from "./courseSummaryCard";
 import { useState, Suspense, useEffect } from "react";
-import { fetchCourses } from "../api/courses";
+import { fetchCourses, fetchCoursesByStudent } from "../api/courses";
 import type { User } from "../../users/types";
 import ROLES from "../../auth/roleConstants";
 
@@ -16,7 +16,9 @@ export function CourseList() {
   useEffect(() => {
     async function loadCourses() {
       try {
-        const coursesFetched = isTeacher ? await fetchCourses() : [];
+        const coursesFetched = isTeacher
+          ? await fetchCourses()
+          : await fetchCoursesByStudent(user?.id || "");
         setCourses(coursesFetched);
       } catch (error) {
         console.error(error);

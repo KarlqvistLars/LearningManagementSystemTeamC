@@ -10,3 +10,12 @@ export async function fetchCourses(): Promise<Course[]> {
 
     return result.data;
 }
+
+export async function fetchCoursesByStudent(studentId: string): Promise<Course[]> {
+    const result: ApiResponse<Course[]> = await apiFetch<Course[]>(`/student/${studentId}/courses`);
+    if (!result.success) {
+        throw new Error(result.error?.message || "Failed to fetch courses");
+    }
+
+    return result.data;
+}

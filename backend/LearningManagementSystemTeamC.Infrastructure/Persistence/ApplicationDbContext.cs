@@ -5,6 +5,7 @@ using LearningManagementSystemTeamC.Domain.Roles;
 using LearningManagementSystemTeamC.Domain.UserInfos;
 using LearningManagementSystemTeamC.Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using LearningManagementSystemTeamC.Domain.Enrollments;
 
 namespace LearningManagementSystemTeamC.Infrastructure.Persistence;
 
@@ -21,7 +22,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserInfo> UserInfos => Set<UserInfo>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<Module> Modules => Set<Module>();
+    public DbSet<Enrollment> Enrollments => Set<Enrollment>();
     public DbSet<Activity> Activities => Set<Activity>();
+    public DbSet<Enrollment> Enrollments => Set<Enrollment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
