@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
+using LearningManagementSystemTeamC.Application.Courses.Queries.GetCoursesByIdRange;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 using Microsoft.AspNetCore.Mvc;
@@ -67,21 +68,28 @@ public class CoursesControllerTests
     }
 
     [Fact]
-    public async Task Get_EnrollmentsByUserId_ReturnsOkResult()
+    public async Task Get_CoursesByUserEnrollments_ReturnsOkResult()
     {
         // Arrange
         var mockGetEnrollmentsByUserIdHandler = new Mock<IGetEnrollmentsByUserIdHandler>();
+        var mockGetCoursesByIdRangeHandler = new Mock<IGetCoursesByIdRangeHandler>();
         var userId = Guid.NewGuid();
-        var courses = new List<CourseDto>
+        var course = new CourseDto(Guid.NewGuid(), "Test Course", "A description.", DateTime.Parse("2024-06-01"), DateTime.Parse("2024-06-30"));
+        var enrollments = new List<EnrollmentDto>
         {
-            new(Guid.NewGuid(), "Test Course", "A description.", DateTime.Parse("2024-06-01"), DateTime.Parse("2024-06-30"))
+            new(userId, course.Id, DateTime.Now)
         };
         mockGetEnrollmentsByUserIdHandler
             .Setup(handler => handler.Handle(It.IsAny<GetEnrollmentsByUserIdQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(courses);
+            .ReturnsAsync(enrollments);
+        mockGetCoursesByIdRangeHandler
+            .Setup(handler => handler.Handle(It.IsAny<GetCoursesByIdRangeQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<CourseDto> { course });
         var controller = new CoursesController();
+        
         // Act
-        var result = await controller.GetCoursesByUserId(userId, mockGetEnrollmentsByUserIdHandler.Object, CancellationToken.None);
+        var result = await controller.GetCoursesByUserId(userId, mockGetEnrollmentsByUserIdHandler.Object, mockGetCoursesByIdRangeHandler.Object, CancellationToken.None);
+        
         // Assert
         var okObjectResult = Assert.IsType<OkObjectResult>(result);
         var returnValue = Assert.IsType<ApiResponse<IEnumerable<CourseDto>>>(okObjectResult.Value);

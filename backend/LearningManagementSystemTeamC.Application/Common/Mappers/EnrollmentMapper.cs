@@ -10,4 +10,10 @@ public static class EnrollmentMapper
             enrollment.UserId,
             enrollment.EnrolledAt,
             name);
+
+    public static EnrollmentDto EnrollmentToDto(Enrollment enrollment) =>
+        new EnrollmentDto(
+            enrollment.UserId,
+            enrollment.CourseId,
+            enrollment.EnrolledAt);
 }

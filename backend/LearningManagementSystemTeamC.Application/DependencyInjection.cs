@@ -1,17 +1,18 @@
-﻿using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
+﻿using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
-using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Courses.Queries.GetCoursesByIdRange;
+using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
+using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using Microsoft.Extensions.DependencyInjection;
-using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
-using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 
 namespace LearningManagementSystemTeamC.Application;
 
@@ -33,6 +34,7 @@ public static class DependencyInjection
         services.AddScoped<ILoginHandler, LoginHandler>();
         services.AddScoped<IEnrollUserInCourseHandler, EnrollUserInCourseHandler>();
         services.AddScoped<IGetEnrollmentsByUserIdHandler, GetEnrollmentsByUserIdHandler>();
+        services.AddScoped<IGetCoursesByIdRangeHandler, GetCoursesByIdRangeHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();

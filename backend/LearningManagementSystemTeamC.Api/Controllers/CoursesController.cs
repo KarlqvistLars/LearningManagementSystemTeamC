@@ -5,6 +5,7 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
+using LearningManagementSystemTeamC.Application.Courses.Queries.GetCoursesByIdRange;
 using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
@@ -70,13 +71,16 @@ public class CoursesController : ControllerBase
     }
 
     [HttpGet("~/api/student/{userId}/courses")]
-    public async Task<IActionResult> GetCoursesByUserId(Guid userId, [FromServices] IGetEnrollmentsByUserIdHandler getCoursesByUserIdHandler, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCoursesByUserId(Guid userId, [FromServices] IGetEnrollmentsByUserIdHandler getEnrollmentsByUserIdHandler, [FromServices] IGetCoursesByIdRangeHandler getCoursesByIdRangeHandler, CancellationToken cancellationToken)
     {
-        var courses = await getCoursesByUserIdHandler.Handle(new GetEnrollmentsByUserIdQuery(userId), cancellationToken);
-        if (!courses.Any())
+        var enrollments = await getEnrollmentsByUserIdHandler.Handle(new GetEnrollmentsByUserIdQuery(userId), cancellationToken);
+        if (!enrollments.Any())
         {
             return NotFound(ApiResponse<IEnumerable<CourseDto>>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
         }
+
+        var courseIds = enrollments.Select(e => e.CourseId);
+        var courses = await getCoursesByIdRangeHandler.Handle(new GetCoursesByIdRangeQuery(courseIds), cancellationToken);
         return Ok(ApiResponse<IEnumerable<CourseDto>>.Ok(courses));
     }
 
