@@ -6,7 +6,7 @@ namespace LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 public class RegisterUserValidator : IValidator<RegisterUserCommand>
 {
     public Dictionary<string, string[]> Validate(
-    RegisterUserCommand command)
+        RegisterUserCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 
@@ -19,6 +19,16 @@ public class RegisterUserValidator : IValidator<RegisterUserCommand>
             command.Password,
             errors,
             nameof(command.Password));
+
+        UserValidation.ValidateFirstName(
+            command.FirstName,
+            errors,
+            nameof(command.FirstName));
+
+        UserValidation.ValidateLastName(
+            command.LastName,
+            errors,
+            nameof(command.LastName));
 
         return errors;
     }

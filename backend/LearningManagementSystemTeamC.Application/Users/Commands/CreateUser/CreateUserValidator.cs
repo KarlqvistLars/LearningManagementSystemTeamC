@@ -6,7 +6,7 @@ namespace LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 public class CreateUserValidator : IValidator<CreateUserCommand>
 {
     public Dictionary<string, string[]> Validate(
-       CreateUserCommand command)
+        CreateUserCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 
@@ -24,6 +24,16 @@ public class CreateUserValidator : IValidator<CreateUserCommand>
             command.RoleId,
             errors,
             nameof(command.RoleId));
+
+        UserValidation.ValidateFirstName(
+            command.FirstName,
+            errors,
+            nameof(command.FirstName));
+
+        UserValidation.ValidateLastName(
+            command.LastName,
+            errors,
+            nameof(command.LastName));
 
         return errors;
     }
