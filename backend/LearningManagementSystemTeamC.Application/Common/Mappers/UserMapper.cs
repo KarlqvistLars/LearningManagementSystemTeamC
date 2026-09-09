@@ -6,8 +6,8 @@ namespace LearningManagementSystemTeamC.Application.Common.Mappers;
 
 public class UserMapper
 {
-    public static UserDto ToDto(User user, Role role)
+    public static UserDto ToDto(User user, Role role, string firstName, string lastName)
     {
-        return new UserDto(user.Id, user.Email, role.Id, role.Name);
+        return new UserDto(user.Id, user.Email, firstName, lastName, role.Id, role.Name);
     }
 }

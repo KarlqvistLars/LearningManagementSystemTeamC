@@ -12,16 +12,17 @@ import { ProtectedRoute } from "../routes/ProtectedRoute";
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-
-      <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<MainPage />} />
-
-          <Route path="courses" element={<CoursePage />} />
-          <Route path="modules/:moduleId/activities" element={<ModuleActivitiesPage />} />
-        </Route>
+      <Route element={<MainLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/courses" element={<CoursePage />} />
+          <Route
+            path="/modules/:moduleId/activities"
+            element={<ModuleActivitiesPage />}
+          />
+        </Route>{" "}
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

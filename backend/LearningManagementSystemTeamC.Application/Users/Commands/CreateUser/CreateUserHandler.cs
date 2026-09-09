@@ -78,6 +78,8 @@ public class CreateUserHandler : ICreateUserHandler
 
         return UserMapper.ToDto(
             user,
-            existingRole);
+            existingRole,
+            firstName,
+            lastName);
     }
 }

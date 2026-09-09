@@ -78,6 +78,8 @@ public class RegisterUserHandler : IRegisterUserHandler
 
         return UserMapper.ToDto(
             user,
-            studentRole);
+            studentRole,
+            firstName,
+            lastName);
     }
 }

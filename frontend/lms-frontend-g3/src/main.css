@@ -17,6 +17,12 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  --color-background: #141720;
+  --color-menu: #19383A;
+  --color-primary: #F0A04B;
+  --color-primary-text: #000000;
+  --color-teal: #6FD3D1;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;

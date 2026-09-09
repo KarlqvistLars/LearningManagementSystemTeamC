@@ -1,39 +1,29 @@
-import { NavLink } from "react-router";
+import { Link } from "react-router";
+import { Logo } from "../../shared/components/Logo";
+import { useAuth } from "../../features/auth/AuthContext";
 
-export function Header() {
-  const linkClasses = ({ isActive }: { isActive: boolean }) =>
-    [
-      "rounded px-3 py-2 transition",
-      isActive
-        ? "bg-slate-800 text-white"
-        : "text-slate-700 hover:bg-slate-200",
-    ].join(" ");
+export default function Header() {
+  const { user } = useAuth();
+
+  const initial = user?.firstName?.charAt(0).toUpperCase();
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow">
-      <nav
-        className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4"
-        aria-label="Huvudmeny"
-      >
-        <ul className="flex gap-3">
-          <li>
-            <NavLink to="/" end className={linkClasses}>
-              Hem
-            </NavLink>
-          </li>
+    <header className="h-16 bg-[#141720]">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
+        <Logo />
 
-          <li>
-            <NavLink to="/courses" className={linkClasses}>
-              Kurser
-            </NavLink>
-          </li>
-          {/* <li>
-            <NavLink to="/login" className={linkClasses}>
-              Login
-            </NavLink>
-          </li> */}
-        </ul>
-      </nav>
+        {user && (
+          <Link to="/profile" className="flex items-center gap-3 text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F0A04B] font-semibold text-[#141720]">
+              {initial}
+            </div>
+
+            <span className="text-sm font-medium">
+              {user.firstName} {user.lastName}
+            </span>
+          </Link>
+        )}
+      </div>
     </header>
   );
 }
