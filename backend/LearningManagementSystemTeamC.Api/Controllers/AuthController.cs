@@ -51,4 +51,19 @@ public class AuthController : ControllerBase
 
         return Ok(ApiResponse<LoginResultDto>.Ok(result));
     }
+
+    [HttpPost("test-email")]
+    public async Task<IActionResult> TestEmail(
+    [FromBody] string email,
+    [FromServices] IEmailService emailService,
+    CancellationToken cancellationToken)
+    {
+        await emailService.SendAsync(
+            email,
+            "LMS SMTP Test",
+            "This is a test email from the LMS.",
+            cancellationToken);
+
+        return Ok(ApiResponse<string>.Ok("Email sent successfully."));
+    }
 }
