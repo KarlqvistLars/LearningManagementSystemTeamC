@@ -3,6 +3,10 @@
 @theme {
   --color-background: #0D0F14;
   --color-menu: #141720;
+  --color-form-input: #1C2030;
+  --color-error: #F87171;
+
+  --color-border: #2A3040;
 
   --color-primary: #F0A04B;
   --color-primary-title-text: #FFFFFF;

@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate, useNavigate, Link } from "react-router";
 
 import { useAuth } from "../../auth/AuthContext";
 import { AuthTabs } from "../../auth/components/AuthTabs";
+import { FormTitle } from "../../../shared/components/FormTitle";
+import { DisplayText } from "../../../shared/components/DisplayText";
+import { FormLabel } from "../../../shared/components/FormLabel";
+import { FormInput } from "../../../shared/components/FormInput";
+import { FormButton } from "../../../shared/components/FormButton";
 
 export function LoginPage() {
   const { login, isAuthenticated } = useAuth();
@@ -40,70 +45,65 @@ export function LoginPage() {
   }
 
   return (
-    <section className="flex-1 px-6 py-20">
-      <div className="mx-auto w-full max-w-md">
+    <section className="flex flex-1 items-center justify-center px-6 py-20">
+      <div className="mx-auto w-full max-w-md flex flex-col gap-8">
         <AuthTabs active="login" />
 
-        <div className="mt-8">
-          <h1 className="mb-2 text-center text-4xl font-bold text-black">
-            Login
-          </h1>
+        <div className="flex flex-col gap-3 px-10 py-10 bg-menu rounded-lg border border-border">
+          <div className="flex flex-col gap-2">
+            <FormTitle title="Welcome back" />
+            <DisplayText text="Sign in to your account" />
+          </div>
 
-          <p className="text-center text-lg text-black">
-            Här placeras inloggningsformuläret.
-          </p>
+          <div className="min-h-5">
+            {error && <p className="text-sm text-error">{error}</p>}
+          </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="mt-6 flex w-full flex-col gap-4"
-          >
+          <form onSubmit={handleSubmit} className="flex w-full flex-col gap-10">
             <div>
-              <label
-                htmlFor="email"
-                className="mb-1 block text-sm font-medium text-black"
-              >
-                Email
-              </label>
+              <div className="text-primary-display-text">
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormInput
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  required
+                />
+              </div>
 
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-                className="w-full rounded-md bg-white px-4 py-2 text-black"
-              />
+              <div className="text-primary-display-text">
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormInput
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="mb-1 block text-sm font-medium text-black"
+            <div className="flex flex-col gap-3">
+              <FormButton
+                type="submit"
+                disabled={isLoading}
+                className="bg-primary text-black"
               >
-                Password
-              </label>
+                {isLoading ? "Logging in..." : "Login"}
+              </FormButton>
 
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                className="w-full rounded-md bg-white px-4 py-2 text-black"
-              />
+              <Link
+                to="/forgot-password"
+                className="self-center text-sm text-primary-display-text hover:text-primary"
+              >
+                Forgot password?
+              </Link>
             </div>
-
-            {error && <p className="text-sm text-red-600">{error}</p>}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="cursor-pointer rounded-md bg-primary px-4 py-2 font-medium text-black hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isLoading ? "Logging in..." : "Login"}
-            </button>
           </form>
         </div>
       </div>
