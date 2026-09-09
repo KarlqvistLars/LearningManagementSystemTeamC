@@ -32,6 +32,21 @@ public class User
         CreatedAt = DateTime.UtcNow;
     }
 
+    public void UpdateEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            throw new DomainException(
+                UserRules.EmailRequiredCode,
+                UserRules.EmailRequiredMessage);
+
+        if (email.Length > UserRules.EmailMaxLength)
+            throw new DomainException(
+                UserRules.EmailTooLongCode,
+                UserRules.EmailTooLongMessage(UserRules.EmailMaxLength));
+
+        Email = email;
+    }
+
     private static void Validate(
         string email,
         string passwordHash,

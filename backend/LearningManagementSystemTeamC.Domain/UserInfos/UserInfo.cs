@@ -33,12 +33,20 @@ public class UserInfo
     }
 
     public void UpdateProfile(
+        string firstName,
+        string lastName,
         DateTime? dateOfBirth,
         string? phoneNumber,
         string? address,
         string? postalCode,
         string? city)
     {
+        ValidateName(
+            firstName,
+            lastName);
+
+        FirstName = firstName;
+        LastName = lastName;
         DateOfBirth = dateOfBirth;
         PhoneNumber = phoneNumber;
         Address = address;
@@ -56,6 +64,15 @@ public class UserInfo
                 UserInfoRules.UserIdRequiredCode,
                 UserInfoRules.UserIdRequiredMessage);
 
+        ValidateName(
+            firstName,
+            lastName);
+    }
+
+    private static void ValidateName(
+        string firstName,
+        string lastName)
+    {
         if (string.IsNullOrWhiteSpace(firstName))
             throw new DomainException(
                 UserInfoRules.FirstNameRequiredCode,
