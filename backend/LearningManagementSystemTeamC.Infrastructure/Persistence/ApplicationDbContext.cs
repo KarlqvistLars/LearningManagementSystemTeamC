@@ -1,4 +1,5 @@
 using LearningManagementSystemTeamC.Domain.Activities;
+using LearningManagementSystemTeamC.Domain.ActivityResources;
 using LearningManagementSystemTeamC.Domain.Courses;
 using LearningManagementSystemTeamC.Domain.Modules;
 using LearningManagementSystemTeamC.Domain.Roles;
@@ -22,7 +23,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<Module> Modules => Set<Module>();
     public DbSet<Activity> Activities => Set<Activity>();
-
+    public DbSet<ActivityResource> ActivityResources => Set<ActivityResource>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(

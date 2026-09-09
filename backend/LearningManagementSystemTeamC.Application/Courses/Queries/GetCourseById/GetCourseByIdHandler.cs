@@ -12,7 +12,9 @@ public class GetCourseByIdHandler : IGetCourseByIdHandler
         _courseRepository = courseRepository;
     }
 
-    public async Task<CourseDto?> Handle(GetCourseByIdQuery query, CancellationToken cancellationToken)
+    public async Task<CourseDto?> Handle(
+        GetCourseByIdQuery query,
+        CancellationToken cancellationToken)
     {
         var result = await _courseRepository.GetByIdAsync(query.Id, cancellationToken);
         return result == null ? null : CourseMapper.CourseToDto(result);

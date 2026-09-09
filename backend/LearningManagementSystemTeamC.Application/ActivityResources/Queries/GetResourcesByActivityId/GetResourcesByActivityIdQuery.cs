@@ -1,0 +1,3 @@
+﻿namespace LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
+
+public record GetResourcesByActivityIdQuery(Guid ActivityId);
