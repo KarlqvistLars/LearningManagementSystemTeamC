@@ -50,8 +50,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModuleId");
-
                     b.ToTable("Activities");
                 });
 
@@ -115,15 +113,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Modules");
-                });
-
-modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", b =>
-                {
-                    b.HasOne("LearningManagementSystemTeamC.Domain.Modules.Module", null)
-                        .WithMany()
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Roles.Role", b =>
