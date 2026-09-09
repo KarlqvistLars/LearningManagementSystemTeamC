@@ -6,7 +6,7 @@ namespace LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 public class RegisterUserValidator : IValidator<RegisterUserCommand>
 {
     public Dictionary<string, string[]> Validate(
-        RegisterUserCommand command)
+        RegisterUserCommand command, CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 

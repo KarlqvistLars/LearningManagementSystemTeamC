@@ -23,7 +23,7 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserCommand command, [FromServices] ICreateUserHandler createUserHandler, [FromServices] IValidator<CreateUserCommand> createUserValidator, CancellationToken cancellationToken)
     {
-        var details = createUserValidator.Validate(command);
+        var details = createUserValidator.Validate(command, cancellationToken);
 
         if (details.Count > 0)
             return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
@@ -52,12 +52,11 @@ public class UsersController : ControllerBase
         [FromServices] IValidator<UpdateUserCommand> updateUserValidator,
         CancellationToken cancellationToken)
     {
-        var commandWithId = command with
-        {
+        var commandWithId = command with {
             UserId = id
         };
 
-        var details = updateUserValidator.Validate(commandWithId);
+        var details = updateUserValidator.Validate(commandWithId, cancellationToken);
 
         if (details.Count > 0)
             return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(

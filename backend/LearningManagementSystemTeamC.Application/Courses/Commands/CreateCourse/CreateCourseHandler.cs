@@ -39,6 +39,11 @@ public class CreateCourseHandler : ICreateCourseHandler
         await _unitOfWork.SaveChangesAsync(
             cancellationToken);
 
-        return new CourseDto(course.Id, course.CourseName, course.Description, course.StartDate, course.EndDate);
+        return new CourseDto(
+            course.Id,
+            course.CourseName,
+            course.Description,
+            course.StartDate,
+            course.EndDate);
     }
 }
