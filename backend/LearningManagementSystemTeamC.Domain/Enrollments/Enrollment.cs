@@ -6,7 +6,7 @@ public class Enrollment
     public Guid UserId { get; private set; }
     public Guid CourseId { get; private set; }
     public DateTime EnrolledAt { get; private set; }
-    public bool IsActive { get; private set; } = false;
+    public bool IsActive { get; private set; } = true;
     public Enrollment(Guid userId, Guid courseId)
     {
         Id = Guid.NewGuid();
