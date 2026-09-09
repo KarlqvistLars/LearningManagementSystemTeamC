@@ -16,14 +16,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
-//[Authorize(Roles = RoleRules.DefaultRoleCode)]
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
 [Route("api/courses")]
 public class CoursesController : ControllerBase
 {
     public CoursesController() { }
 
     [HttpGet]
-    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
+    [Authorize(Roles = RoleRules.TeacherRoleCode)]
     public async Task<IActionResult> GetAll([FromServices] IGetCoursesHandler getCoursesHandler, CancellationToken cancellationToken)
     {
         var courses = await getCoursesHandler.Handle(cancellationToken);
@@ -42,7 +42,7 @@ public class CoursesController : ControllerBase
     }
 
     [HttpPost]
-    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Create(
         CreateCourseCommand command,
         [FromServices] ICreateCourseHandler createCourseHandler,
@@ -85,7 +85,7 @@ public class CoursesController : ControllerBase
     }
 
     [HttpGet("{courseId}/enrollments")]
-    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> GetEnrollmentsByCourseId(Guid courseId, [FromServices] IGetEnrollmentsByCourseIdHandler getEnrollmentsByCourseIdHandler, CancellationToken cancellationToken)
     {
         var enrollments = await getEnrollmentsByCourseIdHandler.Handle(new GetEnrollmentsByCourseIdQuery(courseId), cancellationToken);
@@ -97,7 +97,7 @@ public class CoursesController : ControllerBase
     }
 
     [HttpPost("{courseId}/enroll/{userId}")]
-    //[Authorize(Roles = RoleRules.TeacherRoleCode)]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> EnrollUserInCourse(Guid courseId, Guid userId, [FromServices] IEnrollUserInCourseHandler enrollUserInCourseHandler, CancellationToken cancellationToken)
     {
         var enrollment = await enrollUserInCourseHandler.Handle(new EnrollUserInCourseCommand(userId, courseId), cancellationToken);
