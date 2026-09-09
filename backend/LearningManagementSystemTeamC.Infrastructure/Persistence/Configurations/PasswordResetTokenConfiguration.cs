@@ -1,4 +1,5 @@
-﻿using LearningManagementSystemTeamC.Domain.PasswordResetTokens;
+﻿using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
+using LearningManagementSystemTeamC.Domain.PasswordResetTokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,7 +16,7 @@ public class PasswordResetTokenConfiguration : IEntityTypeConfiguration<Password
 
         builder.Property(x => x.TokenHash)
             .IsRequired()
-            .HasMaxLength(64);
+            .HasMaxLength(ForgotPasswordRules.TokenHashMaxSize);
 
         builder.Property(x => x.ExpiresAt)
             .IsRequired();

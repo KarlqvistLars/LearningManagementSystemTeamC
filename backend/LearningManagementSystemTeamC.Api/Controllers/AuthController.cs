@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
@@ -52,18 +53,30 @@ public class AuthController : ControllerBase
         return Ok(ApiResponse<LoginResultDto>.Ok(result));
     }
 
-    [HttpPost("test-email")]
-    public async Task<IActionResult> TestEmail(
-    [FromBody] string email,
-    [FromServices] IEmailService emailService,
-    CancellationToken cancellationToken)
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword(
+        ForgotPasswordCommand command,
+        [FromServices] IForgotPasswordHandler forgotPasswordHandler,
+        [FromServices] IValidator<ForgotPasswordCommand> forgotPasswordValidator,
+        CancellationToken cancellationToken)
     {
-        await emailService.SendAsync(
-            email,
-            "LMS SMTP Test",
-            "This is a test email from the LMS.",
+        var details = forgotPasswordValidator.Validate(command);
+
+        if (details.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    details));
+        }
+
+        await forgotPasswordHandler.HandleAsync(
+            command,
             cancellationToken);
 
-        return Ok(ApiResponse<string>.Ok("Email sent successfully."));
+        return Ok(
+            ApiResponse<string>.Ok(
+                "If an account exists with this email, a reset link has been sent."));
     }
 }

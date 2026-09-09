@@ -26,8 +26,16 @@ public static class DependencyInjection
             options.UseSqlServer(config.GetConnectionString("Default"))
         );
 
-        services.Configure<SmtpSettings>(
-            config.GetSection("Smtp"));
+        services.Configure<BrevoSettings>(
+            config.GetSection("Brevo"));
+
+        services.AddHttpClient<IEmailService, BrevoEmailService>(client =>
+        {
+            client.BaseAddress = new Uri("https://api.brevo.com/");
+            client.DefaultRequestHeaders.Add(
+                "api-key",
+                config["Brevo:ApiKey"]);
+        });
 
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
@@ -39,7 +47,6 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
         services.AddScoped<IUserInfoRepository, UserInfoRepository>();
-        services.AddScoped<IEmailService, SmtpEmailService>();
         services.AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>();
         services.AddScoped<IPasswordResetTokenService, PasswordResetTokenService>();
         return services;

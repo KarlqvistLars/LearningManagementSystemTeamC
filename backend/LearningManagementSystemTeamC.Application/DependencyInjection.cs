@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
@@ -38,6 +39,7 @@ public static class DependencyInjection
         services.AddScoped<IGetEnrollmentsByUserIdHandler, GetEnrollmentsByUserIdHandler>();
         services.AddScoped<IGetCoursesByIdRangeHandler, GetCoursesByIdRangeHandler>();
         services.AddScoped<IUpdateUserHandler, UpdateUserHandler>();
+        services.AddScoped<IForgotPasswordHandler, ForgotPasswordHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
@@ -45,6 +47,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserValidator>();
+        services.AddScoped<IValidator<ForgotPasswordCommand>, ForgotPasswordValidator>();
 
         return services;
     }
