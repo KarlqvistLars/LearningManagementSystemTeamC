@@ -19,7 +19,7 @@ namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories
             await _context.Enrollments.AddAsync(enrollment, cancellationToken);
         }
 
-        public async Task DeleteAsync(Enrollment enrollment, CancellationToken cancellationToken)
+        public void DeleteAsync(Enrollment enrollment, CancellationToken cancellationToken)
         {
             _context.Enrollments.Remove(enrollment);
         }
