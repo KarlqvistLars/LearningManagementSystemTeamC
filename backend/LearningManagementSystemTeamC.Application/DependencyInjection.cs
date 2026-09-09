@@ -1,12 +1,13 @@
-﻿using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
+﻿using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
-using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
+using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,12 +28,14 @@ public static class DependencyInjection
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IGetModuleHandler, GetModuleHandler>();
         services.AddScoped<ILoginHandler, LoginHandler>();
+        services.AddScoped<IUpdateUserHandler, UpdateUserHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserValidator>();
         services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
+        services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserValidator>();
 
         return services;
     }
