@@ -6,7 +6,7 @@ using LearningManagementSystemTeamC.Domain.Activities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace LearningManagementSystemTeamC.UnitTests.Controllers;
+namespace LearningManagementSystemTeamC.UnitTests.Activities;
 
 public class ActivitiesControllerTests
 {
