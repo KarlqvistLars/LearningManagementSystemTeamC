@@ -2,14 +2,9 @@ import type { Module } from "../types";
 import { ModuleSummaryCard } from "./moduleSummaryCard";
 import { fetchModules } from "../api/modules";
 import { useEffect, useState } from "react"
-import type { User } from "../../users/types";
-import ROLES from "../../auth/roleConstants";
+import { useAuth } from "../../auth/AuthContext";
 
 
-const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-const role = user?.roleName;
-const isTeacher = role === ROLES.TEACHER;
-const isStudent = role === ROLES.STUDENT;
 
 interface ModuleListProps {
     courseId: string;
@@ -20,12 +15,13 @@ interface ModuleListProps {
 export function ModuleList({ courseId, reloadList, onEditModule }: ModuleListProps){
     const [modules, setModules] = useState<Module[]>([]);
     const [error, setError] = useState<string | null>(null);
-
+    const  { isTeacher } = useAuth();
+    
     useEffect(() => {
         async function loadModules() {
             try {
                 const modulesFetched = isTeacher ? await fetchModules(courseId) : [];
-
+                
                 setModules(modulesFetched);
             } catch (error) {
                 console.error("Failed to load modules.", error);

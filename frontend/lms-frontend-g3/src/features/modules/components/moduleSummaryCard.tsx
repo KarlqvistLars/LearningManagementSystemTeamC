@@ -1,11 +1,7 @@
 import type { Module } from "../types";
 import { Link } from "react-router";
-import type { User } from "../../users/types";
-import ROLES from "../../auth/roleConstants";
+import { useAuth } from "../../auth/AuthContext";
 
-const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-const role = user?.roleName;
-const isTeacher = role === ROLES.TEACHER;
 
 interface ModuleSummaryCardProps {
   module: Module;
@@ -13,6 +9,7 @@ interface ModuleSummaryCardProps {
 }
 
 export function ModuleSummaryCard({ module, onEdit }: ModuleSummaryCardProps) {
+  const { isTeacher } = useAuth();
   return (
     <div className="w-full p-4 bg-gray-200 flex gap-4 align-items-start justify-between">
       {module && (
