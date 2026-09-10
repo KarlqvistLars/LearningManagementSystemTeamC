@@ -2,25 +2,34 @@ import { useEffect, useState } from "react";
 import { SearchInput } from "../../../shared/components/SearchInput";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { UserList } from "../components/UserList";
-import { getUsers } from "../api/userApi";
+import { deleteUser, getUsers } from "../api/userApi";
 import type { User } from "../types/types";
 
 export function UserPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState<User[]>([]);
 
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const users = await getUsers();
-        setUsers(users);
-      } catch (error) {
-        console.error(error);
-      }
+  const fetchUsers = async () => {
+    try {
+      const users = await getUsers();
+      setUsers(users);
+    } catch (error) {
+      console.error(error);
     }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
+
+  const handleDelete = async (userId: string) => {
+    try {
+      await deleteUser(userId);
+      await fetchUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const search = searchTerm.toLowerCase();
 
@@ -42,7 +51,7 @@ export function UserPage() {
         placeholder="Search users..."
       />
 
-      <UserList users={filteredUsers} />
+      <UserList users={filteredUsers} onDelete={handleDelete} />
     </section>
   );
 }

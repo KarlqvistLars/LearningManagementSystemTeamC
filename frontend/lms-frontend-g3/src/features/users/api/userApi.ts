@@ -11,3 +11,13 @@ export async function getUsers(): Promise<User[]> {
 
   return result.data;
 }
+
+export async function deleteUser(userId: string): Promise<void> {
+  const result: ApiResponse<null> = await apiFetch<null>(`/users/${userId}`, {
+    method: "DELETE",
+  });
+
+  if (!result.success) {
+    throw new Error(result.error?.message || "Failed to delete user");
+  }
+}

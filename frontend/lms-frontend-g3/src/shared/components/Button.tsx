@@ -8,11 +8,12 @@ interface ButtonProps {
   disabled?: boolean;
   variant?: ButtonVariant;
   color?: ButtonColor;
+  onClick?: () => void;
 }
 
 const buttonVariants: Record<ButtonVariant, string> = {
-  form: "w-full rounded-md px-4 py-3 font-medium",
-  list: "rounded-md px-2 py-1 text-sm",
+  form: "w-full rounded-lg px-4 py-3 font-medium",
+  list: "min-w-16 rounded-lg px-6 py-2 text-sm",
 };
 
 const buttonColors: Record<ButtonColor, string> = {
@@ -29,11 +30,13 @@ export function Button({
   disabled = false,
   variant = "form",
   color = "create",
+  onClick,
 }: ButtonProps) {
   return (
     <button
       type={type}
       disabled={disabled}
+      onClick={onClick}
       className={`cursor-pointer hover:brightness-75 disabled:cursor-not-allowed disabled:opacity-50 ${buttonVariants[variant]} ${buttonColors[color]}`}
     >
       {children}

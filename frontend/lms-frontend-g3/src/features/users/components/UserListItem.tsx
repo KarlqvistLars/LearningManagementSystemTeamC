@@ -3,12 +3,19 @@ import { ListItemField } from "../../../shared/components/ListItemField";
 import { Tag } from "../../../shared/components/Tag";
 import type { TagVariant } from "../../../shared/components/Tag";
 import { Button } from "../../../shared/components/Button";
+import { useNavigate } from "react-router";
 
 interface UserListItemProps {
   user: User;
+  onDelete: (userId: string) => void;
 }
 
-export function UserListItem({ user }: UserListItemProps) {
+export function UserListItem({ user, onDelete }: UserListItemProps) {
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    navigate(`/users/${user.id}/edit`);
+  };
+
   return (
     <div className="flex items-center rounded-xl border border-border bg-menu px-4 py-3">
       <ListItemField
@@ -30,9 +37,19 @@ export function UserListItem({ user }: UserListItemProps) {
         className="min-w-0 flex-2"
       />
 
-      <div className="flex items-center gap-1">
-        <Button children="Edit" variant="list" color="edit" />
-        <Button children="Delete" variant="list" color="delete" />
+      <div className="flex items-center gap-3">
+        <Button
+          children="Edit"
+          variant="list"
+          color="edit"
+          onClick={handleEdit}
+        />
+        <Button
+          children="Delete"
+          variant="list"
+          color="delete"
+          onClick={() => onDelete(user.id)}
+        />
       </div>
     </div>
   );
