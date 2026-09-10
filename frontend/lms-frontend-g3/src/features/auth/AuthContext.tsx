@@ -2,6 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 
 import { login as loginApi } from "./api/api";
 import type { User } from "../users/types";
+import ROLES from "./roleConstants";
 
 interface AuthContextType {
   user: User | null;
@@ -26,8 +27,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const isAuthenticated = user !== null;
-  const isTeacher = user?.roleName === "Teacher";
-  const isStudent = user?.roleName === "Student";
+  const isTeacher = user?.roleName === ROLES.TEACHER;
+  const isStudent = user?.roleName === ROLES.STUDENT;
 
   async function login(
     email: string,
