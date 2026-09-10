@@ -3,6 +3,7 @@ using LearningManagementSystemTeamC.Api.Controllers;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Domain.Activities;
+using LearningManagementSystemTeamC.Domain.Roles;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -15,6 +16,8 @@ public class ActivitiesControllerTests
     {
         // Arrange
         var moduleId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var role = RoleRules.TeacherRoleCode;
 
         var activities = new List<ActivityDto>
         {
@@ -38,7 +41,7 @@ public class ActivitiesControllerTests
         var controller = new ActivitiesController();
 
         // Act
-        var result = await controller.GetByModule(moduleId, mockHandler.Object, CancellationToken.None);
+        var result = await controller.GetByModule(moduleId, userId, role, mockHandler.Object, CancellationToken.None);
 
         // Assert
         var okObjectResult = Assert.IsType<OkObjectResult>(result);
@@ -51,6 +54,8 @@ public class ActivitiesControllerTests
     {
         // Arrange
         var moduleId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var role = RoleRules.TeacherRoleCode;
 
         var mockHandler = new Mock<IGetActivitiesByModuleIdHandler>();
         mockHandler
@@ -62,7 +67,7 @@ public class ActivitiesControllerTests
         var controller = new ActivitiesController();
 
         // Act
-        var result = await controller.GetByModule(moduleId, mockHandler.Object, CancellationToken.None);
+        var result = await controller.GetByModule(moduleId, userId, role, mockHandler.Object, CancellationToken.None);
 
         // Assert
         var okObjectResult = Assert.IsType<OkObjectResult>(result);

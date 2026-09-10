@@ -17,11 +17,13 @@ public class ActivitiesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetByModule(
         Guid moduleId,
+        Guid userId,
+        string role,
         [FromServices] IGetActivitiesByModuleIdHandler getActivitiesByModuleHandler,
         CancellationToken cancellationToken)
     {
         var activities = await getActivitiesByModuleHandler.Handle(
-            new GetActivitiesByModuleIdQuery(moduleId),
+            new GetActivitiesByModuleIdQuery(moduleId, userId, role),
             cancellationToken);
 
         return Ok(ApiResponse<IReadOnlyList<ActivityDto>>.Ok(activities));
