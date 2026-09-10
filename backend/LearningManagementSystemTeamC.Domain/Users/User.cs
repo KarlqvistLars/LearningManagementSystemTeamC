@@ -47,6 +47,16 @@ public class User
         Email = email;
     }
 
+    public void ChangePassword(string passwordHash)
+    {
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new DomainException(
+                UserRules.PasswordRequiredCode,
+                UserRules.PasswordRequiredMessage);
+
+        PasswordHash = passwordHash;
+    }
+
     private static void Validate(
         string email,
         string passwordHash,

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigate, useNavigate, Link } from "react-router";
 
-import { useAuth } from "../../auth/AuthContext";
-import { AuthTabs } from "../../auth/components/AuthTabs";
+import { useAuth } from "../AuthContext";
+import { AuthTabs } from "../components/AuthTabs";
 import { FormTitle } from "../../../shared/components/FormTitle";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormLabel } from "../../../shared/components/FormLabel";
@@ -60,7 +60,7 @@ export function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="flex w-full flex-col gap-10">
-            <div>
+            <div className="flex w-full flex-col gap-5">
               <div className="text-primary-display-text">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <FormInput
