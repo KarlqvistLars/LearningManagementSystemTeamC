@@ -26,8 +26,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const isAuthenticated = user !== null;
-  const isTeacher = user?.roleName === "TEACHER";
-  const isStudent = user?.roleName === "STUDENT";
+  const isTeacher = user?.roleName === "Teacher";
+  const isStudent = user?.roleName === "Student";
 
   async function login(
     email: string,
