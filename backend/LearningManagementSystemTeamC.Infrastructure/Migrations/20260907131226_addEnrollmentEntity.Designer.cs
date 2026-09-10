@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260908082352_init.Designer.cs
-    [Migration("20260908082352_init")]
-    partial class init
-========
     [Migration("20260907131226_addEnrollmentEntity")]
     partial class addEnrollmentEntity
->>>>>>>> origin/develop:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260907131226_addEnrollmentEntity.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,41 +24,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ActivityName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ModuleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ModuleId");
-
-                    b.ToTable("Activities");
-                });
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Courses.Course", b =>
                 {
@@ -218,13 +178,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-<<<<<<<< HEAD:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260908082352_init.Designer.cs
-            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", b =>
-                {
-                    b.HasOne("LearningManagementSystemTeamC.Domain.Modules.Module", null)
-                        .WithMany()
-                        .HasForeignKey("ModuleId")
-========
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Enrollments.Enrollment", b =>
                 {
                     b.HasOne("LearningManagementSystemTeamC.Domain.Courses.Course", null)
@@ -236,7 +189,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.HasOne("LearningManagementSystemTeamC.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
->>>>>>>> origin/develop:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260907131226_addEnrollmentEntity.Designer.cs
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

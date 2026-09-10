@@ -103,26 +103,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260908082352_init.cs
-                name: "Activities",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ActivityName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModuleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Activities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Activities_Modules_ModuleId",
-                        column: x => x.ModuleId,
-                        principalTable: "Modules",
-========
                 name: "Enrollments",
                 columns: table => new
                 {
@@ -169,17 +149,11 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         name: "FK_UserInfos_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
->>>>>>>> origin/develop:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260909134621_NewInitial.cs
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-<<<<<<<< HEAD:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260908082352_init.cs
-                name: "IX_Activities_ModuleId",
-                table: "Activities",
-                column: "ModuleId");
-========
                 name: "IX_Enrollments_CourseId",
                 table: "Enrollments",
                 column: "CourseId");
@@ -188,7 +162,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 name: "IX_Enrollments_UserId",
                 table: "Enrollments",
                 column: "UserId");
->>>>>>>> origin/develop:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260909134621_NewInitial.cs
 
             migrationBuilder.CreateIndex(
                 name: "IX_Modules_CourseId",
@@ -224,30 +197,24 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Activities");
-<<<<<<<< HEAD:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260908082352_init.cs
-========
 
             migrationBuilder.DropTable(
                 name: "Enrollments");
 
             migrationBuilder.DropTable(
                 name: "Modules");
->>>>>>>> origin/develop:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260909134621_NewInitial.cs
 
             migrationBuilder.DropTable(
                 name: "UserInfos");
 
             migrationBuilder.DropTable(
-                name: "Modules");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Courses");
         }
     }
 }

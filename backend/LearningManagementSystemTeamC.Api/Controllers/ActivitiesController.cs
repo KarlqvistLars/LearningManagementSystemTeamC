@@ -1,11 +1,14 @@
+using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
 [Route("api/modules/{moduleId}/activities")]
 public class ActivitiesController : ControllerBase
 {
