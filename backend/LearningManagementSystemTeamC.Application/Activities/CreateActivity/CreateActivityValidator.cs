@@ -2,7 +2,7 @@
 
 namespace LearningManagementSystemTeamC.Application.Activities.CreateActivity;
 
-internal class CreateActivityValidator : IValidator<CreateActivityCommand>
+public class CreateActivityValidator : IValidator<CreateActivityCommand>
 {
     public Dictionary<string, string[]> Validate(CreateActivityCommand command, CancellationToken cancellationToken)
     {

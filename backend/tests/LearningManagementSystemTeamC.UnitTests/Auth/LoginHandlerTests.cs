@@ -12,6 +12,8 @@ namespace LearningManagementSystemTeamC.UnitTests.Auth;
 
 public class LoginHandlerTests
 {
+    private readonly Mock<IUserInfoRepository> _userInfoRepositoryMock = new();
+
     [Fact]
     public async Task HandleAsync_ValidCredentials_ReturnsLoginResult()
     {
@@ -21,8 +23,7 @@ public class LoginHandlerTests
         var passwordHasher = new Mock<IPasswordHasher>();
         var jwtTokenService = new Mock<IJwtTokenService>();
 
-        var jwtSettings = Options.Create(new JwtSettings
-        {
+        var jwtSettings = Options.Create(new JwtSettings {
             ExpiresInMinutes = 60
         });
 
@@ -69,7 +70,8 @@ public class LoginHandlerTests
             roleRepository.Object,
             jwtTokenService.Object,
             jwtSettings,
-            passwordHasher.Object);
+            passwordHasher.Object,
+            _userInfoRepositoryMock.Object);
 
         var command = new LoginCommand(
             testEmail,

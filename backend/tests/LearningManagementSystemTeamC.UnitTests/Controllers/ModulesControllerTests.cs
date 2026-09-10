@@ -19,7 +19,7 @@ public class ModulesControllerTests
     private readonly Mock<ICreateModuleHandler> _mockCreateModuleHandler;
     private readonly Mock<IEditModuleHandler> _mockEditModuleHandler;
     private readonly ModulesController _controller;
-    
+
     public ModulesControllerTests()
     {
         _mockGetModuleByIdHandler = new Mock<IGetModuleByIdHandler>();
@@ -104,7 +104,7 @@ public class ModulesControllerTests
                 "A test description",
                 DateTime.Parse("2025-05-01"),
                 DateTime.Parse("2025-05-05"),
-                courseId)             
+                courseId)
         };
 
         _mockGetModulesHandler.Setup(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId),
@@ -169,7 +169,7 @@ public class ModulesControllerTests
             DateTime.Parse("2026-06-05"),
             DateTime.Parse("2026-06-10"),
             courseId);
-        
+
         var moduleDto = new ModuleDto(
             Guid.NewGuid(),
             "Test Module",
@@ -180,7 +180,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<CreateModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command)).Returns(new Dictionary<string, string[]>());
+        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(new Dictionary<string, string[]>());
         _mockCreateModuleHandler.Setup(x => x.Handle(command, It.IsAny<CancellationToken>())).ReturnsAsync(moduleDto);
 
         // Act
@@ -198,7 +198,7 @@ public class ModulesControllerTests
         Assert.Equal(moduleDto, response.Data);
 
         _mockCreateModuleHandler.Verify(x => x.Handle(command, It.IsAny<CancellationToken>()), Times.Once);
-        mockValidator.Verify(x => x.Validate(command), Times.Once);
+        mockValidator.Verify(x => x.Validate(command, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -223,7 +223,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<CreateModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command)).Returns(validationErrors);
+        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(validationErrors);
 
         // Act
         var result = await _controller.Create(command, _mockCreateModuleHandler.Object, mockValidator.Object, CancellationToken.None);
@@ -236,11 +236,11 @@ public class ModulesControllerTests
         Assert.NotNull(response);
         Assert.NotNull(response.Error);
         Assert.Equal(ExceptionConstants.ValidationFailedCode, response.Error.Code);
-        Assert.Equal(ExceptionConstants.DefaultExceptionMessage,response.Error.Message);
+        Assert.Equal(ExceptionConstants.DefaultExceptionMessage, response.Error.Message);
         Assert.Equal(validationErrors, response.Error.Details);
 
-        _mockCreateModuleHandler.Verify(x => x.Handle(It.IsAny<CreateModuleCommand>(),It.IsAny<CancellationToken>()),Times.Never);
-        mockValidator.Verify(x => x.Validate(command),Times.Once);
+        _mockCreateModuleHandler.Verify(x => x.Handle(It.IsAny<CreateModuleCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        mockValidator.Verify(x => x.Validate(command, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -257,7 +257,7 @@ public class ModulesControllerTests
             DateTime.Parse("2025-05-10"),
             DateTime.Parse("2025-10-05"),
             courseId);
-        
+
         var command = new EditModuleCommand(
             moduleDto.Id,
             "New Module Name",
@@ -265,10 +265,10 @@ public class ModulesControllerTests
             DateTime.Parse("2025-05-10"),
             DateTime.Parse("2025-10-05"),
             moduleDto.CourseId);
-        
+
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command)).Returns(new Dictionary<string, string[]>());
+        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(new Dictionary<string, string[]>());
         _mockEditModuleHandler.Setup(x => x.Handle(command, It.IsAny<CancellationToken>())).ReturnsAsync(moduleDto);
 
         // Act
@@ -286,7 +286,7 @@ public class ModulesControllerTests
         Assert.Equal(moduleDto.Description, response.Data.Description);
 
         _mockEditModuleHandler.Verify(x => x.Handle(command, It.IsAny<CancellationToken>()), Times.Once);
-       
+
     }
 
     [Fact]
@@ -296,7 +296,7 @@ public class ModulesControllerTests
         var moduleId = Guid.NewGuid();
         var courseId = Guid.NewGuid();
 
-        
+
         var command = new EditModuleCommand(
             moduleId,
             "",
@@ -309,12 +309,12 @@ public class ModulesControllerTests
         {
             {
                 "Name", new[] { "Module name is required." }
-            }  
+            }
         };
-        
+
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command)).Returns(validationErrors);
+        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(validationErrors);
 
         // Act
         var result = await _controller.Edit(command, _mockEditModuleHandler.Object, mockValidator.Object, CancellationToken.None);
@@ -325,6 +325,6 @@ public class ModulesControllerTests
         Assert.NotNull(badRequestResult.Value);
 
         _mockEditModuleHandler.Verify(x => x.Handle(command, It.IsAny<CancellationToken>()), Times.Never);
-       
+
     }
 }
