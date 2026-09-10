@@ -7,7 +7,7 @@ import { FormTitle } from "../../../shared/components/FormTitle";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormLabel } from "../../../shared/components/FormLabel";
 import { FormInput } from "../../../shared/components/FormInput";
-import { FormButton } from "../../../shared/components/FormButton";
+import { Button } from "../../../shared/components/Button";
 
 export function LoginPage() {
   const { login, isAuthenticated } = useAuth();
@@ -89,13 +89,14 @@ export function LoginPage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <FormButton
+              <Button
                 type="submit"
                 disabled={isLoading}
-                className="bg-primary text-black"
+                variant="form"
+                color="create"
               >
                 {isLoading ? "Logging in..." : "Login"}
-              </FormButton>
+              </Button>
 
               <Link
                 to="/forgot-password"

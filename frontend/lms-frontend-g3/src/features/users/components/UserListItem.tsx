@@ -2,6 +2,7 @@ import type { User } from "../types/types";
 import { ListItemField } from "../../../shared/components/ListItemField";
 import { Tag } from "../../../shared/components/Tag";
 import type { TagVariant } from "../../../shared/components/Tag";
+import { Button } from "../../../shared/components/Button";
 
 interface UserListItemProps {
   user: User;
@@ -29,14 +30,9 @@ export function UserListItem({ user }: UserListItemProps) {
         className="min-w-0 flex-2"
       />
 
-      <div className="flex items-center gap-2">
-        <button type="button" className="rounded-lg px-3 py-2 text-sm">
-          Edit
-        </button>
-
-        <button type="button" className="rounded-lg px-3 py-2 text-sm">
-          Delete
-        </button>
+      <div className="flex items-center gap-1">
+        <Button children="Edit" variant="list" color="edit" />
+        <Button children="Delete" variant="list" color="delete" />
       </div>
     </div>
   );
