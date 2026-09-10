@@ -42,4 +42,10 @@ public class CourseRepository : ICourseRepository
             course,
             cancellationToken);
     }
+
+    public void Update(Course course)
+    {
+        _context.Courses.Update(
+            course);
+    }
 }

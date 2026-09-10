@@ -15,6 +15,7 @@ using LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
+using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LearningManagementSystemTeamC.Application;
@@ -42,6 +43,7 @@ public static class DependencyInjection
         services.AddScoped<IUpdateUserHandler, UpdateUserHandler>();
         services.AddScoped<IForgotPasswordHandler, ForgotPasswordHandler>();
         services.AddScoped<IResetPasswordHandler, ResetPasswordHandler>();
+        services.AddScoped<IUpdateCourseHandler, UpdateCourseHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
@@ -51,6 +53,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserValidator>();
         services.AddScoped<IValidator<ForgotPasswordCommand>, ForgotPasswordValidator>();
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordValidator>();
+        services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
 
         return services;
     }

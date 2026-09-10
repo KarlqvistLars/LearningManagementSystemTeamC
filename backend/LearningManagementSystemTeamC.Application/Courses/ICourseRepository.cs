@@ -9,4 +9,5 @@ public interface ICourseRepository
     Task<IEnumerable<Course>> GetAllAsync(CancellationToken cancellationToken);
     Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<IEnumerable<Course>> GetCoursesByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken);
+    void Update(Course course);
 }

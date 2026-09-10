@@ -12,6 +12,7 @@ using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmen
 using LearningManagementSystemTeamC.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
@@ -68,6 +69,38 @@ public class CoursesController : ControllerBase
             nameof(GetById),
             new { id = courseDto.Id },
             ApiResponse<CourseDto>.Ok(courseDto));
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCourseCommand command,
+        [FromServices] IUpdateCourseHandler updateCourseHandler,
+        [FromServices] IValidator<UpdateCourseCommand> updateCourseValidator,
+        CancellationToken cancellationToken)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.DefaultExceptionMessage,
+                    new Dictionary<string, string[]> { { nameof(id), ["Route id does not match command Id."] } }));
+        }
+
+        var details = updateCourseValidator.Validate(command);
+
+        if (details.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.DefaultExceptionMessage,
+                    details));
+        }
+
+        var courseDto = await updateCourseHandler.Handle(command, cancellationToken);
+
+        return Ok(ApiResponse<CourseDto>.Ok(courseDto));
     }
 
     [HttpGet("~/api/student/{userId}/courses")]
