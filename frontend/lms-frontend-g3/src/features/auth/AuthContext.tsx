@@ -6,6 +6,8 @@ import type { User } from "../users/types";
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  isTeacher: boolean;
+  isStudent: boolean;
   login: (email: string, password: string) => Promise<string | null>;
   logout: () => void;
 }
@@ -24,6 +26,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const isAuthenticated = user !== null;
+  const isTeacher = user?.roleName === "TEACHER";
+  const isStudent = user?.roleName === "STUDENT";
 
   async function login(
     email: string,
@@ -57,6 +61,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       value={{
         user,
         isAuthenticated,
+        isTeacher,
+        isStudent,
         login,
         logout,
       }}
