@@ -4,9 +4,6 @@ import { ModuleList } from "../components/modulesList";
 import { ModuleForm } from "../components/moduleForm";
 import type { Module } from "../types";
 import { useAuth } from "../../auth/AuthContext"; 
-import { FormButton } from "../../../shared/components/FormButton";
-
-
 
 
 export function ModulePage() {
