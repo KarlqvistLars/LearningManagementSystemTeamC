@@ -4,13 +4,35 @@ using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivities
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Domain.Activities;
 using LearningManagementSystemTeamC.Domain.Roles;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Security.Claims;
 
 namespace LearningManagementSystemTeamC.UnitTests.Activities;
 
 public class ActivitiesControllerTests
 {
+    private static ActivitiesController CreateController(Guid userId, string role)
+    {
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, userId.ToString()),
+            new(ClaimTypes.Role, role)
+        };
+
+        return new ActivitiesController
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(claims, "TestAuth"))
+                }
+            }
+        };
+    }
+
     [Fact]
     public async Task GetByModule_ReturnsOkResultWithActivities()
     {
@@ -38,10 +60,10 @@ public class ActivitiesControllerTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(activities);
 
-        var controller = new ActivitiesController();
+        var controller = CreateController(userId, role);
 
         // Act
-        var result = await controller.GetByModule(moduleId, userId, role, mockHandler.Object, CancellationToken.None);
+        var result = await controller.GetByModule(moduleId, mockHandler.Object, CancellationToken.None);
 
         // Assert
         var okObjectResult = Assert.IsType<OkObjectResult>(result);
@@ -64,10 +86,10 @@ public class ActivitiesControllerTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<ActivityDto>());
 
-        var controller = new ActivitiesController();
+        var controller = CreateController(userId, role);
 
         // Act
-        var result = await controller.GetByModule(moduleId, userId, role, mockHandler.Object, CancellationToken.None);
+        var result = await controller.GetByModule(moduleId, mockHandler.Object, CancellationToken.None);
 
         // Assert
         var okObjectResult = Assert.IsType<OkObjectResult>(result);

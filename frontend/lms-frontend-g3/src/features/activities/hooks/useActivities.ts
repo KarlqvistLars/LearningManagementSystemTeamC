@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getActivitiesByModule } from "../api";
 import type { ActivityDto } from "../types";
-import type { User } from "../../users/types";
 
 export function useActivities(moduleId: string | undefined) {
     const [activities, setActivities] = useState<ActivityDto[]>([]);
@@ -11,12 +10,10 @@ export function useActivities(moduleId: string | undefined) {
     useEffect(() => {
         if (!moduleId) return;
 
-        const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-
         setLoading(true);
         setError(null);
 
-        getActivitiesByModule(moduleId, user?.id || "", user?.roleName || "")
+        getActivitiesByModule(moduleId)
             .then(setActivities)
             .catch((err: Error) => setError(err.message))
             .finally(() => setLoading(false));

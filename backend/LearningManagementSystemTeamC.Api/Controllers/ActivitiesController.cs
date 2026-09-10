@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivities
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
@@ -17,11 +18,12 @@ public class ActivitiesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetByModule(
         Guid moduleId,
-        Guid userId,
-        string role,
         [FromServices] IGetActivitiesByModuleIdHandler getActivitiesByModuleHandler,
         CancellationToken cancellationToken)
     {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var role = User.FindFirstValue(ClaimTypes.Role)!;
+
         var activities = await getActivitiesByModuleHandler.Handle(
             new GetActivitiesByModuleIdQuery(moduleId, userId, role),
             cancellationToken);
