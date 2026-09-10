@@ -1,5 +1,6 @@
 import type { User } from "../types/types";
 import { UserListItem } from "./UserListItem";
+import { DisplayText } from "../../../shared/components/DisplayText";
 
 interface UserListProps {
   users: User[];
@@ -7,7 +8,7 @@ interface UserListProps {
 
 export function UserList({ users }: UserListProps) {
   if (users.length === 0) {
-    return <p>No users found.</p>;
+    return <DisplayText text="No users found." />;
   }
 
   return (
