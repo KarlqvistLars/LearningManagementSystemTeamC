@@ -1,4 +1,5 @@
-﻿using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+﻿using LearningManagementSystemTeamC.Application.Activities.CreateActivity;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
@@ -9,7 +10,6 @@ using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
-using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
@@ -27,6 +27,8 @@ public static class DependencyInjection
         services.AddScoped<IGetCoursesHandler, GetCoursesHandler>();
         services.AddScoped<IGetCourseByIdHandler, GetCourseByIdHandler>();
         services.AddScoped<IGetActivitiesByModuleIdHandler, GetActivitiesByModuleIdHandler>();
+        services.AddScoped<IGetCourseByIdHandler, GetCourseByIdHandler>();
+        services.AddScoped<ICreateActivityHandler, CreateActivityHandler>();
         services.AddScoped<ICreateUserHandler, CreateUserHandler>();
         services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
@@ -42,6 +44,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateModuleCommand>, CreateModuleValidator>();
         services.AddScoped<IValidator<EditModuleCommand>, EditModuleValidator>();
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserValidator>();
+        services.AddScoped<IValidator<CreateActivityCommand>, CreateActivityValidator>();
         services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserValidator>();
