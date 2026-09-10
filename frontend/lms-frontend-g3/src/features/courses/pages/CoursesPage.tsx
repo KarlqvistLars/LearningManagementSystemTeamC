@@ -18,7 +18,7 @@ export function CoursesPage() {
       </div>
       <div className="flex justify-center">
         {isTeacher && (
-          <button className="mt-16 px-6 py-4 bg-button-create text-button-create-text text-sm font-bold rounded hover:cursor-pointer">
+          <button className="mt-16 px-6 py-5 text-trim bg-button-create text-button-create-text text-sm font-bold rounded hover:cursor-pointer">
             Create new course
           </button>
         )}

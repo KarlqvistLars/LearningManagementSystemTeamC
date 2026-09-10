@@ -12,13 +12,6 @@ interface CourseSummaryCardProps {
   onEdit?: (id: string) => void;
 }
 
-const options = {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-};
-
 export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
   return (
     <div className="w-full p-7 bg-menu flex gap-4 align-items-start justify-between border border-border rounded-xl">
@@ -52,7 +45,7 @@ export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
           </div>
           {isTeacher && (
             <button
-              className="w-1/6 max-w-25 h-fit px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 hover:cursor-pointer"
+              className="w-1/6 max-w-25 h-fit px-4 py-3 bg-button-edit text-button-edit-text rounded text-sm uppercase font-bold text-trim hover:cursor-pointer"
               onClick={() => onEdit?.(course.id)}
             >
               Edit
