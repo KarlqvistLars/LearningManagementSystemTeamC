@@ -1,4 +1,6 @@
 import type { User } from "../types/types";
+import { ListItemField } from "../../../shared/components/ListItemField";
+import { RoleTag } from "../../../shared/components/RoleTag";
 
 interface UserListItemProps {
   user: User;
@@ -7,26 +9,19 @@ interface UserListItemProps {
 export function UserListItem({ user }: UserListItemProps) {
   return (
     <div className="flex items-center rounded-xl border border-border bg-menu px-4 py-3">
-      <div className="flex-2 flex flex-col gap-3">
-        <p className="text-xs text-primary-title-text">Name</p>
-        <p className="text-lg font-medium text-primary-display-text">
-          {user.firstName} {user.lastName}
-        </p>
-      </div>
+      <ListItemField
+        label="Name"
+        value={`${user.firstName} ${user.lastName}`}
+        className="flex-2"
+      />
 
-      <div className="flex-1 flex flex-col gap-3">
-        <p className="text-xs text-primary-title-text">Role</p>
-        <p className="text-lg font-medium text-primary-display-text">
-          {user.roleName}
-        </p>
-      </div>
+      <RoleTag roleName={user.roleName} />
 
-      <div className="min-w-0 flex-3 flex flex-col gap-3">
-        <p className="text-xs text-primary-title-text">Email</p>
-        <p className="truncate text-lg font-medium text-primary-display-text">
-          {user.email}
-        </p>
-      </div>
+      <ListItemField
+        label="Email"
+        value={user.email}
+        className="min-w-0 flex-3"
+      />
 
       <div className="flex items-center gap-2">
         <button type="button" className="rounded-lg px-3 py-2 text-sm">
