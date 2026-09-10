@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Domain.Roles;
+using LearningManagementSystemTeamC.Domain.UserInfos;
 using LearningManagementSystemTeamC.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +26,26 @@ public class UserSeeder
 
         var users = new[] { activeTeacherUser, inactiveDefaultUser, activeDefaultUser };
 
+        var userInfos = new[]
+        {
+            new UserInfo(
+                activeTeacherUser.Id,
+                "Admin",
+                "Teacher"),
+
+            new UserInfo(
+                inactiveDefaultUser.Id,
+                "Inactive",
+                "Student"),
+
+            new UserInfo(
+                activeDefaultUser.Id,
+                "John",
+                "Student")
+        };
         db.Users.AddRange(users);
+        db.UserInfos.AddRange(userInfos);
+
         await db.SaveChangesAsync();
     }
 

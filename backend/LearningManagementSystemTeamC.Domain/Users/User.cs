@@ -19,8 +19,52 @@ public class User
 
     public User(string email, string passwordHash, Guid roleId)
     {
+        Validate(
+            email,
+            passwordHash,
+            roleId);
+
+        Id = Guid.NewGuid();
+        Email = email;
+        PasswordHash = passwordHash;
+        RoleId = roleId;
+        IsActive = true;
+        CreatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            throw new DomainException(
+                UserRules.EmailRequiredCode,
+                UserRules.EmailRequiredMessage);
+
+        if (email.Length > UserRules.EmailMaxLength)
+            throw new DomainException(
+                UserRules.EmailTooLongCode,
+                UserRules.EmailTooLongMessage(UserRules.EmailMaxLength));
+
+        Email = email;
+    }
+
+    public void ChangePassword(string passwordHash)
+    {
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new DomainException(
+                UserRules.PasswordRequiredCode,
+                UserRules.PasswordRequiredMessage);
+
+        PasswordHash = passwordHash;
+    }
+
+    private static void Validate(
+        string email,
+        string passwordHash,
+        Guid roleId)
+    {
         if (string.IsNullOrWhiteSpace(email))
             throw new DomainException(UserRules.EmailRequiredCode, UserRules.EmailRequiredMessage);
+
         if (email.Length > UserRules.EmailMaxLength)
             throw new DomainException(
                 UserRules.EmailTooLongCode,
@@ -31,12 +75,5 @@ public class User
 
         if (roleId == Guid.Empty)
             throw new DomainException(UserRules.RoleRequiredCode, UserRules.RoleRequiredMessage);
-
-        Id = Guid.NewGuid();
-        Email = email;
-        PasswordHash = passwordHash;
-        RoleId = roleId;
-        IsActive = true;
-        CreatedAt = DateTime.UtcNow;
     }
 }

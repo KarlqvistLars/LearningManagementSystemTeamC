@@ -27,4 +27,9 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
+
+    public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken)
+    {
+        return await _context.Users.Where(u => ids.Contains(u.Id)).ToListAsync(cancellationToken);
+    }
 }

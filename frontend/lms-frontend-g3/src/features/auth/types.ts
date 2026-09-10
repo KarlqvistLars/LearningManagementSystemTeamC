@@ -5,3 +5,17 @@ export interface LoginResult {
   expiresInMinutes: number;
   user: User;
 }
+
+export interface RegisterUserResponse {
+  id: string;
+  email: string;
+  roleId: string;
+  roleName: string;
+}
+
+export interface RegisterRequest {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+}

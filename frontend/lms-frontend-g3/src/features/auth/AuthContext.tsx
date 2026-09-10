@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-import { apiFetch } from "../../api/client";
-import type { LoginResult } from "./types";
+import { login as loginApi } from "./api/api";
 import type { User } from "../users/types";
 
 interface AuthContextType {
@@ -30,25 +29,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     email: string,
     password: string,
   ): Promise<string | null> {
-    const response = await apiFetch<LoginResult>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const result = await loginApi(email, password);
 
-    if (!response.success) {
-      return response.error.message;
+      localStorage.setItem("access_token", result.accessToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
+
+      setUser(result.user);
+
+      return null;
+    } catch (error) {
+      return error instanceof Error
+        ? error.message
+        : "Unable to connect to the server.";
     }
-
-    localStorage.setItem("access_token", response.data.accessToken);
-
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-
-    setUser(response.data.user);
-
-    return null;
   }
 
   function logout() {
