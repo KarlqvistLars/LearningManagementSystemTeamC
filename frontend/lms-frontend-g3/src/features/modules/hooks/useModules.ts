@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
-import { getActivitiesByModule } from "../api";
-import type { ActivityDto } from "../types";
+import { fetchModules } from "../api";
+import type { Module } from "../types";
 import type { User } from "../../users/types";
 
-export function useActivities(moduleId: string | undefined) {
-    const [activities, setActivities] = useState<ActivityDto[]>([]);
+export function useModules(courseId: string | undefined) {
+    const [modules, setModules] = useState<Module[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!moduleId) return;
+        if (!courseId) return;
 
         const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
 
         setLoading(true);
         setError(null);
 
-        getActivitiesByModule(moduleId, user?.id || "", user?.roleName || "")
-            .then(setActivities)
+        fetchModules(courseId, user?.id || "", user?.roleName || "")
+            .then(setModules)
             .catch((err: Error) => setError(err.message))
             .finally(() => setLoading(false));
-    }, [moduleId]);
+    }, [courseId]);
 
-    return { activities, loading, error };
+    return { modules, loading, error };
 }
