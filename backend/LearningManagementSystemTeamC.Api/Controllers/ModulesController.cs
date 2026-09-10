@@ -16,11 +16,13 @@ public class ModulesController : ControllerBase
     public ModulesController() { }
 
     [HttpGet("{courseId}")]
-    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModuleByCourseId(Guid courseId, 
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModuleByCourseId(Guid courseId,
+    Guid userId,
+    string role,
     [FromServices]IGetModuleHandler getModuleHandler,
     CancellationToken cancellationToken)
     {
-        var modules = await getModuleHandler.Handle(new GetModuleQuery(courseId), cancellationToken);
+        var modules = await getModuleHandler.Handle(new GetModuleQuery(courseId, userId, role), cancellationToken);
         if (modules.Count == 0)
         {
             return NotFound(ApiResponse<ModuleDto>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
