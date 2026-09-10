@@ -25,10 +25,10 @@ public class CreateActivityHandler : ICreateActivityHandler
         // Entity's method should have validation inside
         var activity = new Domain.Activities.Activity(
             command.ActivityName,
-            command.Type,
             command.Description,
             command.StartDate,
             command.EndDate,
+            command.Type,
             command.ModuleId);
         // featureRepository handles actions
         await _activityRepository.AddAsync(activity, cancellationToken);
@@ -38,10 +38,10 @@ public class CreateActivityHandler : ICreateActivityHandler
         return new ActivityDto(
             activity.Id,
             activity.ActivityName,
-            activity.Type,
             activity.Description,
             activity.StartDate,
             activity.EndDate,
+            activity.Type,
             activity.ModuleId
         );
     }

@@ -5,37 +5,35 @@ namespace LearningManagementSystemTeamC.Application.Modules.Commands.CreateModul
 
 public class CreateModuleValidator : IValidator<CreateModuleCommand>
 {
-    public Dictionary<string, string[]> Validate(CreateModuleCommand command)
+    public Dictionary<string, string[]> Validate(CreateModuleCommand command, CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 
         if (string.IsNullOrWhiteSpace(command.Name))
         {
-            errors[nameof(command.Name)] = 
+            errors[nameof(command.Name)] =
             [
                 ModuleRules.ModuleNameRequiredMessage
             ];
-        }
-        else if (command.Name.Length > ModuleRules.ModuleNameMaxLength)
+        } else if (command.Name.Length > ModuleRules.ModuleNameMaxLength)
         {
             errors[nameof(command.Name)] =
             [
                 ModuleRules.ModuleNameToLongMessage
             ];
         }
-        
+
         if (string.IsNullOrWhiteSpace(command.Description))
         {
             errors[nameof(command.Description)] =
             [
-                ModuleRules.ModuleDescriptionRequiredMessage  
+                ModuleRules.ModuleDescriptionRequiredMessage
             ];
-        }
-        else if (command.Description.Length > ModuleRules.DescriptionMaxLength)
+        } else if (command.Description.Length > ModuleRules.DescriptionMaxLength)
         {
             errors[nameof(command.Description)] =
             [
-                ModuleRules.ModuleDescriptionTooLongMessage  
+                ModuleRules.ModuleDescriptionTooLongMessage
             ];
         }
 
@@ -43,7 +41,7 @@ public class CreateModuleValidator : IValidator<CreateModuleCommand>
         {
             errors[nameof(command.EndDate)] =
             [
-                ModuleRules.InvalidModuleDateMessage  
+                ModuleRules.InvalidModuleDateMessage
             ];
         }
 

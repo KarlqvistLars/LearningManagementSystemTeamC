@@ -6,43 +6,43 @@ public class Activity
 {
     public Guid Id { get; set; }
     public string ActivityName { get; set; }
-    public ActivityType Type { get; set; }
     public string Description { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    public ActivityType Type { get; set; }
     public Guid ModuleId { get; set; }
 
     public Activity(
         string activityName,
-        ActivityType type,
         string description,
         DateTime startDate,
         DateTime endDate,
+        ActivityType type,
         Guid moduleId)
     {
         Validate(
             activityName,
-            type,
             description,
             startDate,
             endDate,
+            type,
             moduleId);
 
         Id = Guid.NewGuid();
         ActivityName = activityName;
-        Type = type;
         Description = description;
         StartDate = startDate;
         EndDate = endDate;
+        Type = type;
         ModuleId = moduleId;
     }
 
     private static void Validate(
         string activityName,
-        ActivityType type,
         string description,
         DateTime startDate,
         DateTime endDate,
+        ActivityType type,
         Guid moduleId)
     {
         if (string.IsNullOrWhiteSpace(activityName))
