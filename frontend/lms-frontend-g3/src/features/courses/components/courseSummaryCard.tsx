@@ -20,7 +20,7 @@ export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
           <div className="w-5/6 text-left text-gray-600 flex gap-4">
             <div className="w-2/4">
               <p className="text-sm uppercase">Name</p>
-              <Link to={`/courses/${course.id}`}>
+              <Link to={`/courses/${course.id}/modules`}>
                 <p className="text-lg">{course.courseName}</p>
               </Link>
             </div>
