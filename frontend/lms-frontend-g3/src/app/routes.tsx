@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
-import { CoursePage } from "../features/courses/pages/CoursesPage";
+import { CoursesPage } from "../features/courses/pages/CoursesPage";
 import { NotFoundPage } from "../features/not-found/NotFoundPage";
 import { LoginPage } from "../features/auth/pages/LoginPage";
 import { RegisterPage } from "../features/auth/pages/RegisterPage";
@@ -21,7 +21,7 @@ export function AppRoutes() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/courses" element={<CoursePage />} />
+          <Route path="/courses" element={<CoursesPage />} />
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}

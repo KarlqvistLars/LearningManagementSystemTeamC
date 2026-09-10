@@ -12,28 +12,41 @@ interface CourseSummaryCardProps {
   onEdit?: (id: string) => void;
 }
 
+const options = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+
 export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
   return (
-    <div className="w-full p-4 bg-gray-200 flex gap-4 align-items-start justify-between">
+    <div className="w-full p-7 bg-menu flex gap-4 align-items-start justify-between border border-border rounded-xl">
       {course && (
         <>
           <div className="w-5/6 text-left text-gray-600 flex gap-4">
             <div className="w-2/4">
-              <p className="text-sm uppercase">Name</p>
+              <p className="text-xs uppercase text-primary-title-text mb-4">
+                Name
+              </p>
               <Link to={`/courses/${course.id}`}>
-                <p className="text-lg">{course.courseName}</p>
+                <p className="text-2xl">{course.courseName}</p>
               </Link>
             </div>
             <div className="w-1/4">
-              <p className="text-sm uppercase">Start Date</p>
-              <p className="text-lg">
-                {new Date(course.startDate).toDateString()}
+              <p className="text-xs uppercase text-primary-title-text mb-4">
+                Start Date
+              </p>
+              <p className="text-2xl">
+                {new Date(course.startDate).toLocaleDateString()}
               </p>
             </div>
             <div className="w-1/4">
-              <p className="text-sm uppercase">End Date</p>
-              <p className="text-lg">
-                {new Date(course.endDate).toDateString()}
+              <p className="text-xs uppercase text-primary-title-text mb-4">
+                End Date
+              </p>
+              <p className="text-2xl">
+                {new Date(course.endDate).toLocaleDateString()}
               </p>
             </div>
           </div>
