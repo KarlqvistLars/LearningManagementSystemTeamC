@@ -20,6 +20,7 @@ export function AppRoutes() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/courses" element={<CoursesPage />} />
@@ -28,7 +29,7 @@ export function AppRoutes() {
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}
           />
-        </Route>{" "}
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
