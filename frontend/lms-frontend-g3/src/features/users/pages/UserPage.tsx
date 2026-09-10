@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SearchInput } from "../../../shared/components/SearchInput";
 import { UserList } from "../components/UserList";
 import type { User } from "../types/types";
+import { DisplayText } from "../../../shared/components/DisplayText";
 
 export function UserPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,9 +21,7 @@ export function UserPage() {
 
   return (
     <section className="flex flex-col gap-6 p-6">
-      <h1 className="text-2xl font-semibold text-primary-display-text">
-        Users
-      </h1>
+      <DisplayText text="USERS" />
 
       <SearchInput
         value={searchTerm}
