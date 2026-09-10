@@ -29,7 +29,7 @@ public class UpdateUserHandler : IUpdateUserHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<UserDto> Handle(
+    public async Task<UserDto> HandleAsync(
         UpdateUserCommand command,
         CancellationToken cancellationToken)
     {

@@ -32,7 +32,7 @@ public class CreateUserHandler : ICreateUserHandler
         _passwordHasher = passwordHasher;
     }
 
-    public async Task<UserDto> Handle(
+    public async Task<UserDto> HandleAsync(
         CreateUserCommand command,
         CancellationToken cancellationToken)
     {

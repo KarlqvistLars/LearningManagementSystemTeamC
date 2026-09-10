@@ -60,7 +60,7 @@ public class RegisterUserHandlerTests
             testLname);
 
         // Act
-        var result = await handler.Handle(
+        var result = await handler.HandleAsync(
             command,
             CancellationToken.None);
 
@@ -132,7 +132,7 @@ public class RegisterUserHandlerTests
 
         // Act & Assert
         await Assert.ThrowsAsync<ConflictException>(() =>
-            handler.Handle(
+            handler.HandleAsync(
                 command,
                 CancellationToken.None));
 
@@ -183,7 +183,7 @@ public class RegisterUserHandlerTests
 
         // Act & Assert
         await Assert.ThrowsAsync<NotFoundException>(() =>
-            handler.Handle(
+            handler.HandleAsync(
                 command,
                 CancellationToken.None));
 

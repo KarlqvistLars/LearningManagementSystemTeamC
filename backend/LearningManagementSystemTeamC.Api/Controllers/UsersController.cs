@@ -5,12 +5,13 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
-
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
 [ApiController]
 [Route("api/users")]
 public class UsersController : ControllerBase
@@ -31,19 +32,24 @@ public class UsersController : ControllerBase
                     ExceptionConstants.ValidationFailedMessage,
                     details));
 
-        var userDto = await createUserHandler.Handle(command, cancellationToken);
+        var userDto = await createUserHandler.HandleAsync(command, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
     }
 
-    [Authorize(Policy = PolicyConstants.AuthenticatedUser)]
+    [HttpGet]
+    public async Task<IActionResult> GetUsers([FromServices] IGetUsersHandler getUsersHandler, CancellationToken cancellationToken)
+    {
+        var userDtos = await getUsersHandler.HandleAsync(new GetUsersQuery(), cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<UserDto>>.Ok(userDtos));
+    }
+
     [HttpGet("{id:guid}", Name = EndpointNameConstants.GetUserById)]
     public async Task<IActionResult> GetById([FromRoute] Guid id, [FromServices] IGetUserByIdHandler getUserByIdHandler, CancellationToken cancellationToken)
     {
-        var userDto = await getUserByIdHandler.Handle(new GetUserByIdQuery(id), cancellationToken);
+        var userDto = await getUserByIdHandler.HandleAsync(new GetUserByIdQuery(id), cancellationToken);
         return Ok(ApiResponse<UserDto>.Ok(userDto));
     }
 
-    [Authorize(Policy = PolicyConstants.AuthenticatedUser)]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid id,
@@ -65,7 +71,7 @@ public class UsersController : ControllerBase
                 ExceptionConstants.ValidationFailedMessage,
                 details));
 
-        var userDto = await updateUserHandler.Handle(
+        var userDto = await updateUserHandler.HandleAsync(
             commandWithId,
             cancellationToken);
 

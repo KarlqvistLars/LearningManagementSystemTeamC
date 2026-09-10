@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
                     ExceptionConstants.ValidationFailedMessage,
                     details));
 
-        var userDto = await registerUserHandler.Handle(command, cancellationToken);
+        var userDto = await registerUserHandler.HandleAsync(command, cancellationToken);
         return CreatedAtRoute(EndpointNameConstants.GetUserById, new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
     }
 
