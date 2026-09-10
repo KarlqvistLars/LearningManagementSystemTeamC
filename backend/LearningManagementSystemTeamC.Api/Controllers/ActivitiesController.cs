@@ -1,10 +1,10 @@
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
@@ -21,8 +21,8 @@ public class ActivitiesController : ControllerBase
         [FromServices] IGetActivitiesByModuleIdHandler getActivitiesByModuleHandler,
         CancellationToken cancellationToken)
     {
-        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var role = User.FindFirstValue(ClaimTypes.Role)!;
+        var userId = User.GetUserId();
+        var role = User.GetRole();
 
         var activities = await getActivitiesByModuleHandler.Handle(
             new GetActivitiesByModuleIdQuery(moduleId, userId, role),
