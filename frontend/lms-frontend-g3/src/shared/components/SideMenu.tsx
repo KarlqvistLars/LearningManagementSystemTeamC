@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import { useAuth } from "../../features/auth/AuthContext";
-import type { MenuItem } from "./types/menu";
+import type { MenuItem } from "../types/menu";
 
 interface SideMenuProps {
   menuItems: MenuItem[];

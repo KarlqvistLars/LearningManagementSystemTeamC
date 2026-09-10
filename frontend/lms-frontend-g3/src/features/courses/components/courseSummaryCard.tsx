@@ -1,6 +1,6 @@
 import type { Course } from "../types";
 import { Link } from "react-router";
-import type { User } from "../../users/types";
+import type { User } from "../../users/types/types";
 import ROLES from "../../auth/roleConstants";
 
 const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
