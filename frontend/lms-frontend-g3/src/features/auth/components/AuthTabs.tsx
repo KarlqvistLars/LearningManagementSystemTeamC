@@ -15,7 +15,7 @@ export function AuthTabs({ active }: AuthTabsProps) {
         className={`hover:brightness-75 flex-1 basis-0 cursor-pointer rounded-md px-6 py-3 font-medium ${
           active === "login"
             ? "bg-primary text-black"
-            : "text-white hover:bg-white/10"
+            : "text-primary-display-text hover:bg-white/10"
         }`}
       >
         Login
@@ -27,7 +27,7 @@ export function AuthTabs({ active }: AuthTabsProps) {
         className={`hover:brightness-75 flex-1 basis-0 cursor-pointer rounded-md px-6 py-3 font-medium ${
           active === "register"
             ? "bg-primary text-black"
-            : "text-white hover:bg-white/10"
+            : "text-primary-display-text hover:bg-white/10"
         }`}
       >
         Register

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class NewInitial : Migration
+    public partial class passwordtoken : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,6 +42,21 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PasswordResetTokens",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TokenHash = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PasswordResetTokens", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,6 +184,17 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PasswordResetTokens_TokenHash",
+                table: "PasswordResetTokens",
+                column: "TokenHash",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PasswordResetTokens_UserId",
+                table: "PasswordResetTokens",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Roles_Code",
                 table: "Roles",
                 column: "Code",
@@ -203,6 +229,9 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Modules");
+
+            migrationBuilder.DropTable(
+                name: "PasswordResetTokens");
 
             migrationBuilder.DropTable(
                 name: "UserInfos");
