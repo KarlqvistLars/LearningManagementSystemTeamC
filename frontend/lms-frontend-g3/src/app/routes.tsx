@@ -10,6 +10,7 @@ import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivit
 import { ProtectedRoute } from "../routes/ProtectedRoute";
 import { ForgotPasswordPage } from "../features/auth/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "../features/auth/pages/ResetPasswordPage";
+import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
 
 export function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ export function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}
