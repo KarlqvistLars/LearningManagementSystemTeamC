@@ -6,8 +6,10 @@ export type TagVariant =
   | "Not-submitted";
 
 interface TagProps {
+  title: string;
   label: string;
   variant: TagVariant;
+  className?: string;
 }
 
 const tagStyles: Record<TagVariant, string> = {
@@ -18,12 +20,16 @@ const tagStyles: Record<TagVariant, string> = {
   "Not-submitted": "bg-tag-unsubmitted/20 text-tag-unsubmitted",
 };
 
-export function Tag({ label, variant }: TagProps) {
+export function Tag({ title, label, variant, className = "" }: TagProps) {
   return (
-    <span
-      className={`w-fit rounded-md px-3 py-1 text-sm font-medium ${tagStyles[variant]}`}
-    >
-      {label}
-    </span>
+    <div className={`flex flex-col gap-3 ${className}`}>
+      <p className="text-xs text-primary-title-text">{title}</p>
+
+      <span
+        className={`w-fit rounded-xl px-3 py-1 text-sm font-medium ${tagStyles[variant]}`}
+      >
+        {label}
+      </span>
+    </div>
   );
 }

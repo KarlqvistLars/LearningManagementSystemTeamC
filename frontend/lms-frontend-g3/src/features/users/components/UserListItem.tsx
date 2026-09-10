@@ -16,12 +16,17 @@ export function UserListItem({ user }: UserListItemProps) {
         className="flex-2"
       />
 
-      <Tag label={user.roleName} variant={user.roleName as TagVariant} />
+      <Tag
+        title="Role"
+        label={user.roleName}
+        variant={user.roleName as TagVariant}
+        className="flex-1"
+      />
 
       <ListItemField
         label="Email"
         value={user.email}
-        className="min-w-0 flex-3"
+        className="min-w-0 flex-2"
       />
 
       <div className="flex items-center gap-2">
