@@ -1,6 +1,7 @@
 import type { User } from "../types/types";
 import { ListItemField } from "../../../shared/components/ListItemField";
-import { RoleTag } from "../../../shared/components/RoleTag";
+import { Tag } from "../../../shared/components/Tag";
+import type { TagVariant } from "../../../shared/components/Tag";
 
 interface UserListItemProps {
   user: User;
@@ -15,7 +16,7 @@ export function UserListItem({ user }: UserListItemProps) {
         className="flex-2"
       />
 
-      <RoleTag roleName={user.roleName} />
+      <Tag label={user.roleName} variant={user.roleName as TagVariant} />
 
       <ListItemField
         label="Email"
