@@ -1,22 +1,3 @@
-// export function MainPage() {
-//     return (
-//         <>
-//             <section className="min-h-screen bg-slate-100 px-6 py-20">
-//                 <div className="mx-auto max-w-5xl">
-//                     <h1 className="mb-6 text-5xl font-bold">
-//                         Välkommen till Learning Management System
-//                     </h1>
-//                     <p className="text-xl leading-relaxed">
-//                         Här kan du hitta information om kurser, utbildningar och arbetslivserfarenhet.
-//                     </p>
-//                 </div>
-//             </section>
-//         </>
-//     );
-// }
-
-// for demo
-
 import { useState } from "react";
 
 import { apiFetch } from "../api/client";
@@ -79,7 +60,7 @@ export function MainPage() {
   }
 
   return (
-    <section className="min-h-screen bg-slate-100 px-6 py-20 text-slate-900">
+    <section className="min-h-screen bg-slate-100 px-6 py-20">
       <div className="mx-auto max-w-5xl">
         <div className="mb-10 text-center">
           <h1 className="mb-4 text-5xl font-bold !text-black">

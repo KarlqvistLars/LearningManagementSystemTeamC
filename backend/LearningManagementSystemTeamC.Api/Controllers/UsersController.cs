@@ -3,8 +3,8 @@ using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
+using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
-using LearningManagementSystemTeamC.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ public class UsersController : ControllerBase
     {
     }
 
-    [Authorize(Roles = RoleRules.TeacherRoleCode)]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserCommand command, [FromServices] ICreateUserHandler createUserHandler, [FromServices] IValidator<CreateUserCommand> createUserValidator, CancellationToken cancellationToken)
     {
@@ -35,10 +35,40 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
     }
 
+    [Authorize(Policy = PolicyConstants.AuthenticatedUser)]
     [HttpGet("{id:guid}", Name = EndpointNameConstants.GetUserById)]
     public async Task<IActionResult> GetById([FromRoute] Guid id, [FromServices] IGetUserByIdHandler getUserByIdHandler, CancellationToken cancellationToken)
     {
         var userDto = await getUserByIdHandler.Handle(new GetUserByIdQuery(id), cancellationToken);
+        return Ok(ApiResponse<UserDto>.Ok(userDto));
+    }
+
+    [Authorize(Policy = PolicyConstants.AuthenticatedUser)]
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(
+        [FromRoute] Guid id,
+        UpdateUserCommand command,
+        [FromServices] IUpdateUserHandler updateUserHandler,
+        [FromServices] IValidator<UpdateUserCommand> updateUserValidator,
+        CancellationToken cancellationToken)
+    {
+        var commandWithId = command with
+        {
+            UserId = id
+        };
+
+        var details = updateUserValidator.Validate(commandWithId);
+
+        if (details.Count > 0)
+            return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
+                ExceptionConstants.ValidationFailedCode,
+                ExceptionConstants.ValidationFailedMessage,
+                details));
+
+        var userDto = await updateUserHandler.Handle(
+            commandWithId,
+            cancellationToken);
+
         return Ok(ApiResponse<UserDto>.Ok(userDto));
     }
 }
