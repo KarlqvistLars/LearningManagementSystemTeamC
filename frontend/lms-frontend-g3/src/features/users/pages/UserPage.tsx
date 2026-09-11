@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { SearchInput } from "../../../shared/components/SearchInput";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { UserList } from "../components/UserList";
@@ -9,7 +10,7 @@ import { Button } from "../../../shared/components/Button";
 export function UserPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState<User[]>([]);
-
+  const navigate = useNavigate();
   const fetchUsers = async () => {
     try {
       const users = await getUsers();
@@ -55,7 +56,13 @@ export function UserPage() {
       <UserList users={filteredUsers} onToggleStatus={handleToggleStatus} />
 
       <div className="self-center mt-auto">
-        <Button children="Create new user" variant="list" color="create" />
+        <Button
+          type="button"
+          children="Create new user"
+          variant="list"
+          color="create"
+          onClick={() => navigate("/users/create")}
+        />
       </div>
     </section>
   );

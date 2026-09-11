@@ -61,3 +61,27 @@ export async function toggleUserStatus(userId: string): Promise<void> {
     throw new Error(result.error?.message || "Failed to update user status");
   }
 }
+
+export async function createUser(data: {
+  email: string;
+  password: string;
+  roleId: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string | null;
+  phoneNumber: string | null;
+  address: string | null;
+  postalCode: string | null;
+  city: string | null;
+}): Promise<User> {
+  const result: ApiResponse<User> = await apiFetch<User>("/users", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  if (!result.success) {
+    throw new Error(result.error?.message || "Failed to create user");
+  }
+
+  return result.data;
+}
