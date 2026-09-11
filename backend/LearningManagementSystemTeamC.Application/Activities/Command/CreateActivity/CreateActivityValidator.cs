@@ -1,6 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
 
-namespace LearningManagementSystemTeamC.Application.Activities.CreateActivity;
+namespace LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 
 public class CreateActivityValidator : IValidator<CreateActivityCommand>
 {

@@ -12,6 +12,11 @@ public class ActivityResourceRepository : IActivityResourceRepository
         _context = context;
     }
 
+    public async Task AddAsync(ActivityResource activityResource, CancellationToken cancellationToken)
+    {
+        await _context.ActivityResources.AddAsync(activityResource, cancellationToken);
+    }
+
     public async Task<IReadOnlyList<ActivityResource>>
         GetActivityResourcesByActivityIdAsync(
             Guid activityId,

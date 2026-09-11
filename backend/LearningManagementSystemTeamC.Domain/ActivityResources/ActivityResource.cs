@@ -9,7 +9,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
         public string Content { get; set; } = string.Empty;
         public string Url { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
-        public ActivityType ResourceType { get; set; }
+        public ActivityType Type { get; set; }
         public Guid UserId { get; set; }
         public Guid ActivityId { get; set; }
 
@@ -17,7 +17,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
             string resourceName,
             string content,
             string url,
-            ActivityType resourceType,
+            ActivityType type,
             Guid userId,
             Guid activityId)
         {
@@ -25,7 +25,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
                 resourceName,
                 content,
                 url,
-                resourceType,
+                type,
                 userId,
                 activityId);
             Id = Guid.NewGuid();
@@ -33,7 +33,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
             Content = content;
             Url = url;
             CreatedAt = DateTime.UtcNow;
-            ResourceType = resourceType;
+            Type = type;
             UserId = userId;
             ActivityId = activityId;
         }
@@ -42,7 +42,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
             string resourceName,
             string content,
             string url,
-            ActivityType resourceType,
+            ActivityType type,
             Guid userId,
             Guid activityId)
         {

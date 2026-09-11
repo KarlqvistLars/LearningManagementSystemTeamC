@@ -1,4 +1,4 @@
-﻿using LearningManagementSystemTeamC.Application.Activities.CreateActivity;
+﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;

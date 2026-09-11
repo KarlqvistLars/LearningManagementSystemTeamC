@@ -12,7 +12,7 @@ public static class ActivityResourceMapper
             activityResource.Content,
             activityResource.Url,
             activityResource.CreatedAt,
-            activityResource.ResourceType,
+            activityResource.Type,
             activityResource.UserId,
             activityResource.ActivityId
         );
