@@ -50,6 +50,8 @@ public class UsersController : ControllerBase
         return Ok(ApiResponse<UserDto>.Ok(userDto));
     }
 
+    // TODO: this is currently an security debt, waitting for extension method on other's branch, get Id and Role from jwt then compare
+    // Student can only update own user, teacher can update all
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid id,
