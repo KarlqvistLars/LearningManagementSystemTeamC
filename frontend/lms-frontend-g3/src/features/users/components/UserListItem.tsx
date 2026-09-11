@@ -56,7 +56,7 @@ export function UserListItem({ user, onToggleStatus }: UserListItemProps) {
         <Button
           children={user.isActive ? "Deactivate" : "Activate"}
           variant="list"
-          color={user.isActive ? "delete" : "create"}
+          color={user.isActive ? "delete" : "resource"}
           onClick={() => onToggleStatus(user.id)}
         />
       </div>
