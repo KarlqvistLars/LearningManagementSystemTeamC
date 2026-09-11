@@ -78,16 +78,12 @@ public class CoursesController : ControllerBase
         [FromServices] IValidator<UpdateCourseCommand> updateCourseValidator,
         CancellationToken cancellationToken)
     {
-        if (id != command.Id)
+        var commandWithId = command with
         {
-            return BadRequest(
-                ApiResponse<Dictionary<string, string[]>>.Fail(
-                    ExceptionConstants.ValidationFailedCode,
-                    ExceptionConstants.DefaultExceptionMessage,
-                    new Dictionary<string, string[]> { { nameof(id), ["Route id does not match command Id."] } }));
-        }
+            Id = id
+        };
 
-        var details = updateCourseValidator.Validate(command);
+        var details = updateCourseValidator.Validate(commandWithId);
 
         if (details.Count > 0)
         {
@@ -98,7 +94,7 @@ public class CoursesController : ControllerBase
                     details));
         }
 
-        var courseDto = await updateCourseHandler.Handle(command, cancellationToken);
+        var courseDto = await updateCourseHandler.Handle(commandWithId, cancellationToken);
 
         return Ok(ApiResponse<CourseDto>.Ok(courseDto));
     }

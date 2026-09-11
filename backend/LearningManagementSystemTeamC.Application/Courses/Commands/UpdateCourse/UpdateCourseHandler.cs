@@ -24,7 +24,7 @@ public class UpdateCourseHandler : IUpdateCourseHandler
         CancellationToken cancellationToken)
     {
         var course = await _courseRepository.GetByIdAsync(command.Id, cancellationToken) ??
-            throw new DomainException(
+            throw new NotFoundException(
                 CourseRules.CourseNotFoundCode, 
                 CourseRules.CourseNotFoundMessage);
 

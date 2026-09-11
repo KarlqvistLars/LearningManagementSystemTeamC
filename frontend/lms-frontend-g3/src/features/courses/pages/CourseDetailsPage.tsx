@@ -1,14 +1,10 @@
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import type { Course } from "../types";
-import type { User } from "../../users/types";
-import ROLES from "../../auth/roleConstants";
-
-const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-const role = user?.roleName;
-const isTeacher = role === ROLES.TEACHER;
+import { useAuth } from "../../auth/AuthContext";
 
 export function CourseDetailsPage() {
+  const { isTeacher } = useAuth();
   const { courseId } = useParams();
   // const [course, setCourse] = useState<Course | null>(null);
   // const [loading, setLoading] = useState(true);
