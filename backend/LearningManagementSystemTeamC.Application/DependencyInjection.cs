@@ -13,6 +13,7 @@ using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmen
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
+using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
@@ -43,6 +44,7 @@ public static class DependencyInjection
         services.AddScoped<IForgotPasswordHandler, ForgotPasswordHandler>();
         services.AddScoped<IResetPasswordHandler, ResetPasswordHandler>();
         services.AddScoped<IGetUsersHandler, GetUsersHandler>();
+        services.AddScoped<IDeleteUserHandler, DeleteUserHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();

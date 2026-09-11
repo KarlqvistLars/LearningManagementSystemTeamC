@@ -3,6 +3,7 @@ using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
+using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
@@ -78,5 +79,16 @@ public class UsersController : ControllerBase
             cancellationToken);
 
         return Ok(ApiResponse<UserDto>.Ok(userDto));
+    }
+
+    [HttpDelete("{userId:guid}")]
+    public async Task<IActionResult> Delete(
+    [FromRoute] Guid userId,
+    [FromServices] IDeleteUserHandler deleteUserHandler,
+    CancellationToken cancellationToken)
+    {
+        await deleteUserHandler.HandleAsync(new DeleteUserCommand(userId), cancellationToken);
+
+        return NoContent();
     }
 }
