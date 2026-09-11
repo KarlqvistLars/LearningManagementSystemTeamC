@@ -114,7 +114,6 @@ public class UpdateUserHandler : IUpdateUserHandler
         return UserMapper.ToDto(
             existingUser,
             existingRole,
-            firstName,
-            lastName);
+            userInfo);
     }
 }

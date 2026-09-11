@@ -41,6 +41,6 @@ public class GetUserByIdHandler : IGetUserByIdHandler
                 UserInfoRules.UserInfoNotFoundCode,
                 UserInfoRules.UserInfoNotFoundMessage);
 
-        return UserMapper.ToDto(existingUser, existingRole, existingUserInfo.FirstName, existingUserInfo.LastName);
+        return UserMapper.ToDto(existingUser, existingRole, existingUserInfo);
     }
 }

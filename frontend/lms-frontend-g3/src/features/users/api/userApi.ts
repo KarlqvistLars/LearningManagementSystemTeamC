@@ -27,8 +27,14 @@ export async function updateUser(
   data: {
     firstName: string;
     lastName: string;
+    city: string | null;
+    postalCode: string | null;
+    address: string | null;
+    dateOfBirth: string | null;
     email: string;
+    phoneNumber: string | null;
     roleId: string;
+    isActive: boolean;
   },
 ): Promise<User> {
   const result: ApiResponse<User> = await apiFetch<User>(`/users/${userId}`, {
