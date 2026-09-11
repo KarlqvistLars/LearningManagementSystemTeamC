@@ -64,7 +64,12 @@ public class CreateUserHandler : ICreateUserHandler
         var userInfo = new UserInfo(
             user.Id,
             firstName,
-            lastName);
+            lastName,
+            command.DateOfBirth,
+            command.PhoneNumber,
+            command.Address,
+            command.PostalCode,
+            command.City);
 
         await _userRepository.AddAsync(
             user,
