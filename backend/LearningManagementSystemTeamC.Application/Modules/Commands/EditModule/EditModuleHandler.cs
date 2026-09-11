@@ -1,5 +1,6 @@
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Modules;
@@ -25,17 +26,18 @@ public class EditModuleHandler : IEditModuleHandler
 
         if (module is null)
         {
-            throw new DomainException(ModuleRules.InvalidModuleIdCode, ModuleRules.InvalidModuleIdMessage);
+            throw new NotFoundException(ModuleRules.ModuleNotFoundCode, ModuleRules.ModuleNotFoundMessage);
         }
 
         module.Update(
             command.Name,
             command.Description,
             command.StartDate,
-            command.EndDate);
+            command.EndDate,
+            command.CourseId);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new ModuleDto(module.Id, module.ModuleName, module.Description, module.StartDate, module.EndDate, module.CourseId);
+        return ModuleMapper.ModuleToDto(module);
     }
 }

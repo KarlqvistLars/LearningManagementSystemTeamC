@@ -1,5 +1,7 @@
 using LearningManagementSystemTeamC.Domain.Courses;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 
 namespace LearningManagementSystemTeamC.Domain.Modules;
 
@@ -34,8 +36,15 @@ public Guid Id { get; private set; }
         CourseId = courseId;
     }
 
-    public void Update(string name, string description, DateTime startDate, DateTime endDate)
+    public void Update(string name, string description, DateTime startDate, DateTime endDate, Guid courseId)
     {
+        Validate(
+            name,
+            description, 
+            startDate, 
+            endDate, 
+            courseId);
+            
         ModuleName = name;
         Description = description;
         StartDate = startDate;
