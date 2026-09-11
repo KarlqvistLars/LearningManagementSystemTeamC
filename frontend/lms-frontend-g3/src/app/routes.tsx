@@ -9,6 +9,7 @@ import { RegisterPage } from "../features/auth/pages/RegisterPage";
 import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
 import { CourseModulesPage } from "../features/modules/pages/CourseModulesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
+import { ModulePage } from "../features/modules/pages/ModulePage";
 import { ForgotPasswordPage } from "../features/auth/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "../features/auth/pages/ResetPasswordPage";
 import { UserPage } from "../features/users/pages/UserPage";
@@ -27,7 +28,7 @@ export function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/courses" element={<CoursePage />} />
-          <Route path="/courses/:courseId/modules" element={<CourseModulesPage />} />
+          <Route path="courses/:courseId/modules" element={<ModulePage />} />
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}

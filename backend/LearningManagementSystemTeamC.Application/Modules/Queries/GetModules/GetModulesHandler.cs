@@ -8,16 +8,16 @@ using LearningManagementSystemTeamC.Domain.Enrollments;
 using LearningManagementSystemTeamC.Domain.Modules;
 using LearningManagementSystemTeamC.Domain.Roles;
 
-namespace LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
+namespace LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 
-public class GetModuleHandler : IGetModuleHandler
+public class GetModulesHandler : IGetModulesHandler
 {
     private readonly IModuleRepository _moduleRepository;
     private readonly ICourseRepository _courseRepository;
     private readonly IEnrollmentRepository _enrollmentRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetModuleHandler(
+    public GetModulesHandler(
         IModuleRepository moduleRepository,
         ICourseRepository courseRepository,
         IEnrollmentRepository enrollmentRepository,
@@ -30,7 +30,7 @@ public class GetModuleHandler : IGetModuleHandler
     }
 
     public async Task<IReadOnlyList<ModuleDto>> Handle(
-        GetModuleQuery query, CancellationToken cancellationToken)
+        GetModulesQuery query, CancellationToken cancellationToken)
     {
         var checkIfCourseExist = await _courseRepository.GetByIdAsync(query.CourseId, cancellationToken)
         ?? throw new DomainException(ModuleRules.InvalidCourseIdCode, ModuleRules.InvalidCourseIdMessage);
