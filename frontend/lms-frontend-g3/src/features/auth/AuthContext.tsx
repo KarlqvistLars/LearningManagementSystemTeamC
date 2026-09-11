@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 import { login as loginApi } from "./api/api";
-import type { User } from "../users/types";
+import type { User } from "../users/types/types";
 import ROLES from "./roleConstants";
 
 interface AuthContextType {

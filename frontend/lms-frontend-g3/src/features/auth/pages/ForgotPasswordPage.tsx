@@ -5,7 +5,7 @@ import { FormTitle } from "../../../shared/components/FormTitle";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormLabel } from "../../../shared/components/FormLabel";
 import { FormInput } from "../../../shared/components/FormInput";
-import { FormButton } from "../../../shared/components/FormButton";
+import { Button } from "../../../shared/components/Button";
 import { forgotPassword } from "../api/api";
 
 export function ForgotPasswordPage() {
@@ -71,13 +71,14 @@ export function ForgotPasswordPage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <FormButton
+              <Button
                 type="submit"
                 disabled={isLoading || isSubmitted}
-                className="bg-primary text-black"
+                variant="form"
+                color="create"
               >
                 {isLoading ? "Sending..." : "Send reset link"}
-              </FormButton>
+              </Button>
 
               <Link
                 to="/login"

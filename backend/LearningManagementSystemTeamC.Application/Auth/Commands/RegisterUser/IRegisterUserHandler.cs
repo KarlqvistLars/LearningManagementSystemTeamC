@@ -4,5 +4,5 @@ namespace LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 
 public interface IRegisterUserHandler
 {
-    Task<UserDto> Handle(RegisterUserCommand command, CancellationToken cancellationToken);
+    Task<UserDto> HandleAsync(RegisterUserCommand command, CancellationToken cancellationToken);
 }

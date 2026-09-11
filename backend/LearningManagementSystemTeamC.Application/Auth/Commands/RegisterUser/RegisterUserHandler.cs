@@ -33,7 +33,7 @@ public class RegisterUserHandler : IRegisterUserHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<UserDto> Handle(
+    public async Task<UserDto> HandleAsync(
         RegisterUserCommand command,
         CancellationToken cancellationToken)
     {
@@ -79,7 +79,6 @@ public class RegisterUserHandler : IRegisterUserHandler
         return UserMapper.ToDto(
             user,
             studentRole,
-            firstName,
-            lastName);
+            userInfo);
     }
 }

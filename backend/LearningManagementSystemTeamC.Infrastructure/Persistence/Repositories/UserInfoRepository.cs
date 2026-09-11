@@ -41,4 +41,9 @@ public class UserInfoRepository : IUserInfoRepository
     {
         _context.UserInfos.Remove(userInfo);
     }
+
+    public async Task<IEnumerable<UserInfo>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await _context.UserInfos.ToListAsync(cancellationToken);
+    }
 }

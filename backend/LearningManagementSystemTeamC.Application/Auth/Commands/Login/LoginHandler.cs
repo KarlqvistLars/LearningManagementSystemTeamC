@@ -62,7 +62,7 @@ public class LoginHandler : ILoginHandler
 
         var expiresInMinutes = _jwtSettings.ExpiresInMinutes;
 
-        var userDto = UserMapper.ToDto(existingUser, existingRole, existingUserInfo.FirstName, existingUserInfo.LastName);
+        var userDto = UserMapper.ToDto(existingUser, existingRole, existingUserInfo);
 
         return LoginResultMapper.ToDto(jwtToken, expiresInMinutes, userDto);
     }
