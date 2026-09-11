@@ -11,6 +11,7 @@ import { ProtectedRoute } from "../routes/ProtectedRoute";
 import { ForgotPasswordPage } from "../features/auth/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "../features/auth/pages/ResetPasswordPage";
 import { UserPage } from "../features/users/pages/UserPage";
+import { EditUserPage } from "../features/users/pages/EditUserPage";
 
 export function AppRoutes() {
   return (
@@ -30,6 +31,7 @@ export function AppRoutes() {
           />
           <Route path="users">
             <Route index element={<UserPage />} />
+            <Route path=":userId/edit" element={<EditUserPage />} />
           </Route>
         </Route>
       </Route>

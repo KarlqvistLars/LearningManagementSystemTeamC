@@ -12,6 +12,7 @@ using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserI
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModule;
+using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.ToggleUserStatus;
@@ -47,6 +48,7 @@ public static class DependencyInjection
         services.AddScoped<IGetUsersHandler, GetUsersHandler>();
         services.AddScoped<IDeleteUserHandler, DeleteUserHandler>();
         services.AddScoped<IToggleUserStatusHandler, ToggleUserStatusHandler>();
+        services.AddScoped<IGetRolesHandler, GetRolesHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
