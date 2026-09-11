@@ -4,6 +4,7 @@ import { DisplayText } from "../../../shared/components/DisplayText";
 import { UserList } from "../components/UserList";
 import { deleteUser, getUsers } from "../api/userApi";
 import type { User } from "../types/types";
+import { Button } from "../../../shared/components/Button";
 
 export function UserPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,7 +43,7 @@ export function UserPage() {
   });
 
   return (
-    <section className="flex flex-col gap-6 p-6">
+    <section className="flex flex-col gap-6 p-6 h-full">
       <DisplayText text="USERS" />
 
       <SearchInput
@@ -52,6 +53,10 @@ export function UserPage() {
       />
 
       <UserList users={filteredUsers} onDelete={handleDelete} />
+
+      <div className="self-center mt-auto">
+        <Button children="Create new user" variant="list" color="create" />
+      </div>
     </section>
   );
 }

@@ -13,7 +13,7 @@ interface ButtonProps {
 
 const buttonVariants: Record<ButtonVariant, string> = {
   form: "w-full rounded-lg px-4 py-3 font-medium",
-  list: "min-w-16 rounded-lg px-6 py-2 text-sm",
+  list: "min-w-32 rounded-lg px-6 py-2 text-sm font-semi font-semibold",
 };
 
 const buttonColors: Record<ButtonColor, string> = {
