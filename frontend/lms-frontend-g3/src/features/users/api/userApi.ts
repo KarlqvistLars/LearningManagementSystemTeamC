@@ -63,16 +63,16 @@ export async function toggleUserStatus(userId: string): Promise<void> {
 }
 
 export async function createUser(data: {
-  email: string;
-  password: string;
-  roleId: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: string | null;
-  phoneNumber: string | null;
-  address: string | null;
-  postalCode: string | null;
   city: string | null;
+  postalCode: string | null;
+  address: string | null;
+  dateOfBirth: string | null;
+  email: string;
+  phoneNumber: string | null;
+  password: string;
+  roleId: string;
 }): Promise<User> {
   const result: ApiResponse<User> = await apiFetch<User>("/users", {
     method: "POST",
@@ -80,7 +80,14 @@ export async function createUser(data: {
   });
 
   if (!result.success) {
-    throw new Error(result.error?.message || "Failed to create user");
+    const error = new Error(result.error.message);
+
+    Object.assign(error, {
+      code: result.error.code,
+      details: result.error.details,
+    });
+
+    throw error;
   }
 
   return result.data;
