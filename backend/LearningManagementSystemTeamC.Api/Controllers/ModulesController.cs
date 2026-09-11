@@ -2,7 +2,6 @@ using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
@@ -35,15 +34,14 @@ public class ModulesController : ControllerBase
     }
 
     [HttpGet("course/{courseId:guid}")]
-    [Authorize(Policy = PolicyConstants.TeacherOnly)]
-    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModulesByCourseId(Guid courseId, 
-        [FromServices]IGetModulesHandler getModuleHandler,
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModulesByCourseId(Guid courseId,
+        [FromServices] IGetModulesHandler getModuleHandler,
         CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
-        var role = User.GetRole();
+        var roleCode = User.GetRole();
 
-        var modules = await getModuleHandler.Handle(new GetModuleQuery(courseId, userId, role), cancellationToken);
+        var modules = await getModuleHandler.Handle(new GetModulesQuery(courseId, userId, roleCode), cancellationToken);
         if (modules.Count == 0)
         {
             return NotFound(ApiResponse<ModuleDto>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
@@ -72,7 +70,7 @@ public class ModulesController : ControllerBase
         var moduleDto = await createModuleHandler.Handle(command, cancellationToken);
 
         return CreatedAtAction(
-            nameof(GetById), 
+            nameof(GetById),
             new { id = moduleDto.Id },
             ApiResponse<ModuleDto>.Ok(moduleDto));
     }
