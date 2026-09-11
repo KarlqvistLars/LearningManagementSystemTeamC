@@ -7,3 +7,10 @@ public record CourseDto(
     DateTime StartDate,
     DateTime EndDate
     );
+
+public record CourseCreateDto(
+    string CourseName,
+    string Description,
+    DateTime StartDate,
+    DateTime EndDate
+    );

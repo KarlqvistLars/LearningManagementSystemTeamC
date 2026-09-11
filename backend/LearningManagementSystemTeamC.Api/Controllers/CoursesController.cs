@@ -12,6 +12,7 @@ using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmen
 using LearningManagementSystemTeamC.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
@@ -68,6 +69,34 @@ public class CoursesController : ControllerBase
             nameof(GetById),
             new { id = courseDto.Id },
             ApiResponse<CourseDto>.Ok(courseDto));
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCourseCommand command,
+        [FromServices] IUpdateCourseHandler updateCourseHandler,
+        [FromServices] IValidator<UpdateCourseCommand> updateCourseValidator,
+        CancellationToken cancellationToken)
+    {
+        var commandWithId = command with
+        {
+            Id = id
+        };
+
+        var details = updateCourseValidator.Validate(commandWithId);
+
+        if (details.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.DefaultExceptionMessage,
+                    details));
+        }
+
+        var courseDto = await updateCourseHandler.Handle(commandWithId, cancellationToken);
+
+        return Ok(ApiResponse<CourseDto>.Ok(courseDto));
     }
 
     [HttpGet("~/api/student/{userId}/courses")]

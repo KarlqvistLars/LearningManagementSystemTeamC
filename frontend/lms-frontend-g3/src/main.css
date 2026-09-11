@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0D0F14;
+  --color-background: #0d0f14;
   --color-menu: #141720;
-  --color-form-input: #1C2030;
-  --color-error: #F87171;
+  --color-form-input: #1c2030;
+  --color-error: #f87171;
 
-  --color-border: #2A3040;
+  --color-border: #2a3040;
 
-  --color-primary: #F0A04B;
-  --color-primary-title-text: #FFFFFF;
-  --color-primary-display-text: #849DB2;
+  --color-primary: #f0a04b;
+  --color-primary-title-text: #ffffff;
+  --color-primary-display-text: #849db2;
 
-  --color-button-create: #F0A04B;
+  --color-button-create: #f0a04b;
   --color-button-create-text: #000000;
 
-  --color-button-edit: #4C8DFF;
-  --color-button-edit-text: #FFFFFF;
+  --color-button-edit: #4c8dff;
+  --color-button-edit-text: #ffffff;
 
-  --color-button-delete: #D9534F;
-  --color-button-delete-text: #FFFFFF;
+  --color-button-delete: #d9534f;
+  --color-button-delete-text: #ffffff;
 
-  --color-button-resource: #326F73;
-  --color-button-resource-text: #FFFFFF;
+  --color-button-resource: #326f73;
+  --color-button-resource-text: #ffffff;
 
   /* all tag bg is tag/20 */
-  --color-tag-student: #DE7CDE;
-  --color-tag-teacher: #F0A04B;
-  --color-tag-late: #E67E22;
-  --color-tag-ontime: #34C759;
-  --color-tag-unsubmitted: #FF0000;
+  --color-tag-student: #de7cde;
+  --color-tag-teacher: #f0a04b;
+  --color-tag-late: #e67e22;
+  --color-tag-ontime: #34c759;
+  --color-tag-unsubmitted: #ff0000;
 
   --font-sans: "Inter", sans-serif;
 }
@@ -38,4 +38,8 @@ body {
   margin: 0;
   font-family: var(--font-sans);
   background-color: var(--color-background);
+}
+
+.text-trim {
+  text-box: trim-both text alphabetic;
 }

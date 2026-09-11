@@ -1,16 +1,17 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Common.Mappers;
+using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Courses;
 
-namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
+namespace LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
 
-public class CreateCourseHandler : ICreateCourseHandler
+public class UpdateCourseHandler : IUpdateCourseHandler
 {
     private readonly ICourseRepository _courseRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateCourseHandler(
+    public UpdateCourseHandler(
         ICourseRepository courseRepository,
         IUnitOfWork unitOfWork)
     {
@@ -19,21 +20,16 @@ public class CreateCourseHandler : ICreateCourseHandler
     }
 
     public async Task<CourseDto> Handle(
-        CreateCourseCommand command,
+        UpdateCourseCommand command,
         CancellationToken cancellationToken)
     {
-        var course = new Course(
-            command.Name,
-            command.Description,
-            command.StartDate,
-            command.EndDate);
+        var course = await _courseRepository.GetByIdAsync(command.Id, cancellationToken) ??
+            throw new NotFoundException(
+                CourseRules.CourseNotFoundCode, 
+                CourseRules.CourseNotFoundMessage);
 
-        await _courseRepository.AddAsync(
-            course,
-            cancellationToken);
-
-        await _unitOfWork.SaveChangesAsync(
-            cancellationToken);
+        course.Update(command.Name, command.Description, command.StartDate, command.EndDate);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return CourseMapper.CourseToDto(course);
     }
