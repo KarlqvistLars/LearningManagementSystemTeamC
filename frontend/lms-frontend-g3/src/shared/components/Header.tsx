@@ -15,7 +15,7 @@ export function Header() {
 
         {user && (
           <Link
-            to="/profile"
+            to={`/users/${user.id}/edit`}
             className="flex items-center gap-3 text-primary-title-text"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary font-semibold text-background">

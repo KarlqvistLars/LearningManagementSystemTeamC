@@ -1,6 +1,6 @@
 import type { Course } from "../types";
-import { Link } from "react-router";
-import type { User } from "../../users/types";
+import { Link, useNavigate } from "react-router";
+import type { User } from "../../users/types/types";
 import ROLES from "../../auth/roleConstants";
 
 const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
@@ -13,6 +13,8 @@ interface CourseSummaryCardProps {
 }
 
 export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full p-7 bg-menu flex gap-4 align-items-start justify-between border border-border rounded-xl">
       {course && (
@@ -49,6 +51,14 @@ export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
               onClick={() => onEdit?.(course.id)}
             >
               Edit
+            </button>
+          )}
+          {isTeacher && (
+            <button
+              className="w-1/6 max-w-25 h-fit px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 hover:cursor-pointer"
+              onClick={() => navigate(`/courses/${course.id}/modules`)}
+            >
+              Details
             </button>
           )}
         </>

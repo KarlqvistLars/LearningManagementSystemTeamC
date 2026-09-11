@@ -15,6 +15,11 @@ public class User
 
     public void Enable() => IsActive = true;
 
+    public void ToggleStatus() => IsActive = !IsActive;
+
+    public void UpdateRole(Guid roleId) => RoleId = roleId;
+    public void UpdateStatus(bool isActive) => IsActive = isActive;
+
     private User() { }
 
     public User(string email, string passwordHash, Guid roleId)

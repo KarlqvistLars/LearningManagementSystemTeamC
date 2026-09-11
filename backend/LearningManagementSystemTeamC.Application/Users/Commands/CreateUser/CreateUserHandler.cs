@@ -32,7 +32,7 @@ public class CreateUserHandler : ICreateUserHandler
         _passwordHasher = passwordHasher;
     }
 
-    public async Task<UserDto> Handle(
+    public async Task<UserDto> HandleAsync(
         CreateUserCommand command,
         CancellationToken cancellationToken)
     {
@@ -64,7 +64,12 @@ public class CreateUserHandler : ICreateUserHandler
         var userInfo = new UserInfo(
             user.Id,
             firstName,
-            lastName);
+            lastName,
+            command.DateOfBirth,
+            command.PhoneNumber,
+            command.Address,
+            command.PostalCode,
+            command.City);
 
         await _userRepository.AddAsync(
             user,
@@ -79,7 +84,6 @@ public class CreateUserHandler : ICreateUserHandler
         return UserMapper.ToDto(
             user,
             existingRole,
-            firstName,
-            lastName);
+            userInfo);
     }
 }

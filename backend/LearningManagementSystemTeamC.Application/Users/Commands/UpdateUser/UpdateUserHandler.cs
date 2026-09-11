@@ -29,7 +29,7 @@ public class UpdateUserHandler : IUpdateUserHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<UserDto> Handle(
+    public async Task<UserDto> HandleAsync(
         UpdateUserCommand command,
         CancellationToken cancellationToken)
     {
@@ -63,11 +63,14 @@ public class UpdateUserHandler : IUpdateUserHandler
             StringNormalizer.NormalizeName(command.LastName);
 
         var existingRole = await _roleRepository.GetActiveByIdAsync(
-            existingUser.RoleId,
+            command.RoleId,
             cancellationToken)
             ?? throw new NotFoundException(
                 RoleRules.RoleNotFoundCode,
                 RoleRules.RoleNotFoundMessage);
+
+        existingUser.UpdateRole(command.RoleId);
+        existingUser.UpdateStatus(command.IsActive);
 
         var userInfo = await _userInfoRepository.GetByUserIdAsync(
             existingUser.Id,
@@ -108,6 +111,9 @@ public class UpdateUserHandler : IUpdateUserHandler
         await _unitOfWork.SaveChangesAsync(
             cancellationToken);
 
-        return UserMapper.ToDto(existingUser, existingRole, firstName, lastName);
+        return UserMapper.ToDto(
+            existingUser,
+            existingRole,
+            userInfo);
     }
 }

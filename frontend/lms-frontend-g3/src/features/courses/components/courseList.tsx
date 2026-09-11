@@ -2,7 +2,7 @@ import type { Course } from "../types";
 import { CourseSummaryCard } from "./courseSummaryCard";
 import { useState, Suspense, useEffect } from "react";
 import { fetchCourses, fetchCoursesByStudent } from "../api/courses";
-import type { User } from "../../users/types";
+import type { User } from "../../users/types/types";
 import ROLES from "../../auth/roleConstants";
 
 const user: User | null = JSON.parse(localStorage.getItem("user") || "null");

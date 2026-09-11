@@ -1,5 +1,5 @@
 import { CourseList } from "../components/courseList";
-import type { User } from "../../users/types";
+import type { User } from "../../users/types/types";
 import ROLES from "../../auth/roleConstants";
 import { DisplayText } from "../../../shared/components/DisplayText";
 

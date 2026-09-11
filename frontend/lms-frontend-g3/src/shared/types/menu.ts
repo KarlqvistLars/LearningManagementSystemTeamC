@@ -24,8 +24,8 @@ export const teacherMenuItems: MenuItem[] = [
     path: "/",
   },
   {
-    label: "Students",
-    path: "/students",
+    label: "Users",
+    path: "/users",
   },
   {
     label: "Courses",

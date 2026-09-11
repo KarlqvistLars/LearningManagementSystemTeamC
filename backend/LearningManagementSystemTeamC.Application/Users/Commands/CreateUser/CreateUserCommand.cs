@@ -5,4 +5,9 @@ public record CreateUserCommand(
     string Password,
     Guid RoleId,
     string FirstName,
-    string LastName);
+    string LastName,
+    DateTime? DateOfBirth,
+    string? PhoneNumber,
+    string? Address,
+    string? PostalCode,
+    string? City);
