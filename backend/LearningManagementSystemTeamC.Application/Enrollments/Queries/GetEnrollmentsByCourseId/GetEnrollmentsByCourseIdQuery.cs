@@ -1,0 +1,3 @@
+﻿namespace LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
+
+public record GetEnrollmentsByCourseIdQuery(Guid CourseId);

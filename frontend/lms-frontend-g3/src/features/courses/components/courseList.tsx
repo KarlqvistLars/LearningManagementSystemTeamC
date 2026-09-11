@@ -1,7 +1,13 @@
 import type { Course } from "../types";
 import { CourseSummaryCard } from "./courseSummaryCard";
 import { useState, Suspense, useEffect } from "react";
-import { fetchCourses } from "../api/courses";
+import { fetchCourses, fetchCoursesByStudent } from "../api/courses";
+import type { User } from "../../users/types/types";
+import ROLES from "../../auth/roleConstants";
+
+const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
+const role = user?.roleName;
+const isTeacher = role === ROLES.TEACHER;
 
 export function CourseList() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -10,7 +16,9 @@ export function CourseList() {
   useEffect(() => {
     async function loadCourses() {
       try {
-        const coursesFetched = await fetchCourses();
+        const coursesFetched = isTeacher
+          ? await fetchCourses()
+          : await fetchCoursesByStudent(user?.id || "");
         setCourses(coursesFetched);
       } catch (error) {
         console.error(error);
@@ -23,23 +31,6 @@ export function CourseList() {
       loadCourses();
     }
   }, [loading]);
-
-  async function handleDeleteCourse(id: string | null) {
-    if (id !== null) {
-      try {
-        //Delete api call
-
-        //if (course was deleted successfully) {
-        if (id !== null) {
-          alert("Course deleted successfully.");
-          //Handle successful deletion
-        }
-      } catch (error) {
-        console.error(error);
-        //Handle deletion error
-      }
-    }
-  }
 
   async function handleEditCourse(id: string | null) {
     if (id !== null) {
@@ -66,7 +57,6 @@ export function CourseList() {
             <CourseSummaryCard
               key={course.id}
               course={course}
-              onDelete={handleDeleteCourse}
               onEdit={handleEditCourse}
             />
           ))

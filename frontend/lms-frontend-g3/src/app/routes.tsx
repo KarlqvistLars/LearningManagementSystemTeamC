@@ -2,23 +2,45 @@ import { Route, Routes } from "react-router";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
-import { CoursePage } from "../features/courses/pages/CoursePage";
+import { CoursesPage } from "../features/courses/pages/CoursesPage";
 import { NotFoundPage } from "../features/not-found/NotFoundPage";
-import { LoginPage } from "../features/login/LoginPage";
-import { RegisterPage } from "../features/register/RegisterPage";
+import { LoginPage } from "../features/auth/pages/LoginPage";
+import { RegisterPage } from "../features/auth/pages/RegisterPage";
+import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
+import { CourseModulesPage } from "../features/modules/pages/CourseModulesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
+import { ModulePage } from "../features/modules/pages/ModulePage";
+import { ForgotPasswordPage } from "../features/auth/pages/ForgotPasswordPage";
+import { ResetPasswordPage } from "../features/auth/pages/ResetPasswordPage";
+import { UserPage } from "../features/users/pages/UserPage";
+import { EditUserPage } from "../features/users/pages/EditUserPage";
+import { CreateUserPage } from "../features/users/pages/CreateUserPage";
+import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route element={<MainLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-      <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<MainPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
+          <Route path="courses/:courseId/modules" element={<ModulePage />} />
+          <Route
+            path="/modules/:moduleId/activities"
+            element={<ModuleActivitiesPage />}
+          />
 
-          <Route path="courses" element={<CoursePage />} />
+          <Route path="users">
+            <Route index element={<UserPage />} />
+            <Route path="create" element={<CreateUserPage />} />
+            <Route path=":userId/edit" element={<EditUserPage />} />
+          </Route>
         </Route>
       </Route>
 

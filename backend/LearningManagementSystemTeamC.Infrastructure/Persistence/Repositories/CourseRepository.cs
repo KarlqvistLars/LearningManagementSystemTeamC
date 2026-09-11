@@ -25,6 +25,15 @@ public class CourseRepository : ICourseRepository
             .SingleOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<Course>> GetCoursesByIdsAsync(
+        IEnumerable<Guid> ids,
+        CancellationToken cancellationToken)
+    {
+        return await _context.Courses
+            .Where(course => ids.Contains(course.Id))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task AddAsync(
         Course course,
         CancellationToken cancellationToken)

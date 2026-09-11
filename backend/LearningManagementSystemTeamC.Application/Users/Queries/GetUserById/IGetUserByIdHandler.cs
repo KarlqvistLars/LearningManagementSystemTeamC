@@ -4,5 +4,5 @@ namespace LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 
 public interface IGetUserByIdHandler
 {
-    Task<UserDto> Handle(GetUserByIdQuery query, CancellationToken cancellationToken);
+    Task<UserDto> HandleAsync(GetUserByIdQuery query, CancellationToken cancellationToken);
 }

@@ -6,6 +6,7 @@ using LearningManagementSystemTeamC.Application.Roles;
 using LearningManagementSystemTeamC.Application.Users;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Roles;
+using LearningManagementSystemTeamC.Domain.UserInfos;
 using LearningManagementSystemTeamC.Domain.Users;
 using Microsoft.Extensions.Options;
 
@@ -17,15 +18,17 @@ public class LoginHandler : ILoginHandler
     private readonly IRoleRepository _roleRepository;
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IUserInfoRepository _userInfoRepository;
     private readonly JwtSettings _jwtSettings;
 
-    public LoginHandler(IUserRepository userRepository, IRoleRepository roleRepository, IJwtTokenService jwtTokenService, IOptions<JwtSettings> jwtSettings, IPasswordHasher passwordHasher)
+    public LoginHandler(IUserRepository userRepository, IRoleRepository roleRepository, IJwtTokenService jwtTokenService, IOptions<JwtSettings> jwtSettings, IPasswordHasher passwordHasher, IUserInfoRepository userInfoRepository)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _jwtTokenService = jwtTokenService;
         _jwtSettings = jwtSettings.Value;
         _passwordHasher = passwordHasher;
+        _userInfoRepository = userInfoRepository;
     }
 
     public async Task<LoginResultDto> HandleAsync(LoginCommand command, CancellationToken cancellationToken)
@@ -48,11 +51,18 @@ public class LoginHandler : ILoginHandler
 
         var existingRole = await _roleRepository.GetByIdAsync(existingUser.RoleId, cancellationToken) ?? throw new NotFoundException(RoleRules.RoleNotFoundCode, RoleRules.RoleNotFoundMessage);
 
+        var existingUserInfo = await _userInfoRepository.GetByUserIdAsync(
+            existingUser.Id,
+            cancellationToken)
+            ?? throw new NotFoundException(
+                UserInfoRules.UserInfoNotFoundCode,
+                UserInfoRules.UserInfoNotFoundMessage);
+
         var jwtToken = _jwtTokenService.CreateToken(existingUser, existingRole);
 
         var expiresInMinutes = _jwtSettings.ExpiresInMinutes;
 
-        var userDto = UserMapper.ToDto(existingUser, existingRole);
+        var userDto = UserMapper.ToDto(existingUser, existingRole, existingUserInfo);
 
         return LoginResultMapper.ToDto(jwtToken, expiresInMinutes, userDto);
     }

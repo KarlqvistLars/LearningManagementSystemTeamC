@@ -33,6 +33,24 @@ public class Course
         CreatedAt = DateTime.UtcNow;
     }
 
+    public void Update(
+        string courseName,
+        string description,
+        DateTime startDate,
+        DateTime endDate)
+    {
+        Validate(
+            courseName,
+            description,
+            startDate,
+            endDate);
+
+        CourseName = courseName;
+        Description = description;
+        StartDate = startDate;
+        EndDate = endDate;
+    }
+
     private static void Validate(
         string courseName,
         string description,

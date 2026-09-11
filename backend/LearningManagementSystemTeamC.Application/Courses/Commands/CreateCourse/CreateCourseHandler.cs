@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Domain.Courses;
 
 namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
@@ -21,24 +22,19 @@ public class CreateCourseHandler : ICreateCourseHandler
         CreateCourseCommand command,
         CancellationToken cancellationToken)
     {
-        // Validation if not using other tools
-
-        // Entity's method should have validation inside
         var course = new Course(
             command.Name,
             command.Description,
             command.StartDate,
             command.EndDate);
 
-        // featureRepository handles actions
         await _courseRepository.AddAsync(
             course,
             cancellationToken);
 
-        // UnitOfWork handles save
         await _unitOfWork.SaveChangesAsync(
             cancellationToken);
 
-        return new CourseDto(course.Id, course.CourseName, course.Description, course.StartDate, course.EndDate);
+        return CourseMapper.CourseToDto(course);
     }
 }
