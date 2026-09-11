@@ -12,12 +12,15 @@ export async function getUsers(): Promise<User[]> {
   return result.data;
 }
 
-export async function deleteUser(userId: string): Promise<void> {
-  const result: ApiResponse<null> = await apiFetch<null>(`/users/${userId}`, {
-    method: "DELETE",
-  });
+export async function toggleUserStatus(userId: string): Promise<void> {
+  const result: ApiResponse<string> = await apiFetch<string>(
+    `/users/${userId}/status`,
+    {
+      method: "PATCH",
+    },
+  );
 
   if (!result.success) {
-    throw new Error(result.error?.message || "Failed to delete user");
+    throw new Error(result.error?.message || "Failed to update user status");
   }
 }

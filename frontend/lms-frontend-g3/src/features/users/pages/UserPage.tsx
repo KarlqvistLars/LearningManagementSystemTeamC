@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { SearchInput } from "../../../shared/components/SearchInput";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { UserList } from "../components/UserList";
-import { deleteUser, getUsers } from "../api/userApi";
+import { toggleUserStatus, getUsers } from "../api/userApi";
 import type { User } from "../types/types";
 import { Button } from "../../../shared/components/Button";
 
@@ -23,9 +23,9 @@ export function UserPage() {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (userId: string) => {
+  const handleToggleStatus = async (userId: string) => {
     try {
-      await deleteUser(userId);
+      await toggleUserStatus(userId);
       await fetchUsers();
     } catch (error) {
       console.error(error);
@@ -52,7 +52,7 @@ export function UserPage() {
         placeholder="Search users..."
       />
 
-      <UserList users={filteredUsers} onDelete={handleDelete} />
+      <UserList users={filteredUsers} onToggleStatus={handleToggleStatus} />
 
       <div className="self-center mt-auto">
         <Button children="Create new user" variant="list" color="create" />

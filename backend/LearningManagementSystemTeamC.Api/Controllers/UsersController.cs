@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
+using LearningManagementSystemTeamC.Application.Users.Commands.ToggleUserStatus;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
@@ -90,5 +91,18 @@ public class UsersController : ControllerBase
         await deleteUserHandler.HandleAsync(new DeleteUserCommand(userId), cancellationToken);
 
         return Ok(ApiResponse<string>.Ok("User deleted"));
+    }
+
+    [HttpPatch("{userId:guid}/status")]
+    public async Task<IActionResult> ToggleStatus(
+    [FromRoute] Guid userId,
+    [FromServices] IToggleUserStatusHandler handler,
+    CancellationToken cancellationToken)
+    {
+        await handler.HandleAsync(
+            new ToggleUserStatusCommand(userId),
+            cancellationToken);
+
+        return Ok(ApiResponse<string>.Ok("User status updated"));
     }
 }

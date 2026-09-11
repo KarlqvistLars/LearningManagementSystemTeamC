@@ -7,11 +7,12 @@ import { useNavigate } from "react-router";
 
 interface UserListItemProps {
   user: User;
-  onDelete: (userId: string) => void;
+  onToggleStatus: (userId: string) => void;
 }
 
-export function UserListItem({ user, onDelete }: UserListItemProps) {
+export function UserListItem({ user, onToggleStatus }: UserListItemProps) {
   const navigate = useNavigate();
+
   const handleEdit = () => {
     navigate(`/users/${user.id}/edit`);
   };
@@ -37,6 +38,13 @@ export function UserListItem({ user, onDelete }: UserListItemProps) {
         className="min-w-0 flex-2"
       />
 
+      <Tag
+        title="Status"
+        label={user.isActive ? "Active" : "Inactive"}
+        variant={user.isActive ? "Active" : "Inactive"}
+        className="flex-1"
+      />
+
       <div className="flex items-center gap-3">
         <Button
           children="Edit"
@@ -44,11 +52,12 @@ export function UserListItem({ user, onDelete }: UserListItemProps) {
           color="edit"
           onClick={handleEdit}
         />
+
         <Button
-          children="Delete"
+          children={user.isActive ? "Deactivate" : "Activate"}
           variant="list"
-          color="delete"
-          onClick={() => onDelete(user.id)}
+          color={user.isActive ? "delete" : "create"}
+          onClick={() => onToggleStatus(user.id)}
         />
       </div>
     </div>

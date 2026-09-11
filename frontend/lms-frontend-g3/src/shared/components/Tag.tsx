@@ -3,7 +3,9 @@ export type TagVariant =
   | "Teacher"
   | "On-time"
   | "Late"
-  | "Not-submitted";
+  | "Not-submitted"
+  | "Active"
+  | "Inactive";
 
 interface TagProps {
   title: string;
@@ -18,6 +20,8 @@ const tagStyles: Record<TagVariant, string> = {
   "On-time": "bg-tag-ontime/20 text-tag-ontime",
   Late: "bg-tag-late/20 text-tag-late",
   "Not-submitted": "bg-tag-unsubmitted/20 text-tag-unsubmitted",
+  Active: "bg-tag-ontime/20 text-tag-ontime",
+  Inactive: "bg-tag-unsubmitted/20 text-tag-unsubmitted",
 };
 
 export function Tag({ title, label, variant, className = "" }: TagProps) {
