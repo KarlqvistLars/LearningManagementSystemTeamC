@@ -89,6 +89,6 @@ public class UsersController : ControllerBase
     {
         await deleteUserHandler.HandleAsync(new DeleteUserCommand(userId), cancellationToken);
 
-        return NoContent();
+        return Ok(ApiResponse<string>.Ok("User deleted"));
     }
 }
