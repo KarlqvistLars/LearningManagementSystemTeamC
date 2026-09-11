@@ -3,7 +3,29 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
+
+  dateOfBirth: string | null;
+  phoneNumber: string | null;
+  address: string | null;
+  postalCode: string | null;
+  city: string | null;
+
   roleId: string;
   roleName: string;
+  isActive: boolean;
+
+  createdAt: string;
+}
+
+export interface UpdateUserData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string | null;
+  phoneNumber: string | null;
+  address: string | null;
+  postalCode: string | null;
+  city: string | null;
+  roleId: string;
   isActive: boolean;
 }

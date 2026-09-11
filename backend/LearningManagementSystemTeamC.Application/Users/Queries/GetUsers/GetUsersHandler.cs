@@ -37,8 +37,7 @@ namespace LearningManagementSystemTeamC.Application.Users.Queries.GetUsers
                     return UserMapper.ToDto(
                         user,
                         role,
-                        userInfo.FirstName,
-                        userInfo.LastName);
+                        userInfo);
                 })
                 .ToList();
         }
