@@ -1,16 +1,19 @@
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
 [Route("api/modules")]
 public class ModulesController : ControllerBase
 {
@@ -18,6 +21,7 @@ public class ModulesController : ControllerBase
     public ModulesController() { }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<ActionResult> GetById(Guid id, [FromServices] IGetModuleByIdHandler getModuleByIdHandler,
         CancellationToken cancellationToken)
     {
@@ -34,7 +38,10 @@ public class ModulesController : ControllerBase
         [FromServices] IGetModulesHandler getModuleHandler,
         CancellationToken cancellationToken)
     {
-        var modules = await getModuleHandler.Handle(new GetModulesQuery(courseId), cancellationToken);
+        var userId = User.GetUserId();
+        var roleCode = User.GetRole();
+
+        var modules = await getModuleHandler.Handle(new GetModulesQuery(courseId, userId, roleCode), cancellationToken);
         if (modules.Count == 0)
         {
             return NotFound(ApiResponse<ModuleDto>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
@@ -63,12 +70,13 @@ public class ModulesController : ControllerBase
         var moduleDto = await createModuleHandler.Handle(command, cancellationToken);
 
         return CreatedAtAction(
-            nameof(GetModuleByCourseId),
-            new { courseId = command.CourseId },
+            nameof(GetById),
+            new { id = moduleDto.Id },
             ApiResponse<ModuleDto>.Ok(moduleDto));
     }
 
     [HttpPut]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Edit(EditModuleCommand command,
         [FromServices] IEditModuleHandler editModuleHandler,
         [FromServices] IValidator<EditModuleCommand> editModuleValidator,

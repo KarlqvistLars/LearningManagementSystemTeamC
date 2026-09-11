@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Domain.Activities;
+using LearningManagementSystemTeamC.Domain.Modules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,25 +9,29 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 {
     public void Configure(EntityTypeBuilder<Activity> builder)
     {
-        builder.HasKey(a => a.Id);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(a => a.ActivityName)
+        builder.Property(x => x.ActivityName)
             .IsRequired()
             .HasMaxLength(ActivityRules.ActivityNameMaxLength);
 
-        builder.Property(a => a.Description)
+        builder.Property(x => x.Description)
+            .IsRequired()
             .HasMaxLength(ActivityRules.DescriptionMaxLength);
 
-        builder.Property(a => a.StartDate)
+        builder.Property(x => x.Type)
             .IsRequired();
 
-        builder.Property(a => a.EndDate)
+        builder.Property(x => x.StartDate)
             .IsRequired();
 
-        builder.Property(a => a.Type)
+        builder.Property(x => x.EndDate)
             .IsRequired();
 
-        builder.Property(a => a.ModuleId)
-            .IsRequired();
+        builder.HasOne<Module>()
+            .WithMany()
+            .HasForeignKey(x => x.ModuleId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

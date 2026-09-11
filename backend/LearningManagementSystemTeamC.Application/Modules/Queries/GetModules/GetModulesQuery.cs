@@ -1,3 +1,3 @@
 namespace LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 
-public record GetModulesQuery(Guid CourseId);
+public record GetModulesQuery(Guid CourseId, Guid UserId, string? RoleCode);

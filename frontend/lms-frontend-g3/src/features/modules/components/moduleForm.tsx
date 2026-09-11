@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Module, CreateModule, EditModule } from "../types";
 import { createModule, editModule } from "../api/modules";
+import { FormInput } from "../../../shared/components/FormInput";
+import { FormButton } from "../../../shared/components/FormButton";
+import { FormLabel } from "../../../shared/components/FormLabel";
 
 interface ModuleFormProps {
     courseId: string;
@@ -97,30 +100,26 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
             >
                 {/* Name */}
                 <div>
-                    <label
-                        htmlFor="name"
-                        className="mb-2 block text-sm font-medium text-gray-700">
+                    <FormLabel
+                        htmlFor="name">
                         Name
-                    </label>
+                    </FormLabel>
 
-                    <input
+                    <FormInput
                         id="name"
                         type="text"
                         value={name}
                         required
                         onChange={(event) => setName(event.target.value)} 
-                        placeholder="Enter Module Name"
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2.5
-                        outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"/>
+                        placeholder="Enter Module Name"/>
                 </div>
 
                 {/* Description */}
                 <div>
-                    <label
-                        htmlFor="description"
-                        className="mb-2 block text-sm font-medium text-gray-700">
+                    <FormLabel
+                        htmlFor="description">
                         Description
-                    </label>
+                    </FormLabel>
 
                     <textarea
                         id="description"
@@ -137,13 +136,12 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
 
                 {/* StartDate */}
                 <div>
-                    <label
-                        htmlFor="startDate"
-                        className="mb-2 block text-sm font-medium text-gray-700">
+                    <FormLabel
+                        htmlFor="startDate">
                         Start date
-                    </label>
+                    </FormLabel>
 
-                    <input
+                    <FormInput
                         id="startDate"
                         type="date"
                         value={startDate}
@@ -156,31 +154,28 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
 
                 {/* EndDate */}
                 <div>
-                    <label
-                        htmlFor="endDate"
-                        className="mb-2 block text-sm font-medium text-gray-700">
+                    <FormLabel
+                        htmlFor="endDate">
                         End date
-                    </label>
+                    </FormLabel>
 
-                    <input
+                    <FormInput
                         id="endDate"
                         type="date"
                         value={endDate}
                         onChange={(event) => setEndDate(event.target.value)} 
                         required
-                        placeholder="Write your comment..."
-                        className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3
-                        outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"/>
+                        placeholder="Write your comment..."/>
                 </div>
 
                 {/* Submit */}
-                <button
+                <FormButton
                     type="submit"
                     disabled={isSubmitting}
                     className="rounded-lg bg-blue-600 px-5 py-2.5 
                     font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300">
                     {isSubmitting ? "Submitting..." : "Submit module"}
-                </button>
+                </FormButton>
 
                 {/* Success */}
                 {message && (

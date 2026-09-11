@@ -1,12 +1,14 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-import { apiFetch } from "../../api/client";
-import type { LoginResult } from "./types";
-import type { User } from "../users/types";
+import { login as loginApi } from "./api/api";
+import type { User } from "../users/types/types";
+import ROLES from "./roleConstants";
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  isTeacher: boolean;
+  isStudent: boolean;
   login: (email: string, password: string) => Promise<string | null>;
   logout: () => void;
 }
@@ -25,30 +27,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const isAuthenticated = user !== null;
+  const isTeacher = user?.roleName === ROLES.TEACHER;
+  const isStudent = user?.roleName === ROLES.STUDENT;
 
   async function login(
     email: string,
     password: string,
   ): Promise<string | null> {
-    const response = await apiFetch<LoginResult>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const result = await loginApi(email, password);
 
-    if (!response.success) {
-      return response.error.message;
+      localStorage.setItem("access_token", result.accessToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
+
+      setUser(result.user);
+
+      return null;
+    } catch (error) {
+      return error instanceof Error
+        ? error.message
+        : "Unable to connect to the server.";
     }
-
-    localStorage.setItem("access_token", response.data.accessToken);
-
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-
-    setUser(response.data.user);
-
-    return null;
   }
 
   function logout() {
@@ -63,6 +62,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       value={{
         user,
         isAuthenticated,
+        isTeacher,
+        isStudent,
         login,
         logout,
       }}

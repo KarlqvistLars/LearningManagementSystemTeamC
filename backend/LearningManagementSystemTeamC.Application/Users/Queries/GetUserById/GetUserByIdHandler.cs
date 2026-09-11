@@ -21,7 +21,7 @@ public class GetUserByIdHandler : IGetUserByIdHandler
         _userInfoRepository = userInfoRepository;
     }
 
-    public async Task<UserDto> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
+    public async Task<UserDto> HandleAsync(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
         var existingUser = await _userRepository.GetByIdAsync(query.Id, cancellationToken) ?? throw new NotFoundException(
                 UserRules.UserNotFoundCode,
@@ -41,6 +41,6 @@ public class GetUserByIdHandler : IGetUserByIdHandler
                 UserInfoRules.UserInfoNotFoundCode,
                 UserInfoRules.UserInfoNotFoundMessage);
 
-        return UserMapper.ToDto(existingUser, existingRole, existingUserInfo.FirstName, existingUserInfo.LastName);
+        return UserMapper.ToDto(existingUser, existingRole, existingUserInfo);
     }
 }

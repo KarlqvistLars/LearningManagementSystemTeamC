@@ -1,26 +1,28 @@
 import { Link } from "react-router";
-import { Logo } from "../../shared/components/Logo";
+import { Logo } from "./Logo";
 import { useAuth } from "../../features/auth/AuthContext";
+import { MenuFullName } from "./MenuFullName";
 
-export default function Header() {
+export function Header() {
   const { user } = useAuth();
 
   const initial = user?.firstName?.charAt(0).toUpperCase();
 
   return (
-    <header className="h-16 bg-[#141720]">
-      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
+    <header className="px-6 py-1 bg-menu border border-border">
+      <div className="mx-auto flex h-full items-center justify-between">
         <Logo />
 
         {user && (
-          <Link to="/profile" className="flex items-center gap-3 text-white">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F0A04B] font-semibold text-[#141720]">
+          <Link
+            to={`/users/${user.id}/edit`}
+            className="flex items-center gap-3 text-primary-title-text"
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary font-semibold text-background">
               {initial}
             </div>
 
-            <span className="text-sm font-medium">
-              {user.firstName} {user.lastName}
-            </span>
+            <MenuFullName firstName={user.firstName} lastName={user.lastName} />
           </Link>
         )}
       </div>

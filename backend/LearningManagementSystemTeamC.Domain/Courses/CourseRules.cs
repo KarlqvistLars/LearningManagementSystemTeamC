@@ -23,4 +23,7 @@ public static class CourseRules
     public const string InvalidDatesCode = "COURSE_INVALID_DATES";
     public const string InvalidDatesMessage =
         "End date must be after start date.";
+
+    public const string CourseNotFoundCode = "COURSE_NOT_FOUND";
+    public const string CourseNotFoundMessage = "Course not found.";
 }
