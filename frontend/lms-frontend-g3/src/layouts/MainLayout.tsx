@@ -3,10 +3,7 @@ import { Header } from "../shared/components/Header";
 import { Footer } from "../shared/components/Footer";
 import { SideMenu } from "../shared/components/SideMenu";
 import { useAuth } from "../features/auth/AuthContext";
-import {
-  studentMenuItems,
-  teacherMenuItems,
-} from "../shared/components/types/menu";
+import { studentMenuItems, teacherMenuItems } from "../shared/types/menu";
 
 export function MainLayout() {
   const { isAuthenticated, isTeacher } = useAuth();

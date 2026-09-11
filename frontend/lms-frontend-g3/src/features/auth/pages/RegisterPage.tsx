@@ -6,7 +6,7 @@ import { FormTitle } from "../../../shared/components/FormTitle";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormLabel } from "../../../shared/components/FormLabel";
 import { FormInput } from "../../../shared/components/FormInput";
-import { FormButton } from "../../../shared/components/FormButton";
+import { Button } from "../../../shared/components/Button";
 
 export function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -144,13 +144,14 @@ export function RegisterPage() {
               </div>
             </div>
 
-            <FormButton
+            <Button
               type="submit"
               disabled={isLoading}
-              className="bg-primary text-black"
+              variant="form"
+              color="create"
             >
               {isLoading ? "Creating account..." : "Create account"}
-            </FormButton>
+            </Button>
           </form>
         </div>
       </div>

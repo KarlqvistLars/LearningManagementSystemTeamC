@@ -6,7 +6,7 @@ import { FormTitle } from "../../../shared/components/FormTitle";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormLabel } from "../../../shared/components/FormLabel";
 import { FormInput } from "../../../shared/components/FormInput";
-import { FormButton } from "../../../shared/components/FormButton";
+import { Button } from "../../../shared/components/Button";
 
 export function ResetPasswordPage() {
   const [password, setPassword] = useState("");
@@ -102,13 +102,14 @@ export function ResetPasswordPage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <FormButton
+              <Button
                 type="submit"
                 disabled={isLoading || message !== null}
-                className="bg-primary text-black"
+                variant="form"
+                color="create"
               >
                 {isLoading ? "Resetting password..." : "Reset password"}
-              </FormButton>
+              </Button>
 
               <Link
                 to="/login"
