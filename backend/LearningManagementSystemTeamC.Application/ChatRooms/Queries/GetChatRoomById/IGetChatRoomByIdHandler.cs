@@ -5,6 +5,6 @@ namespace LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoo
 public interface IGetChatRoomByIdHandler
 {
     Task<ChatRoomDto> HandleAsync(
-        Guid chatRoomId,
+        GetChatRoomByIdQuery Id,
         CancellationToken cancellationToken);
 }

@@ -17,12 +17,12 @@ public class GetChatRoomByIdHandler : IGetChatRoomByIdHandler
     }
 
     public async Task<ChatRoomDto> HandleAsync(
-        Guid chatRoomId,
+        GetChatRoomByIdQuery query,
         CancellationToken cancellationToken)
     {
         var chatRoomReadModel =
             await _chatRoomReadRepository.GetByIdAsync(
-                chatRoomId,
+                query.Id,
                 cancellationToken);
 
         return chatRoomReadModel is null

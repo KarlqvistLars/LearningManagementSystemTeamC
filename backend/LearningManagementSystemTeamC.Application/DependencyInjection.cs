@@ -5,6 +5,7 @@ using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ResetPassword;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
 using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoomById;
+using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetMyChatRooms;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
@@ -61,6 +62,7 @@ public static class DependencyInjection
         services.AddScoped<IUpdateCourseHandler, UpdateCourseHandler>();
         services.AddScoped<ICreateChatRoomHandler, CreateChatRoomHandler>();
         services.AddScoped<IGetChatRoomByIdHandler, GetChatRoomByIdHandler>();
+        services.AddScoped<IGetMyChatRoomsHandler, GetMyChatRoomsHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();

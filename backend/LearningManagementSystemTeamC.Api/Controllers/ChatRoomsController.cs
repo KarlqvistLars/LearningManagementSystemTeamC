@@ -3,6 +3,7 @@ using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
 using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoomById;
+using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetMyChatRooms;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -53,10 +54,23 @@ public class ChatRoomsController : ControllerBase
     CancellationToken cancellationToken)
     {
         var chatRoomDto = await handler.HandleAsync(
-            id,
+            new GetChatRoomByIdQuery(id),
             cancellationToken);
 
         return Ok(ApiResponse<ChatRoomDto>.Ok(chatRoomDto));
+    }
+
+    [HttpGet("my")]
+    public async Task<IActionResult> GetMyChatRooms(
+        [FromServices] IGetMyChatRoomsHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var userId = User.GetUserId();
+        var chatRoomDtos = await handler.HandleAsync(
+            new GetMyChatRoomsQuery(userId),
+            cancellationToken);
+
+        return Ok(ApiResponse<IReadOnlyList<ChatRoomDto>>.Ok(chatRoomDtos));
     }
 
     // add member
