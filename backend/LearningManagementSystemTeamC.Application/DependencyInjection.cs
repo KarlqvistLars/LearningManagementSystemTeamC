@@ -18,6 +18,7 @@ using LearningManagementSystemTeamC.Application.Courses.Queries.GetCoursesByIdRa
 using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
+using LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
@@ -69,6 +70,7 @@ public static class DependencyInjection
         services.AddScoped<IDeleteChatRoomHandler, DeleteChatRoomHandler>();
         services.AddScoped<IAddChatRoomMemberHandler, AddChatRoomMemberHandler>();
         services.AddScoped<IRemoveChatRoomMemberHandler, RemoveChatRoomMemberHandler>();
+        services.AddScoped<ISendMessageHandler, SendMessageHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
@@ -82,6 +84,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordValidator>();
         services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
         services.AddScoped<IValidator<CreateChatRoomCommand>, CreateChatRoomValidator>();
+        services.AddScoped<IValidator<SendMessageCommand>, SendMessageValidator>();
 
         return services;
     }

@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.ChatRooms;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses;
 using LearningManagementSystemTeamC.Application.Enrollments;
+using LearningManagementSystemTeamC.Application.Messages;
 using LearningManagementSystemTeamC.Application.Modules;
 using LearningManagementSystemTeamC.Application.Roles;
 using LearningManagementSystemTeamC.Application.Users;
@@ -57,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<IPasswordResetTokenService, PasswordResetTokenService>();
         services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
         services.AddScoped<IChatRoomReadRepository, ChatRoomReadRepository>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
         return services;
     }
 }

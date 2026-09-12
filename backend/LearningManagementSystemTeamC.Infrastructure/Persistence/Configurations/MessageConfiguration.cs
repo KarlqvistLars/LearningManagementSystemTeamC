@@ -12,6 +12,9 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever();
+
         builder.Property(x => x.Content)
             .IsRequired()
             .HasMaxLength(MessageRules.MessageContentMaxLength);
