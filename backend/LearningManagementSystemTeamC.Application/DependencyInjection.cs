@@ -3,6 +3,12 @@ using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ResetPassword;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.AddChatRoomMember;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.DeleteChatRoom;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.RemoveChatRoomMember;
+using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoomById;
+using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetMyChatRooms;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
@@ -12,6 +18,7 @@ using LearningManagementSystemTeamC.Application.Courses.Queries.GetCoursesByIdRa
 using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
+using LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
@@ -57,6 +64,13 @@ public static class DependencyInjection
         services.AddScoped<IToggleUserStatusHandler, ToggleUserStatusHandler>();
         services.AddScoped<IGetRolesHandler, GetRolesHandler>();
         services.AddScoped<IUpdateCourseHandler, UpdateCourseHandler>();
+        services.AddScoped<ICreateChatRoomHandler, CreateChatRoomHandler>();
+        services.AddScoped<IGetChatRoomByIdHandler, GetChatRoomByIdHandler>();
+        services.AddScoped<IGetMyChatRoomsHandler, GetMyChatRoomsHandler>();
+        services.AddScoped<IDeleteChatRoomHandler, DeleteChatRoomHandler>();
+        services.AddScoped<IAddChatRoomMemberHandler, AddChatRoomMemberHandler>();
+        services.AddScoped<IRemoveChatRoomMemberHandler, RemoveChatRoomMemberHandler>();
+        services.AddScoped<ISendMessageHandler, SendMessageHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
@@ -69,6 +83,8 @@ public static class DependencyInjection
         services.AddScoped<IValidator<ForgotPasswordCommand>, ForgotPasswordValidator>();
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordValidator>();
         services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
+        services.AddScoped<IValidator<CreateChatRoomCommand>, CreateChatRoomValidator>();
+        services.AddScoped<IValidator<SendMessageCommand>, SendMessageValidator>();
 
         return services;
     }

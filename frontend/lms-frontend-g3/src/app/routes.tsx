@@ -7,7 +7,6 @@ import { NotFoundPage } from "../features/not-found/NotFoundPage";
 import { LoginPage } from "../features/auth/pages/LoginPage";
 import { RegisterPage } from "../features/auth/pages/RegisterPage";
 import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
-import { CourseModulesPage } from "../features/modules/pages/CourseModulesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
 import { ModulePage } from "../features/modules/pages/ModulePage";
 import { ForgotPasswordPage } from "../features/auth/pages/ForgotPasswordPage";
