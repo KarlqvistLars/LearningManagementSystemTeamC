@@ -9,7 +9,9 @@ public class ChatRoomMember
 
     private ChatRoomMember() { }
 
-    public ChatRoomMember(Guid chatRoomId, Guid userId)
+    internal ChatRoomMember(
+        Guid chatRoomId,
+        Guid userId)
     {
         Id = Guid.NewGuid();
         ChatRoomId = chatRoomId;

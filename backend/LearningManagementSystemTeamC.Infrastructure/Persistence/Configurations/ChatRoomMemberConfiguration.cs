@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Domain.ChatRoomMembers;
+using LearningManagementSystemTeamC.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,5 +26,10 @@ public class ChatRoomMemberConfiguration : IEntityTypeConfiguration<ChatRoomMemb
             x.UserId
         })
         .IsUnique();
+
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

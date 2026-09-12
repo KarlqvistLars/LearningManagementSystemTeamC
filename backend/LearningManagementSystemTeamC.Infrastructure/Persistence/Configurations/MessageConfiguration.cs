@@ -1,4 +1,6 @@
-﻿using LearningManagementSystemTeamC.Domain.Messages;
+﻿using LearningManagementSystemTeamC.Domain.ChatRooms;
+using LearningManagementSystemTeamC.Domain.Messages;
+using LearningManagementSystemTeamC.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,13 +16,13 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .IsRequired()
             .HasMaxLength(MessageRules.MessageContentMaxLength);
 
-        builder.Property(x => x.CreatedAt)
-            .IsRequired();
-
         builder.Property(x => x.ChatRoomId)
             .IsRequired();
 
         builder.Property(x => x.SenderId)
+            .IsRequired();
+
+        builder.Property(x => x.CreatedAt)
             .IsRequired();
 
         builder.HasIndex(x => new
@@ -28,5 +30,15 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             x.ChatRoomId,
             x.CreatedAt
         });
+
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne<ChatRoom>()
+            .WithMany()
+            .HasForeignKey(x => x.ChatRoomId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
