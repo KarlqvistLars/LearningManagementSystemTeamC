@@ -14,6 +14,7 @@ using LearningManagementSystemTeamC.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LearningManagementSystemTeamC.Infrastructure;
 
@@ -24,7 +25,11 @@ public static class DependencyInjection
         IConfiguration config)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(config.GetConnectionString("Default"))
+            options
+                .UseSqlServer(config.GetConnectionString("Default"))
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine, LogLevel.Information)
         );
 
         services.Configure<BrevoSettings>(

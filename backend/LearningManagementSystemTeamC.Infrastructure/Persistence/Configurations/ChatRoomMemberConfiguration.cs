@@ -11,6 +11,9 @@ public class ChatRoomMemberConfiguration : IEntityTypeConfiguration<ChatRoomMemb
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever();
+
         builder.Property(x => x.ChatRoomId)
             .IsRequired();
 
