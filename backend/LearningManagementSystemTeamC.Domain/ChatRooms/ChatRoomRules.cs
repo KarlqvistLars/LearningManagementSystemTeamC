@@ -25,4 +25,7 @@ public class ChatRoomRules
 
     public const string NotOwnerCode = "CHAT_ROOM_NOT_OWNER";
     public const string NotOwnerMessage = "You are not the owner of the chatroom";
+
+    public const string RoomExistsCode = "CHAT_ROOM_EXISTS";
+    public const string RoomExistsMessage = "Chat room already exists";
 }

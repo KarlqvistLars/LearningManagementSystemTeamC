@@ -10,4 +10,6 @@ public interface IUserRepository
     Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken);
     Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken);
     //Task DeleteAsync(User user, CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<Guid>> GetMissingIdsAsync(IReadOnlyCollection<Guid> userIds, CancellationToken cancellationToken);
 }

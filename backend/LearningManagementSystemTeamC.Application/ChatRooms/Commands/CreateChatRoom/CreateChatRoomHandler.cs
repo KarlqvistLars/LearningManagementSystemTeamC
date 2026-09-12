@@ -1,7 +1,10 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Common.Mappers;
+using LearningManagementSystemTeamC.Application.Users;
 using LearningManagementSystemTeamC.Domain.ChatRooms;
+using LearningManagementSystemTeamC.Domain.Common.Exceptions;
+using LearningManagementSystemTeamC.Domain.Users;
 using InvalidOperationException = LearningManagementSystemTeamC.Domain.Common.Exceptions.InvalidOperationException;
 
 namespace LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
@@ -10,15 +13,18 @@ public class CreateChatRoomHandler : ICreateChatRoomHandler
 {
     private readonly IChatRoomRepository _chatRoomRepository;
     private readonly IChatRoomReadRepository _chatRoomReadRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateChatRoomHandler(
         IChatRoomRepository chatRoomRepository,
         IChatRoomReadRepository chatRoomReadRepository,
+        IUserRepository userRepository,
         IUnitOfWork unitOfWork)
     {
         _chatRoomRepository = chatRoomRepository;
         _chatRoomReadRepository = chatRoomReadRepository;
+        _userRepository = userRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -27,16 +33,38 @@ public class CreateChatRoomHandler : ICreateChatRoomHandler
         Guid userId,
         CancellationToken cancellationToken)
     {
-        var chatRoom = new ChatRoom(command.Name, userId);
+        var memberIds = command.MemberIds
+            .Append(userId)
+            .Distinct()
+            .ToList();
 
-        chatRoom.AddMember(userId);
+        var missingUserIds =
+            await _userRepository.GetMissingIdsAsync(
+                memberIds,
+                cancellationToken);
 
-        foreach (var memberId in command.MemberIds.Distinct())
+        if (missingUserIds.Count > 0)
+            throw new NotFoundException(
+                UserRules.UserNotFoundCode,
+                UserRules.UserNotFoundMessage);
+
+        var chatRoomExists =
+            await _chatRoomRepository.ExistsWithMembersAsync(
+                memberIds,
+                cancellationToken);
+
+        if (chatRoomExists)
+            throw new ConflictException(
+                ChatRoomRules.RoomExistsCode,
+                ChatRoomRules.RoomExistsMessage);
+
+        var chatRoom = new ChatRoom(
+            command.Name,
+            userId);
+
+        foreach (var memberId in memberIds)
         {
-            if (memberId != userId)
-            {
-                chatRoom.AddMember(memberId);
-            }
+            chatRoom.AddMember(memberId);
         }
 
         await _chatRoomRepository.AddAsync(
@@ -52,7 +80,9 @@ public class CreateChatRoomHandler : ICreateChatRoomHandler
                 cancellationToken);
 
         return chatRoomReadModel is null
-            ? throw new InvalidOperationException(ChatRoomRules.CreateReadFailedCode, ChatRoomRules.CreateReadFailedMessage)
+            ? throw new InvalidOperationException(
+                ChatRoomRules.CreateReadFailedCode,
+                ChatRoomRules.CreateReadFailedMessage)
             : ChatRoomMapper.ToDto(chatRoomReadModel);
     }
 }

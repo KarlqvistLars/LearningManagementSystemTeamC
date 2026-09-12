@@ -34,6 +34,20 @@ public class ChatRoomRepository : IChatRoomRepository
                 cancellationToken);
     }
 
+    public async Task<bool> ExistsWithMembersAsync(
+        IReadOnlyCollection<Guid> userIds,
+        CancellationToken cancellationToken)
+    {
+        var memberCount = userIds.Count;
+
+        return await _context.ChatRooms
+            .Where(chatRoom =>
+                chatRoom.Members.Count == memberCount &&
+                chatRoom.Members.All(
+                    member => userIds.Contains(member.UserId)))
+            .AnyAsync(cancellationToken);
+    }
+
     public void Remove(
         ChatRoom chatRoom)
     {

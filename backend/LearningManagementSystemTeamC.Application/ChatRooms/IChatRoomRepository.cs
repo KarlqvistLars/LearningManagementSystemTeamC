@@ -8,9 +8,13 @@ public interface IChatRoomRepository
         ChatRoom chatRoom,
         CancellationToken cancellationToken);
     Task<ChatRoom?> GetByIdAsync(
-    Guid chatRoomId,
-    CancellationToken cancellationToken);
+        Guid chatRoomId,
+        CancellationToken cancellationToken);
 
     void Remove(
         ChatRoom chatRoom);
+
+    Task<bool> ExistsWithMembersAsync(
+        IReadOnlyCollection<Guid> userIds,
+        CancellationToken cancellationToken);
 }
