@@ -19,4 +19,7 @@ public class ChatRoomRules
     public const string NameRequiredMessage = "Chat room name is required.";
     public static string NameTooLongMessage(int maxLength) => $"Chat room name cannot exceed {maxLength} characters.";
     public const string MemberRequiredMessage = "At least one member is required.";
+
+    public const string NotFoundCode = "CHAT_ROOM_NOT_FOUND";
+    public const string NotFoundMessage = "Chat room could not be found";
 }
