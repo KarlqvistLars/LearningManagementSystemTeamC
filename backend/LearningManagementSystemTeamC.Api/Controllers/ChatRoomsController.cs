@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.AddChatRoomMember;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.DeleteChatRoom;
 using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoomById;
@@ -50,9 +51,9 @@ public class ChatRoomsController : ControllerBase
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(
-    Guid id,
-    [FromServices] IGetChatRoomByIdHandler handler,
-    CancellationToken cancellationToken)
+        Guid id,
+        [FromServices] IGetChatRoomByIdHandler handler,
+        CancellationToken cancellationToken)
     {
         var chatRoomDto = await handler.HandleAsync(
             new GetChatRoomByIdQuery(id),
@@ -76,9 +77,9 @@ public class ChatRoomsController : ControllerBase
 
     [HttpDelete("{chatRoomId:guid}")]
     public async Task<IActionResult> Delete(
-    Guid chatRoomId,
-    [FromServices] IDeleteChatRoomHandler handler,
-    CancellationToken cancellationToken)
+        Guid chatRoomId,
+        [FromServices] IDeleteChatRoomHandler handler,
+        CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
 
@@ -94,6 +95,22 @@ public class ChatRoomsController : ControllerBase
             ApiResponse<string>.Ok("Deleted"));
     }
 
-    // add member
+    [HttpPost("members")]
+    public async Task<IActionResult> AddMember(
+        AddChatRoomMemberCommand command,
+        [FromServices] IAddChatRoomMemberHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var currentUserId = User.GetUserId();
+
+        await handler.HandleAsync(
+            command,
+            currentUserId,
+            cancellationToken);
+
+        return Ok(
+            ApiResponse<string>.Ok("Member Added"));
+    }
+
     // remove member
 }
