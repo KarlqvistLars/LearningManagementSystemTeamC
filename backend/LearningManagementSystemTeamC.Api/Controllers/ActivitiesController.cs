@@ -1,7 +1,7 @@
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
-using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
+using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
@@ -40,8 +40,10 @@ public class ActivitiesController : ControllerBase
         [FromServices] IGetActivitiesByModuleIdHandler getActivitiesByModuleHandler,
         CancellationToken cancellationToken)
     {
+        var userId = User.GetUserId();
+        var role = User.GetRole();
         var activities = await getActivitiesByModuleHandler.Handle(
-            new GetActivitiesByModuleIdQuery(moduleId),
+            new GetActivitiesByModuleIdQuery(moduleId, userId, role),
             cancellationToken);
         var activity = activities.FirstOrDefault(a => a.Id == activityId);
         if (activity == null)

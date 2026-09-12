@@ -60,7 +60,7 @@ public class Activity
                 ActivityRules.ActivityDescriptionRequiredCode,
                 nameof(description));
 
-        if (endDate <= startDate)
+        if (endDate < startDate)
             throw new DomainException(
                 ActivityRules.ActivityEndBeforeStartTimeCode,
                 nameof(endDate));

@@ -6,7 +6,8 @@ namespace LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCours
 public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
 {
     public Dictionary<string, string[]> Validate(
-        UpdateCourseCommand command)
+        UpdateCourseCommand command,
+        CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 
@@ -16,8 +17,7 @@ public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
             [
                 CourseRules.CourseNameRequiredMessage
             ];
-        }
-        else if (command.Name.Length > CourseRules.CourseNameMaxLength)
+        } else if (command.Name.Length > CourseRules.CourseNameMaxLength)
         {
             errors[nameof(command.Name)] =
             [
@@ -31,8 +31,7 @@ public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
             [
                 CourseRules.DescriptionRequiredMessage
             ];
-        }
-        else if (command.Description.Length > CourseRules.DescriptionMaxLength)
+        } else if (command.Description.Length > CourseRules.DescriptionMaxLength)
         {
             errors[nameof(command.Description)] =
             [

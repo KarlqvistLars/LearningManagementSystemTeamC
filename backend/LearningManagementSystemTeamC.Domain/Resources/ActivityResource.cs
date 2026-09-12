@@ -17,6 +17,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
             string resourceName,
             string content,
             string url,
+            DateTime createdAt,
             ActivityType type,
             Guid userId,
             Guid activityId)
@@ -25,6 +26,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
                 resourceName,
                 content,
                 url,
+                createdAt,
                 type,
                 userId,
                 activityId);
@@ -42,6 +44,7 @@ namespace LearningManagementSystemTeamC.Domain.ActivityResources
             string resourceName,
             string content,
             string url,
+            DateTime createdAt,
             ActivityType type,
             Guid userId,
             Guid activityId)

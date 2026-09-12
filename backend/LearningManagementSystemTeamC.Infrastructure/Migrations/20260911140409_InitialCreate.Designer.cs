@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260911072639_InitialCreate.Designer.cs
-    [Migration("20260911072639_InitialCreate")]
+    [Migration("20260911140409_InitialCreate")]
     partial class InitialCreate
-========
-    [Migration("20260910135905_init")]
-    partial class init
->>>>>>>> origin/develop:backend/LearningManagementSystemTeamC.Infrastructure/Migrations/20260910135905_init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +54,8 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
 
                     b.ToTable("Activities");
                 });
@@ -321,6 +318,15 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Activities.Activity", b =>
+                {
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Modules.Module", null)
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Enrollments.Enrollment", b =>
