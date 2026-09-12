@@ -42,7 +42,7 @@ public class ChatRoomsController : ControllerBase
             command,
             creatorId,
             cancellationToken);
-        // TODO: to createdataction
+
         return CreatedAtAction(nameof(GetById), new { id = chatRoomDto.Id }, ApiResponse<ChatRoomDto>.Ok(chatRoomDto));
     }
 
@@ -58,4 +58,9 @@ public class ChatRoomsController : ControllerBase
 
         return Ok(ApiResponse<ChatRoomDto>.Ok(chatRoomDto));
     }
+
+    // add member
+    // remove member
+    // delete chatroom
+    // get my chatrooms
 }
