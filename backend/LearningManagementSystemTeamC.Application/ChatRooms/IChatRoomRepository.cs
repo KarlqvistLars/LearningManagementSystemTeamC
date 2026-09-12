@@ -7,4 +7,10 @@ public interface IChatRoomRepository
     Task AddAsync(
         ChatRoom chatRoom,
         CancellationToken cancellationToken);
+    Task<ChatRoom?> GetByIdAsync(
+    Guid chatRoomId,
+    CancellationToken cancellationToken);
+
+    void Remove(
+        ChatRoom chatRoom);
 }

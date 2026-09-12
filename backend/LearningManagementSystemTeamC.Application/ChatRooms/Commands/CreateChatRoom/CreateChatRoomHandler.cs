@@ -27,7 +27,7 @@ public class CreateChatRoomHandler : ICreateChatRoomHandler
         Guid userId,
         CancellationToken cancellationToken)
     {
-        var chatRoom = new ChatRoom(command.Name);
+        var chatRoom = new ChatRoom(command.Name, userId);
 
         chatRoom.AddMember(userId);
 

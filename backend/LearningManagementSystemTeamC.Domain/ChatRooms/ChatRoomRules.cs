@@ -22,4 +22,7 @@ public class ChatRoomRules
 
     public const string NotFoundCode = "CHAT_ROOM_NOT_FOUND";
     public const string NotFoundMessage = "Chat room could not be found";
+
+    public const string NotOwnerCode = "CHAT_ROOM_NOT_OWNER";
+    public const string NotOwnerMessage = "You are not the owner of the chatroom";
 }

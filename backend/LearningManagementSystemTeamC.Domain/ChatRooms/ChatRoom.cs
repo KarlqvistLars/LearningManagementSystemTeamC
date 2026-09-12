@@ -9,16 +9,20 @@ public class ChatRoom
 
     public Guid Id { get; private set; }
     public string? Name { get; private set; }
+    public Guid CreatedBy { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
     public IReadOnlyCollection<ChatRoomMember> Members => _members.AsReadOnly();
 
     private ChatRoom() { }
 
-    public ChatRoom(string? name)
+    public ChatRoom(
+        string? name,
+        Guid createdBy)
     {
         Id = Guid.NewGuid();
         Name = name;
+        CreatedBy = createdBy;
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -26,11 +30,13 @@ public class ChatRoom
     {
         if (userId == Guid.Empty)
             throw new DomainException(
-                ChatRoomRules.EmptyUserIdCode, ChatRoomRules.EmptyUserIdMessage);
+                ChatRoomRules.EmptyUserIdCode,
+                ChatRoomRules.EmptyUserIdMessage);
 
         if (_members.Any(x => x.UserId == userId))
             throw new DomainException(
-                ChatRoomRules.IsMemberCode, ChatRoomRules.IsMemberMessage);
+                ChatRoomRules.IsMemberCode,
+                ChatRoomRules.IsMemberMessage);
 
         _members.Add(
             new ChatRoomMember(
@@ -40,11 +46,13 @@ public class ChatRoom
 
     public void RemoveMember(Guid userId)
     {
-        var member = _members.FirstOrDefault(x => x.UserId == userId);
+        var member = _members.FirstOrDefault(
+            x => x.UserId == userId);
 
         if (member is null)
             throw new DomainException(
-                ChatRoomRules.NotMemberCode, ChatRoomRules.NotMemberMessage);
+                ChatRoomRules.NotMemberCode,
+                ChatRoomRules.NotMemberMessage);
 
         _members.Remove(member);
     }

@@ -2,6 +2,7 @@
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.DeleteChatRoom;
 using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoomById;
 using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetMyChatRooms;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
@@ -73,8 +74,26 @@ public class ChatRoomsController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<ChatRoomDto>>.Ok(chatRoomDtos));
     }
 
+    [HttpDelete("{chatRoomId:guid}")]
+    public async Task<IActionResult> Delete(
+    Guid chatRoomId,
+    [FromServices] IDeleteChatRoomHandler handler,
+    CancellationToken cancellationToken)
+    {
+        var userId = User.GetUserId();
+
+        var command = new DeleteChatRoomCommand(
+            chatRoomId,
+            userId);
+
+        await handler.HandleAsync(
+            command,
+            cancellationToken);
+
+        return Ok(
+            ApiResponse<string>.Ok("Deleted"));
+    }
+
     // add member
     // remove member
-    // delete chatroom
-    // get my chatrooms
 }
