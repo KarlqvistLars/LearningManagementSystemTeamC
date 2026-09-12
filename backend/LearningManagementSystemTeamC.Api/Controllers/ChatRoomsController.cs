@@ -11,7 +11,7 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
 [Route("api/chatrooms")]
-[Authorize(Policy = "AuthenticatedUser")]
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
 public class ChatRoomsController : ControllerBase
 {
     public ChatRoomsController()
