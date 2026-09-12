@@ -19,7 +19,7 @@ public class ModulesControllerTests
     private readonly Mock<ICreateModuleHandler> _mockCreateModuleHandler;
     private readonly Mock<IEditModuleHandler> _mockEditModuleHandler;
     private readonly ModulesController _controller;
-    
+
     public ModulesControllerTests()
     {
         _mockGetModuleByIdHandler = new Mock<IGetModuleByIdHandler>();
@@ -104,7 +104,7 @@ public class ModulesControllerTests
                 "A test description",
                 DateTime.Parse("2025-05-01"),
                 DateTime.Parse("2025-05-05"),
-                courseId)             
+                courseId)
         };
 
         _mockGetModulesHandler.Setup(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId),
@@ -112,7 +112,7 @@ public class ModulesControllerTests
 
         // Act
 
-        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
@@ -139,7 +139,7 @@ public class ModulesControllerTests
 
         // Act
 
-        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
@@ -169,7 +169,7 @@ public class ModulesControllerTests
             DateTime.Parse("2026-06-05"),
             DateTime.Parse("2026-06-10"),
             courseId);
-        
+
         var moduleDto = new ModuleDto(
             Guid.NewGuid(),
             "Test Module",
@@ -189,7 +189,7 @@ public class ModulesControllerTests
         // Assert
         var createdResult = Assert.IsType<CreatedAtActionResult>(result);
 
-        Assert.Equal(nameof(ModulesController.GetModuleByCourseId), createdResult.ActionName);
+        Assert.Equal(nameof(ModulesController.GetModulesByCourseId), createdResult.ActionName);
         Assert.Equal(courseId, createdResult.RouteValues!["courseId"]);
 
         var response = Assert.IsType<ApiResponse<ModuleDto>>(createdResult.Value);
@@ -236,11 +236,11 @@ public class ModulesControllerTests
         Assert.NotNull(response);
         Assert.NotNull(response.Error);
         Assert.Equal(ExceptionConstants.ValidationFailedCode, response.Error.Code);
-        Assert.Equal(ExceptionConstants.DefaultExceptionMessage,response.Error.Message);
+        Assert.Equal(ExceptionConstants.DefaultExceptionMessage, response.Error.Message);
         Assert.Equal(validationErrors, response.Error.Details);
 
-        _mockCreateModuleHandler.Verify(x => x.Handle(It.IsAny<CreateModuleCommand>(),It.IsAny<CancellationToken>()),Times.Never);
-        mockValidator.Verify(x => x.Validate(command),Times.Once);
+        _mockCreateModuleHandler.Verify(x => x.Handle(It.IsAny<CreateModuleCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        mockValidator.Verify(x => x.Validate(command), Times.Once);
     }
 
     [Fact]
@@ -257,7 +257,7 @@ public class ModulesControllerTests
             DateTime.Parse("2025-05-10"),
             DateTime.Parse("2025-10-05"),
             courseId);
-        
+
         var command = new EditModuleCommand(
             moduleDto.Id,
             "New Module Name",
@@ -265,7 +265,7 @@ public class ModulesControllerTests
             DateTime.Parse("2025-05-10"),
             DateTime.Parse("2025-10-05"),
             moduleDto.CourseId);
-        
+
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
         mockValidator.Setup(x => x.Validate(command)).Returns(new Dictionary<string, string[]>());
@@ -286,7 +286,7 @@ public class ModulesControllerTests
         Assert.Equal(moduleDto.Description, response.Data.Description);
 
         _mockEditModuleHandler.Verify(x => x.Handle(command, It.IsAny<CancellationToken>()), Times.Once);
-       
+
     }
 
     [Fact]
@@ -296,7 +296,7 @@ public class ModulesControllerTests
         var moduleId = Guid.NewGuid();
         var courseId = Guid.NewGuid();
 
-        
+
         var command = new EditModuleCommand(
             moduleId,
             "",
@@ -309,9 +309,9 @@ public class ModulesControllerTests
         {
             {
                 "Name", new[] { "Module name is required." }
-            }  
+            }
         };
-        
+
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
         mockValidator.Setup(x => x.Validate(command)).Returns(validationErrors);
@@ -325,6 +325,6 @@ public class ModulesControllerTests
         Assert.NotNull(badRequestResult.Value);
 
         _mockEditModuleHandler.Verify(x => x.Handle(command, It.IsAny<CancellationToken>()), Times.Never);
-       
+
     }
 }
