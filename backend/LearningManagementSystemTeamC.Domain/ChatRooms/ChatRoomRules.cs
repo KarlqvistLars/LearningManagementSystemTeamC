@@ -11,4 +11,8 @@ public class ChatRoomRules
     public const string IsMemberMessage = "User is already a member of this chat room.";
     public const string NotMemberCode = "CHAT_ROOM_USER_NOT_MEMBER";
     public const string NotMemberMessage = "User is not a member of this chat room";
+
+    public const string CreateReadFailedCode = "CHAT_ROOM_CREATE_READ_FAIL";
+    public const string CreateReadFailedMessage =
+        "Chat room was created but could not be retrieved.";
 }

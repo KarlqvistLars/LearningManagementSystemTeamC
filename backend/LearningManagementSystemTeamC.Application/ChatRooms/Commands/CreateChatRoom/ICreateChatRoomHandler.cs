@@ -1,9 +1,11 @@
-﻿namespace LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
+﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
+
+namespace LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
 
 public interface ICreateChatRoomHandler
 {
-    Task<Guid> HandleAsync(
+    Task<ChatRoomDto> HandleAsync(
         CreateChatRoomCommand command,
-        Guid creatorId,
+        Guid userId,
         CancellationToken cancellationToken);
 }
