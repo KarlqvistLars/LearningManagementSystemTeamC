@@ -71,6 +71,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<ForgotPasswordCommand>, ForgotPasswordValidator>();
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordValidator>();
         services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
+        services.AddScoped<IValidator<CreateChatRoomCommand>, CreateChatRoomValidator>();
 
         return services;
     }

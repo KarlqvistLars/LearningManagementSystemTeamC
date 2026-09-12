@@ -15,4 +15,8 @@ public class ChatRoomRules
     public const string CreateReadFailedCode = "CHAT_ROOM_CREATE_READ_FAIL";
     public const string CreateReadFailedMessage =
         "Chat room was created but could not be retrieved.";
+
+    public const string NameRequiredMessage = "Chat room name is required.";
+    public static string NameTooLongMessage(int maxLength) => $"Chat room name cannot exceed {maxLength} characters.";
+    public const string MemberRequiredMessage = "At least one member is required.";
 }
