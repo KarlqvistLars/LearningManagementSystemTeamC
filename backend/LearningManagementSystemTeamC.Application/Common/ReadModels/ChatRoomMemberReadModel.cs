@@ -1,6 +1,6 @@
-﻿namespace LearningManagementSystemTeamC.Application.Common.DTOs;
+﻿namespace LearningManagementSystemTeamC.Application.Common.ReadModels;
 
-public record ChatRoomMemberDto(
+public record ChatRoomMemberReadModel(
     Guid UserId,
     string FirstName,
     string LastName,

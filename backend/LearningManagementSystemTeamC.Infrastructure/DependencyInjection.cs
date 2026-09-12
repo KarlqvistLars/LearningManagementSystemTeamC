@@ -51,6 +51,7 @@ public static class DependencyInjection
         services.AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>();
         services.AddScoped<IPasswordResetTokenService, PasswordResetTokenService>();
         services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
+        services.AddScoped<IChatRoomReadRepository, ChatRoomReadRepository>();
         return services;
     }
 }
