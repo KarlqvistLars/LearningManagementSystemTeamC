@@ -5,6 +5,7 @@ using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Domain.ChatRooms;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Messages;
+using InvalidOperationException = LearningManagementSystemTeamC.Domain.Common.Exceptions.InvalidOperationException;
 
 namespace LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
 
@@ -12,15 +13,18 @@ public class SendMessageHandler : ISendMessageHandler
 {
     private readonly IChatRoomRepository _chatRoomRepository;
     private readonly IMessageRepository _messageRepository;
+    private readonly IMessageReadRepository _messageReadRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public SendMessageHandler(
         IChatRoomRepository chatRoomRepository,
         IMessageRepository messageRepository,
+        IMessageReadRepository messageReadRepository,
         IUnitOfWork unitOfWork)
     {
         _chatRoomRepository = chatRoomRepository;
         _messageRepository = messageRepository;
+        _messageReadRepository = messageReadRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -56,6 +60,15 @@ public class SendMessageHandler : ISendMessageHandler
         await _unitOfWork.SaveChangesAsync(
             cancellationToken);
 
-        return MessageMapper.ToDto(message);
+        var messageReadModel =
+            await _messageReadRepository.GetByIdAsync(
+                message.Id,
+                cancellationToken);
+
+        return messageReadModel is null
+            ? throw new InvalidOperationException(
+                MessageRules.CreateReadFailedCode,
+                MessageRules.CreateReadFailedMessage)
+            : MessageMapper.ToDto(messageReadModel);
     }
 }

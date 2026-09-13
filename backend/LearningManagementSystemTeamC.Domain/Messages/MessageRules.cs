@@ -11,4 +11,7 @@ public class MessageRules
     public const string ContentTooLongCode = "MESSAGE_CONTENT_TOO_LONG";
     public static string ContentTooLongMessage(int maxLength) =>
         $"Message content cannot exceed {maxLength} characters.";
+
+    public const string CreateReadFailedCode = "MESSAGE_CREATE_READ_FAIL";
+    public const string CreateReadFailedMessage = "Message is created but failed to retrive";
 }
