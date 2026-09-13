@@ -8,6 +8,11 @@
 
   --color-border: #2a3040;
 
+  --color-chat-own-bg: #2A4E25;
+  --color-chat-own-text: #FFFFFF;
+  --color-chat-others-bg: #2C2C2C;
+  --color-chat-others-text: #DFDFDF;
+
   --color-side-menu-border: #f0a04b;
   --color-side-menu-text: #f0a04b;
   --color-side-menu-bg: #2f2725;
