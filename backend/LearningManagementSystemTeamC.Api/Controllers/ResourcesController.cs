@@ -47,16 +47,18 @@ public class ResourcesController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<ResourceDto>>.Ok(resources));
     }
 
-    // Här vill man ha en POST-metod som skapar en resurs och kopplar den till en aktivitet
-    [HttpPost("activities/{activityId}/resources")]
+    // Här vill man ha en POST-metod som skapar en resurs utan koppling till en aktivitet
+    // Resursen bör kopplas till en aktivitet i Activity controllern istället.
+    // "api/resources"
+    [HttpPost("resources")]
     public async Task<IActionResult> Create(
-        Guid activityId, [FromServices]
-        CreateResourceCommand command,
+        [FromBody] CreateResourceCommand command,
         [FromServices] ICreateResourceHandler createResourceHandler,
         [FromServices] IValidator<CreateResourceCommand> createResourceValidator,
         CancellationToken cancellationToken)
     {
-        var validationResult = createResourceValidator.Validate(command, cancellationToken);
+        var validationResult =
+            createResourceValidator.Validate(command, cancellationToken);
         if (validationResult.Count > 0)
         {
             return BadRequest(
@@ -68,17 +70,12 @@ public class ResourcesController : ControllerBase
         }
 
         // 1. Create the resource
-        // 2. Create the activity-resource association
-        // 3. Save both to the database
-        // 4. Return the created resource with a link to the activity
+        // 3. Save to the database
 
         var resourceDto = await createResourceHandler.Handle(
             command,
             cancellationToken);
 
-        return CreatedAtAction(
-            nameof(GetByActivityResources),
-            new { resourceId = resourceDto.Id }, // Assuming you want to return the created resource's ID in the response lägg till kopplingen mellan aktivitet och resurs
-            ApiResponse<ResourceDto>.Ok(resourceDto));
+        return Ok(ApiResponse<ResourceDto>.Ok(resourceDto));
     }
 }

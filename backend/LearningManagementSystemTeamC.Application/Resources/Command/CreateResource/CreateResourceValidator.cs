@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
+using LearningManagementSystemTeamC.Domain.Resources;
 
 namespace LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
 
@@ -32,7 +33,7 @@ public class CreateResourceValidator : IValidator<CreateResourceCommand>
             errors[nameof(command.CreatedAt)] = new[] { "CreatedAt is required." };
         }
 
-        if (command.Type == default)
+        if (command.Type == ResourceType.None)
         {
             errors[nameof(command.Type)] = new[] { "Type is required." };
         }

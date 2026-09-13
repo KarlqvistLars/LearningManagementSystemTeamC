@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
 using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
@@ -18,6 +19,7 @@ using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
+using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
 using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
@@ -64,6 +66,7 @@ public static class DependencyInjection
         services.AddScoped<IUpdateCourseHandler, UpdateCourseHandler>();
         services.AddScoped<IGetAllResourcesHandler, GetAllResourcesHandler>();
         services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
+        services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
@@ -77,6 +80,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<ForgotPasswordCommand>, ForgotPasswordValidator>();
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordValidator>();
         services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
+        services.AddScoped<IValidator<CreateResourceCommand>, CreateResourceValidator>();
 
         return services;
     }
