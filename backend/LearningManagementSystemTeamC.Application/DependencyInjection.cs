@@ -19,6 +19,7 @@ using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserI
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
 using LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
+using LearningManagementSystemTeamC.Application.Messages.Queries.GetMessages;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
@@ -71,6 +72,7 @@ public static class DependencyInjection
         services.AddScoped<IAddChatRoomMemberHandler, AddChatRoomMemberHandler>();
         services.AddScoped<IRemoveChatRoomMemberHandler, RemoveChatRoomMemberHandler>();
         services.AddScoped<ISendMessageHandler, SendMessageHandler>();
+        services.AddScoped<IGetMessagesHandler, GetMessagesHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();

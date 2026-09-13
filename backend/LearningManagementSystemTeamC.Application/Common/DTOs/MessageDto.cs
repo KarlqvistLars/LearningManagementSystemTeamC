@@ -2,8 +2,9 @@
 
 public record MessageDto(
     Guid Id,
-    Guid ChatRoomId,
     Guid SenderId,
+    string? SenderFirstName,
+    string? SenderLastName,
     string Content,
     DateTime CreatedAt
 );
