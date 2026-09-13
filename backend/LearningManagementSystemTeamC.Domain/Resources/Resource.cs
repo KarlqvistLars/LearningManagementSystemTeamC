@@ -31,6 +31,27 @@
             Type = type;
         }
 
+        public void Update(
+            Guid resourceId,
+            string resourceName,
+            string content,
+            string url,
+            ResourceType type)
+        {
+            Validate(
+                resourceName,
+                content,
+                url,
+                CreatedAt,
+                type);
+
+            Id = resourceId;
+            ResourceName = resourceName;
+            Content = content;
+            Url = url;
+            Type = type;
+        }
+
         private void Validate(
             string resourceName,
             string content,

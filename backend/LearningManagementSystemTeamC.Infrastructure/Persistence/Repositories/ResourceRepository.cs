@@ -27,18 +27,21 @@ public class ResourceRepository : IResourceRepository
        .Select(ar => ar.ResourceId)
        .ToListAsync(cancellationToken);
 
-        Console.WriteLine($"Resource IDs for activityId {activityId}: {string.Join(", ", resourceIds)}");
-
         return await _context.Resources
             .Where(resource => resourceIds.Contains(resource.Id))
             .ToListAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyList<Resource>> GetAllResourcesAsync(
-        Guid resourcesId,
         CancellationToken cancellationToken)
     {
         return await _context.Resources
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Resource?> GetResourceByIdAsync(Guid resourceId, CancellationToken cancellationToken)
+    {
+        return await _context.Resources
+            .FirstOrDefaultAsync(resource => resource.Id == resourceId, cancellationToken);
     }
 }

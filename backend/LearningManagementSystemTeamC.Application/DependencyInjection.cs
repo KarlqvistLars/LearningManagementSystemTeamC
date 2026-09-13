@@ -20,6 +20,7 @@ using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
+using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
 using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
@@ -67,6 +68,8 @@ public static class DependencyInjection
         services.AddScoped<IGetAllResourcesHandler, GetAllResourcesHandler>();
         services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
         services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
+        services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
+
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
@@ -81,6 +84,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordValidator>();
         services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
         services.AddScoped<IValidator<CreateResourceCommand>, CreateResourceValidator>();
+        services.AddScoped<IValidator<UpdateResourceCommand>, UpdateResourceValidator>();
 
         return services;
     }

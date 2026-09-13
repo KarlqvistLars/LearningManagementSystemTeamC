@@ -1,11 +1,11 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Domain.Resources;
 
-namespace LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
+namespace LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 
-public class CreateResourceValidator : IValidator<CreateResourceCommand>
+public class UpdateResourceValidator : IValidator<UpdateResourceCommand>
 {
-    public Dictionary<string, string[]> Validate(CreateResourceCommand command, CancellationToken cancellationToken)
+    public Dictionary<string, string[]> Validate(UpdateResourceCommand command, CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 
@@ -20,16 +20,6 @@ public class CreateResourceValidator : IValidator<CreateResourceCommand>
         if (string.IsNullOrWhiteSpace(command.Content))
         {
             errors[nameof(command.Content)] = new[] { "Content is required." };
-        }
-
-        if (DateTime.UtcNow < command.CreatedAt)
-        {
-            errors[nameof(command.CreatedAt)] = new[] { "CreatedAt cannot be in the future." };
-        }
-
-        if (command.CreatedAt == default)
-        {
-            errors[nameof(command.CreatedAt)] = new[] { "CreatedAt is required." };
         }
 
         if (command.Type == ResourceType.None)

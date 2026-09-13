@@ -5,6 +5,7 @@ using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetRes
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
+using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,6 @@ public class ResourcesController : ControllerBase
 {
     public ResourcesController() { }
 
-    // Här vill man ha en GET-metod som hämtar alla resurser.
     // api/resources
     [HttpGet("resources")]
     public async Task<IActionResult> GetAllResources(
@@ -30,7 +30,6 @@ public class ResourcesController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<ResourceDto>>.Ok(resources));
     }
 
-    // Här vill man ha en GET-metod som hämtar resurser för en specifik aktivitet
     // "api/activities/{activityId}/resources"
     [HttpGet("activities/{activityId}/resources")]
     public async Task<IActionResult> GetByActivityResources(
@@ -38,8 +37,7 @@ public class ResourcesController : ControllerBase
         [FromServices] IGetResourcesByActivityIdHandler getResourcesByActivityIdHandler,
         CancellationToken cancellationToken)
     {
-        // Anropa tabellen för activityResouces (handlern) för att hämta resurser baserat på activityId
-        Console.WriteLine($"Fetching resources for activityId: {activityId}");
+
         var resources = await getResourcesByActivityIdHandler.Handle(
             new GetResourcesByActivityIdQuery(activityId),
             cancellationToken);
@@ -47,8 +45,6 @@ public class ResourcesController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<ResourceDto>>.Ok(resources));
     }
 
-    // Här vill man ha en POST-metod som skapar en resurs utan koppling till en aktivitet
-    // Resursen bör kopplas till en aktivitet i Activity controllern istället.
     // "api/resources"
     [HttpPost("resources")]
     public async Task<IActionResult> Create(
@@ -69,13 +65,43 @@ public class ResourcesController : ControllerBase
                 );
         }
 
-        // 1. Create the resource
-        // 3. Save to the database
-
         var resourceDto = await createResourceHandler.Handle(
             command,
             cancellationToken);
 
         return Ok(ApiResponse<ResourceDto>.Ok(resourceDto));
+    }
+
+    // "api/resources/{resourceId}"
+    [HttpPut("resources/{resourceId:guid}")]
+    public async Task<IActionResult> Update(
+        Guid resourceId,
+        [FromBody] UpdateResourceCommand command,
+        [FromServices] IUpdateResourceHandler updateResourceHandler,
+        [FromServices] IValidator<UpdateResourceCommand> updateResourceValidator,
+        CancellationToken cancellationToken)
+    {
+        var commandWithId = command with { ResourceId = resourceId };
+
+        var validationResult =
+            updateResourceValidator.Validate(commandWithId, cancellationToken);
+        if (validationResult.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<ResourceDto>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    validationResult)
+                );
+        }
+        var updatedResourceDto = await updateResourceHandler.Handle(
+            commandWithId,
+            cancellationToken);
+
+        if (updatedResourceDto is null)
+        {
+            return NotFound();
+        }
+        return Ok(ApiResponse<ResourceDto>.Ok(updatedResourceDto));
     }
 }
