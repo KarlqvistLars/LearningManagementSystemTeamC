@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.AddChatRoomMember;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.DeleteChatRoom;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.GetOrCreateChatRoom;
 using LearningManagementSystemTeamC.Application.ChatRooms.Commands.RemoveChatRoomMember;
 using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoomById;
 using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetMyChatRooms;
@@ -133,5 +134,24 @@ public class ChatRoomsController : ControllerBase
 
         return Ok(
             ApiResponse<string>.Ok("Member Removed"));
+    }
+
+    [HttpPost("{userId:guid}")]
+    public async Task<IActionResult> GetOrCreate(
+        Guid userId,
+        [FromServices] IGetOrCreateChatRoomHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var currentUserId = User.GetUserId();
+
+        var command = new GetOrCreateChatRoomCommand(userId);
+
+        var chatRoomDto = await handler.HandleAsync(
+            command,
+            currentUserId,
+            cancellationToken);
+
+        return Ok(
+            ApiResponse<ChatRoomDto>.Ok(chatRoomDto));
     }
 }

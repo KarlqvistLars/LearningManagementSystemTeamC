@@ -4,6 +4,7 @@ import { Tag } from "../../../shared/components/Tag";
 import type { TagVariant } from "../../../shared/components/Tag";
 import { Button } from "../../../shared/components/Button";
 import { useNavigate } from "react-router";
+import { getOrCreateChatRoom } from "../../chat/api/chatRoomApi";
 
 interface UserListItemProps {
   user: User;
@@ -15,6 +16,15 @@ export function UserListItem({ user, onToggleStatus }: UserListItemProps) {
 
   const handleEdit = () => {
     navigate(`/users/${user.id}/edit`);
+  };
+
+  const handleChat = async () => {
+    try {
+      const chatRoom = await getOrCreateChatRoom(user.id);
+      navigate(`/chat/${chatRoom.id}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -58,6 +68,13 @@ export function UserListItem({ user, onToggleStatus }: UserListItemProps) {
           variant="list"
           color={user.isActive ? "delete" : "resource"}
           onClick={() => onToggleStatus(user.id)}
+        />
+
+        <Button
+          children="Chat"
+          variant="list"
+          color="create"
+          onClick={handleChat}
         />
       </div>
     </div>
