@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
+using LearningManagementSystemTeamC.Application.Messages.Queries.GetMessages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,5 +50,23 @@ public class MessagesController : ControllerBase
             cancellationToken);
 
         return Ok(ApiResponse<MessageDto>.Ok(messageDto));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetMessages(
+        Guid chatRoomId,
+        [FromServices] IGetMessagesHandler getMessagesHandler,
+        CancellationToken cancellationToken)
+    {
+        var userId = User.GetUserId();
+
+        var query = new GetMessagesQuery(chatRoomId);
+
+        var messageDtos = await getMessagesHandler.HandleAsync(
+            query,
+            userId,
+            cancellationToken);
+
+        return Ok(ApiResponse<IReadOnlyList<MessageDto>>.Ok(messageDtos));
     }
 }
