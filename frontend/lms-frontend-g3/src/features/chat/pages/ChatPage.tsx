@@ -9,6 +9,7 @@ import type { ChatRoom } from "../types/chatRoom";
 import type { Message } from "../../messages/types/message";
 import { useAuth } from "../../auth/AuthContext";
 import { DisplayText } from "../../../shared/components/DisplayText";
+import { chatConnection } from "../services/chatConnection";
 
 export function ChatPage() {
   const { chatRoomId } = useParams();
@@ -19,6 +20,21 @@ export function ChatPage() {
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
 
   const { user } = useAuth();
+
+  useEffect(() => {
+    const startConnection = async () => {
+      if (chatConnection.state !== "Disconnected") return;
+
+      try {
+        await chatConnection.start();
+        console.log("SignalR connected");
+      } catch (error) {
+        console.error("SignalR connection failed:", error);
+      }
+    };
+
+    startConnection();
+  }, []);
 
   useEffect(() => {
     const loadChatRooms = async () => {

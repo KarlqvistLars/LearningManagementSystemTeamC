@@ -11,6 +11,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationPolicies();
 builder.Services.AddCorsPolicy();
+builder.Services.AddSignalR();
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
