@@ -6,7 +6,8 @@ namespace LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateCha
 public class CreateChatRoomValidator : IValidator<CreateChatRoomCommand>
 {
     public Dictionary<string, string[]> Validate(
-        CreateChatRoomCommand command)
+        CreateChatRoomCommand command,
+        CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 
@@ -16,8 +17,7 @@ public class CreateChatRoomValidator : IValidator<CreateChatRoomCommand>
             [
                 ChatRoomRules.NameRequiredMessage
             ];
-        }
-        else if (command.Name.Length > ChatRoomRules.ChatRoomNameMaxLength)
+        } else if (command.Name.Length > ChatRoomRules.ChatRoomNameMaxLength)
         {
             errors[nameof(command.Name)] =
             [
