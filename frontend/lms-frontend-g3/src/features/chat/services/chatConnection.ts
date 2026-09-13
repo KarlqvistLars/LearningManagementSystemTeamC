@@ -5,7 +5,9 @@ import {
 } from "@microsoft/signalr";
 
 export const chatConnection = new HubConnectionBuilder()
-  .withUrl("https://localhost:7001/hubs/chat")
+  .withUrl("https://localhost:7001/hubs/chat", {
+    accessTokenFactory: () => localStorage.getItem("access_token") ?? "",
+  })
   .withAutomaticReconnect()
   .configureLogging(LogLevel.Information)
   .build();

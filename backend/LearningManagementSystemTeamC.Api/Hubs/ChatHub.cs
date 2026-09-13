@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using LearningManagementSystemTeamC.Api.Common.Constants;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
 namespace LearningManagementSystemTeamC.Api.Hubs;
 
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
 public class ChatHub : Hub
 {
     public async Task JoinRoom(Guid chatRoomId)
