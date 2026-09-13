@@ -20,8 +20,8 @@ export function SideMenu({ menuItems }: SideMenuProps) {
             className={({ isActive }) =>
               `relative rounded-xl border-l-4 px-6 py-2 text-sm font-medium transition ${
                 isActive
-                  ? "border-[#F0A04B] bg-[#2F2725] text-[#F0A04B]"
-                  : "border-transparent text-primary-display-text hover:bg-[#2F2725]/50"
+                  ? "border-side-menu-border bg-side-menu-bg text-side-menu-text"
+                  : "border-transparent text-primary-display-text hover:bg-side-menu-bg/50"
               }`
             }
           >
