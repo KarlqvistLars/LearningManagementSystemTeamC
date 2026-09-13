@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ChatRoomList } from "../components/ChatRoomList";
-import { MessageList } from "../../messages/components/MessageList";
 import { getMyChatRooms } from "../api/chatRoomApi";
-import { getMessages } from "../../messages/api/messageApi";
+import { getMessages, sendMessage } from "../../messages/api/messageApi";
+import { MessageList } from "../../messages/components/MessageList";
+import { MessageInput } from "../../messages/components/MessageInput";
 import type { ChatRoom } from "../types/chatRoom";
 import type { Message } from "../../messages/types/message";
 import { useAuth } from "../../auth/AuthContext";
@@ -54,6 +55,14 @@ export function ChatPage() {
     loadMessages();
   }, [chatRoomId]);
 
+  const handleSendMessage = async (content: string) => {
+    if (!chatRoomId) return;
+
+    const message = await sendMessage(chatRoomId, content);
+
+    setMessages((prev) => [...prev, message]);
+  };
+
   if (!user) return null;
 
   if (isLoadingRooms) {
@@ -66,7 +75,7 @@ export function ChatPage() {
     <div className="flex h-full min-h-0">
       <aside className="w-80 shrink-0 border-r border-border bg-menu">
         <div className="border-b border-border px-4 py-4">
-          <DisplayText text="Chat Coversations" />
+          <DisplayText text="Chat Conversations" />
         </div>
 
         <ChatRoomList
@@ -89,7 +98,11 @@ export function ChatPage() {
             <DisplayText text="Loading messages..." size="large" />
           </div>
         ) : (
-          <MessageList messages={messages} currentUserId={user.id} />
+          <>
+            <MessageList messages={messages} currentUserId={user.id} />
+
+            <MessageInput onSend={handleSendMessage} />
+          </>
         )}
       </main>
     </div>
