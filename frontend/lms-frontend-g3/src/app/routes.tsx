@@ -15,6 +15,7 @@ import { UserPage } from "../features/users/pages/UserPage";
 import { EditUserPage } from "../features/users/pages/EditUserPage";
 import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
+import { ChatPage } from "../features/chat/pages/ChatPage";
 
 export function AppRoutes() {
   return (
@@ -39,6 +40,11 @@ export function AppRoutes() {
             <Route index element={<UserPage />} />
             <Route path="create" element={<CreateUserPage />} />
             <Route path=":userId/edit" element={<EditUserPage />} />
+          </Route>
+
+          <Route path="chat">
+            <Route index element={<ChatPage />} />
+            <Route path=":chatRoomId" element={<ChatPage />} />
           </Route>
         </Route>
       </Route>
