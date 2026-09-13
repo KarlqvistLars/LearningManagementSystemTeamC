@@ -30,7 +30,7 @@ export function ChatRoomListItem({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full cursor-pointer rounded-lg px-4 py-3 text-left transition ${
+      className={`w-full cursor-pointer rounded-lg px-3 py-3 text-left transition ${
         isSelected
           ? "bg-side-menu-bg text-side-menu-text"
           : " text-primary-display-text hover:bg-side-menu-bg/50"

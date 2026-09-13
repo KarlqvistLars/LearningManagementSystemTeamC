@@ -1,5 +1,6 @@
 import type { Message } from "../types/message";
 import { MessageListItem } from "./MessageListItem";
+import { DisplayText } from "../../../shared/components/DisplayText";
 
 interface MessageListProps {
   messages: Message[];
@@ -10,7 +11,7 @@ export function MessageList({ messages, currentUserId }: MessageListProps) {
   if (messages.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <p className="text-gray-400">No messages yet.</p>
+        <DisplayText text="No messages yet." size="large" />
       </div>
     );
   }

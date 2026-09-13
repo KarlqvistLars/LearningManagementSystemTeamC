@@ -7,6 +7,7 @@ import { getMessages } from "../../messages/api/messageApi";
 import type { ChatRoom } from "../types/chatRoom";
 import type { Message } from "../../messages/types/message";
 import { useAuth } from "../../auth/AuthContext";
+import { DisplayText } from "../../../shared/components/DisplayText";
 
 export function ChatPage() {
   const { chatRoomId } = useParams();
@@ -65,7 +66,7 @@ export function ChatPage() {
     <div className="flex h-full min-h-0">
       <aside className="w-80 shrink-0 border-r border-border bg-menu">
         <div className="border-b border-border px-4 py-4">
-          <h1 className="text-xl font-semibold">Chat</h1>
+          <DisplayText text="Chat Coversations" />
         </div>
 
         <ChatRoomList
@@ -78,13 +79,14 @@ export function ChatPage() {
       <main className="flex min-w-0 flex-1 flex-col">
         {!chatRoomId ? (
           <div className="flex flex-1 items-center justify-center">
-            <p className="text-gray-400">
-              Select a conversation to start chatting.
-            </p>
+            <DisplayText
+              text="Select a conversation to start chatting."
+              size="large"
+            />
           </div>
         ) : isLoadingMessages ? (
           <div className="flex flex-1 items-center justify-center">
-            <p className="text-gray-400">Loading messages...</p>
+            <DisplayText text="Loading messages..." size="large" />
           </div>
         ) : (
           <MessageList messages={messages} currentUserId={user.id} />
