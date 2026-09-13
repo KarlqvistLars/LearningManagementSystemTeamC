@@ -28,4 +28,8 @@ public class ChatRoomRules
 
     public const string RoomExistsCode = "CHAT_ROOM_EXISTS";
     public const string RoomExistsMessage = "Chat room already exists";
+
+    public const string CannotChatWithSelfCode = "CHAT_ROOM_CHAT_SELF";
+    public const string CannotChatWithSelfMessage = "You can not chat with yourself";
+
 }
