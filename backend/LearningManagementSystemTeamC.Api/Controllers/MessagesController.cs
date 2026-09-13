@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
+using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
 using Microsoft.AspNetCore.Authorization;
@@ -42,11 +43,11 @@ public class MessagesController : ControllerBase
 
         var userId = User.GetUserId();
 
-        var message = await sendMessageHandler.HandleAsync(
+        var messageDto = await sendMessageHandler.HandleAsync(
             command,
             userId,
             cancellationToken);
 
-        return Ok(message);
+        return Ok(ApiResponse<MessageDto>.Ok(messageDto));
     }
 }
