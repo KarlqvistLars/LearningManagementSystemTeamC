@@ -13,11 +13,11 @@ public class ActivityRepository : IActivityRepository
         _context = context;
     }
 
-    public async Task<IReadOnlyList<Activity>> GetActivitiesByModuleIdAsync(Guid moduleId)
+    public async Task<IReadOnlyList<Activity>> GetActivitiesByModuleIdAsync(Guid moduleId, CancellationToken cancellationToken)
     {
         return await _context.Activities
             .Where(x => x.ModuleId == moduleId)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
     public async Task AddAsync(Activity activity, CancellationToken cancellationToken)

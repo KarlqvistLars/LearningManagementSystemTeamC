@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Domain.Courses;
 using LearningManagementSystemTeamC.Domain.Enrollments;
 using LearningManagementSystemTeamC.Domain.Modules;
 using LearningManagementSystemTeamC.Domain.PasswordResetTokens;
+using LearningManagementSystemTeamC.Domain.Resources;
 using LearningManagementSystemTeamC.Domain.Roles;
 using LearningManagementSystemTeamC.Domain.UserInfos;
 using LearningManagementSystemTeamC.Domain.Users;
@@ -26,9 +27,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<Module> Modules => Set<Module>();
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
     public DbSet<Activity> Activities => Set<Activity>();
+    public DbSet<Resource> Resources => Set<Resource>();
+    public DbSet<ActivityResource> ActivityResources => Set<ActivityResource>();
     public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
 
-    public DbSet<ActivityResource> ActivityResources => Set<ActivityResource>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(

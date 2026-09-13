@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Domain.Activities;
 namespace LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 
 public class CreateActivityHandler : ICreateActivityHandler
@@ -23,7 +24,7 @@ public class CreateActivityHandler : ICreateActivityHandler
         // Validation if not using other tools
 
         // Entity's method should have validation inside
-        var activity = new Domain.Activities.Activity(
+        var activity = new Activity(
             command.ActivityName,
             command.Description,
             command.StartDate,

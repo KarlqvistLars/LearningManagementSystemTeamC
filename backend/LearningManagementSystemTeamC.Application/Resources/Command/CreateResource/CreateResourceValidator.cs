@@ -1,10 +1,11 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 
 namespace LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
 
-public class CreateActivityResourceValidator : IValidator<CreateActivityResourceCommand>
+public class CreateResourceValidator : IValidator<CreateResourceCommand>
 {
-    public Dictionary<string, string[]> Validate(CreateActivityResourceCommand command, CancellationToken cancellationToken)
+    public Dictionary<string, string[]> Validate(CreateResourceCommand command, CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 
