@@ -33,7 +33,7 @@ export function MessageInput({ onSend, disabled = false }: MessageInputProps) {
   };
 
   return (
-    <div className="flex items-end gap-3 border-t border-border bg-menu p-4">
+    <div className="flex shrink-0 items-end gap-3 border-t border-border bg-menu p-4">
       <textarea
         value={content}
         onChange={(event) => setContent(event.target.value)}
@@ -41,8 +41,9 @@ export function MessageInput({ onSend, disabled = false }: MessageInputProps) {
         disabled={disabled || isSending}
         placeholder="Write a message..."
         rows={1}
-        className="min-h-12 flex-1 resize-none rounded-lg border border-border bg-background text-primary-title-text px-4 py-3 outline-none focus:border-button-create disabled:cursor-not-allowed disabled:opacity-50"
+        className="min-h-12 flex-1 resize-none rounded-lg border border-border bg-background px-4 py-3 text-primary-title-text outline-none focus:border-button-create disabled:cursor-not-allowed disabled:opacity-50"
       />
+
       <div className="flex content-center">
         <Button
           type="button"

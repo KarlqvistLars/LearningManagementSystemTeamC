@@ -67,34 +67,38 @@ export function ChatPage() {
 
   if (isLoadingRooms) {
     return (
-      <div className="flex h-full items-center justify-center">Loading...</div>
+      <div className="flex h-full min-h-0 items-center justify-center">
+        Loading...
+      </div>
     );
   }
 
   return (
-    <div className="flex h-full min-h-0">
-      <aside className="w-80 shrink-0 border-r border-border bg-menu">
-        <div className="border-b border-border px-4 py-4">
+    <div className="flex h-full min-h-0 w-full overflow-hidden">
+      <aside className="flex h-full min-h-0 w-80 shrink-0 flex-col border-r border-border bg-menu">
+        <div className="shrink-0 border-b border-border px-4 py-4">
           <DisplayText text="Chat Conversations" />
         </div>
 
-        <ChatRoomList
-          chatRooms={chatRooms}
-          currentUserId={user.id}
-          selectedChatRoomId={chatRoomId}
-        />
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <ChatRoomList
+            chatRooms={chatRooms}
+            currentUserId={user.id}
+            selectedChatRoomId={chatRoomId}
+          />
+        </div>
       </aside>
 
-      <main className="flex min-w-0 flex-1 flex-col">
+      <section className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         {!chatRoomId ? (
-          <div className="flex flex-1 items-center justify-center">
+          <div className="flex min-h-0 flex-1 items-center justify-center">
             <DisplayText
               text="Select a conversation to start chatting."
               size="large"
             />
           </div>
         ) : isLoadingMessages ? (
-          <div className="flex flex-1 items-center justify-center">
+          <div className="flex min-h-0 flex-1 items-center justify-center">
             <DisplayText text="Loading messages..." size="large" />
           </div>
         ) : (
@@ -104,7 +108,7 @@ export function ChatPage() {
             <MessageInput onSend={handleSendMessage} />
           </>
         )}
-      </main>
+      </section>
     </div>
   );
 }

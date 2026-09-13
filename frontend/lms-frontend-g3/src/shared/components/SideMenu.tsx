@@ -10,7 +10,7 @@ export function SideMenu({ menuItems }: SideMenuProps) {
   const { logout } = useAuth();
 
   return (
-    <nav className="flex w-48 flex-col border border-border bg-menu">
+    <nav className="flex h-full w-48 shrink-0 flex-col border border-border bg-menu">
       <div className="flex flex-col gap-1 px-4 py-4">
         {menuItems.map((item) => (
           <NavLink
@@ -34,7 +34,7 @@ export function SideMenu({ menuItems }: SideMenuProps) {
         <button
           type="button"
           onClick={logout}
-          className="w-full cursor-pointer rounded-xl px-6 py-2 text-left text-sm font-medium text-display-text transition hover:bg-[#2F2725]/50  text-button-delete"
+          className="w-full cursor-pointer rounded-xl px-6 py-2 text-left text-sm font-medium text-button-delete transition hover:bg-[#2F2725]/50"
         >
           Logout
         </button>
