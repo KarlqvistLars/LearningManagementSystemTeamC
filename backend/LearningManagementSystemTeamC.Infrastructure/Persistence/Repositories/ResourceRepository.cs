@@ -22,8 +22,15 @@ public class ResourceRepository : IResourceRepository
             Guid activityId,
             CancellationToken cancellationToken)
     {
+        var resourceIds = await _context.ActivityResources
+       .Where(ar => ar.ActivityId == activityId)
+       .Select(ar => ar.ResourceId)
+       .ToListAsync(cancellationToken);
+
+        Console.WriteLine($"Resource IDs for activityId {activityId}: {string.Join(", ", resourceIds)}");
+
         return await _context.Resources
-            .Where(resource => resource.Id == activityId)
+            .Where(resource => resourceIds.Contains(resource.Id))
             .ToListAsync(cancellationToken);
     }
 

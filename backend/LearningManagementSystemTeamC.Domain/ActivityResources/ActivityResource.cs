@@ -8,6 +8,11 @@ public class ActivityResource
     public Guid ActivityId { get; set; }
     public Guid ResourceId { get; set; }
 
+    private ActivityResource()
+    {
+        // Krävs av EF Core
+    }
+
     public ActivityResource(
         Guid activityId,
         Guid resourceId)

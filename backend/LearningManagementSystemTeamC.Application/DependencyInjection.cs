@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
@@ -62,6 +63,7 @@ public static class DependencyInjection
         services.AddScoped<IGetRolesHandler, GetRolesHandler>();
         services.AddScoped<IUpdateCourseHandler, UpdateCourseHandler>();
         services.AddScoped<IGetAllResourcesHandler, GetAllResourcesHandler>();
+        services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();

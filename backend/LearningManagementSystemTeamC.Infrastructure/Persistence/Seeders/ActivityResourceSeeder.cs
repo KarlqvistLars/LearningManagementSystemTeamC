@@ -24,11 +24,6 @@ public static class ActivityResourceSeeder
             ),
             new ActivityResource
             (
-                activityId["Lecture A part 1"].Id,
-                resourceId["Introduction to Algorithms"].Id
-            ),
-                        new ActivityResource
-            (
                 activityId["Lecture A part 2"].Id,
                 resourceId["Clean Code"].Id
             ),

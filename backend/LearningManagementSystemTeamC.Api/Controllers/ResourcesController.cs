@@ -31,6 +31,7 @@ public class ResourcesController : ControllerBase
     }
 
     // Här vill man ha en GET-metod som hämtar resurser för en specifik aktivitet
+    // "api/activities/{activityId}/resources"
     [HttpGet("activities/{activityId}/resources")]
     public async Task<IActionResult> GetByActivityResources(
         Guid activityId,
@@ -38,6 +39,7 @@ public class ResourcesController : ControllerBase
         CancellationToken cancellationToken)
     {
         // Anropa tabellen för activityResouces (handlern) för att hämta resurser baserat på activityId
+        Console.WriteLine($"Fetching resources for activityId: {activityId}");
         var resources = await getResourcesByActivityIdHandler.Handle(
             new GetResourcesByActivityIdQuery(activityId),
             cancellationToken);
