@@ -4,7 +4,7 @@ namespace LearningManagementSystemTeamC.Application.Messages.Queries.GetMessages
 
 public interface IGetMessagesHandler
 {
-    Task<MessageDto> HandleAsync(
+    Task<IReadOnlyList<MessageDto>> HandleAsync(
         GetMessagesQuery query,
         Guid currentUserId,
         CancellationToken cancellationToken);
