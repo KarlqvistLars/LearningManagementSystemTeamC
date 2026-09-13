@@ -17,4 +17,9 @@ public interface IChatRoomRepository
     Task<bool> ExistsWithMembersAsync(
         IReadOnlyCollection<Guid> userIds,
         CancellationToken cancellationToken);
+
+    Task<ChatRoom?> GetDirectChatRoomAsync(
+        Guid currentUserId,
+        Guid targetUserId,
+        CancellationToken cancellationToken);
 }

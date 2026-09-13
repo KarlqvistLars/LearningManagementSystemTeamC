@@ -53,4 +53,21 @@ public class ChatRoomRepository : IChatRoomRepository
     {
         _context.ChatRooms.Remove(chatRoom);
     }
+
+    public async Task<ChatRoom?> GetDirectChatRoomAsync(
+        Guid currentUserId,
+        Guid targetUserId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.ChatRooms
+            .Include(chatRoom => chatRoom.Members)
+            .Where(chatRoom => chatRoom.Members.Count == 2)
+            .Where(chatRoom =>
+                chatRoom.Members.Any(member =>
+                    member.UserId == currentUserId))
+            .Where(chatRoom =>
+                chatRoom.Members.Any(member =>
+                    member.UserId == targetUserId))
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }
