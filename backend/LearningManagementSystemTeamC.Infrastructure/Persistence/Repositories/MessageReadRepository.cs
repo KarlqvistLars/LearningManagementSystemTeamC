@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Common.ReadModels;
+using LearningManagementSystemTeamC.Domain.Messages;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
@@ -17,23 +18,27 @@ public class MessageReadRepository : IMessageReadRepository
         Guid chatRoomId,
         CancellationToken cancellationToken)
     {
-        return await BuildQuery()
-            .Where(message => message.ChatRoomId == chatRoomId)
-            .OrderBy(message => message.CreatedAt)
+        return await BuildQuery(
+                _context.Messages.Where(
+                    message => message.ChatRoomId == chatRoomId)
+                    .OrderBy(message => message.CreatedAt))
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<MessageReadModel?> GetByIdAsync(Guid messageId, CancellationToken cancellationToken)
+    public async Task<MessageReadModel?> GetByIdAsync(
+        Guid messageId,
+        CancellationToken cancellationToken)
     {
-        return await BuildQuery()
-            .FirstOrDefaultAsync(
-                message => message.Id == messageId,
-                cancellationToken);
+        return await BuildQuery(
+                _context.Messages.Where(
+                    message => message.Id == messageId))
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    private IQueryable<MessageReadModel> BuildQuery()
+    private IQueryable<MessageReadModel> BuildQuery(
+        IQueryable<Message> messages)
     {
-        return _context.Messages
+        return messages
             .Join(
                 _context.Users,
                 message => message.SenderId,
