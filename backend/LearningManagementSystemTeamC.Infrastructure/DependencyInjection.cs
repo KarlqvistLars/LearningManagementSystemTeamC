@@ -59,6 +59,7 @@ public static class DependencyInjection
         services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
         services.AddScoped<IChatRoomReadRepository, ChatRoomReadRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IMessageReadRepository, MessageReadRepository>();
         return services;
     }
 }
