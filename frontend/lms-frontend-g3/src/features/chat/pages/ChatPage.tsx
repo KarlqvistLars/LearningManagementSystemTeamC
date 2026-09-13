@@ -23,18 +23,28 @@ export function ChatPage() {
 
   useEffect(() => {
     const startConnection = async () => {
-      if (chatConnection.state !== "Disconnected") return;
+      if (chatConnection.state === "Disconnected") {
+        try {
+          await chatConnection.start();
+          console.log("SignalR connected");
+        } catch (error) {
+          console.error("SignalR connection failed:", error);
+          return;
+        }
+      }
+
+      if (!chatRoomId) return;
 
       try {
-        await chatConnection.start();
-        console.log("SignalR connected");
+        await chatConnection.invoke("JoinRoom", chatRoomId);
+        console.log("Joined chat room:", chatRoomId);
       } catch (error) {
-        console.error("SignalR connection failed:", error);
+        console.error("Failed to join chat room:", error);
       }
     };
 
     startConnection();
-  }, []);
+  }, [chatRoomId]);
 
   useEffect(() => {
     const loadChatRooms = async () => {
