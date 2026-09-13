@@ -43,6 +43,18 @@ export function ChatPage() {
   }, [chatRoomId]);
 
   useEffect(() => {
+    const handleReceiveMessage = (message: Message) => {
+      setMessages((prev) => [...prev, message]);
+    };
+
+    chatConnection.on("ReceiveMessage", handleReceiveMessage);
+
+    return () => {
+      chatConnection.off("ReceiveMessage", handleReceiveMessage);
+    };
+  }, []);
+
+  useEffect(() => {
     const loadChatRooms = async () => {
       try {
         const rooms = await getMyChatRooms();
@@ -80,9 +92,7 @@ export function ChatPage() {
   const handleSendMessage = async (content: string) => {
     if (!chatRoomId) return;
 
-    const message = await sendMessage(chatRoomId, content);
-
-    setMessages((prev) => [...prev, message]);
+    await sendMessage(chatRoomId, content);
   };
 
   if (!user) return null;

@@ -1,12 +1,14 @@
 ﻿using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
+using LearningManagementSystemTeamC.Api.Hubs;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
 using LearningManagementSystemTeamC.Application.Messages.Queries.GetMessages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
@@ -26,6 +28,7 @@ public class MessagesController : ControllerBase
         [FromBody] SendMessageRequest request,
         [FromServices] ISendMessageHandler sendMessageHandler,
         [FromServices] IValidator<SendMessageCommand> sendMessageValidator,
+        [FromServices] IHubContext<ChatHub> hubContext,
         CancellationToken cancellationToken)
     {
         var command = new SendMessageCommand(
@@ -48,6 +51,13 @@ public class MessagesController : ControllerBase
             command,
             userId,
             cancellationToken);
+
+        await hubContext.Clients
+            .Group(chatRoomId.ToString())
+            .SendAsync(
+                "ReceiveMessage",
+                messageDto,
+                cancellationToken);
 
         return Ok(ApiResponse<MessageDto>.Ok(messageDto));
     }
