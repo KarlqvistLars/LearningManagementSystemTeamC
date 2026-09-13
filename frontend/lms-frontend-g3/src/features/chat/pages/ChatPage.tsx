@@ -9,7 +9,10 @@ import type { ChatRoom } from "../types/chatRoom";
 import type { Message } from "../../messages/types/message";
 import { useAuth } from "../../auth/AuthContext";
 import { DisplayText } from "../../../shared/components/DisplayText";
-import { chatConnection } from "../services/chatConnection";
+import {
+  chatConnection,
+  startChatConnection,
+} from "../services/chatConnection";
 
 export function ChatPage() {
   const { chatRoomId } = useParams();
@@ -22,28 +25,21 @@ export function ChatPage() {
   const { user } = useAuth();
 
   useEffect(() => {
-    const startConnection = async () => {
-      if (chatConnection.state === "Disconnected") {
-        try {
-          await chatConnection.start();
-          console.log("SignalR connected");
-        } catch (error) {
-          console.error("SignalR connection failed:", error);
-          return;
-        }
-      }
-
-      if (!chatRoomId) return;
-
+    const connectAndJoinRoom = async () => {
       try {
+        await startChatConnection();
+
+        if (!chatRoomId) return;
+
         await chatConnection.invoke("JoinRoom", chatRoomId);
+
         console.log("Joined chat room:", chatRoomId);
       } catch (error) {
-        console.error("Failed to join chat room:", error);
+        console.error("Failed to connect or join chat room:", error);
       }
     };
 
-    startConnection();
+    connectAndJoinRoom();
   }, [chatRoomId]);
 
   useEffect(() => {
