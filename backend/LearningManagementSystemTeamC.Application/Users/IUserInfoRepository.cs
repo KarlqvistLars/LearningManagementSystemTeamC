@@ -8,4 +8,5 @@ public interface IUserInfoRepository
     Task AddAsync(UserInfo userInfo, CancellationToken cancellationToken);
     void Update(UserInfo userInfo);
     void Delete(UserInfo userInfo);
+    Task<IEnumerable<UserInfo>> GetAllAsync(CancellationToken cancellationToken);
 }

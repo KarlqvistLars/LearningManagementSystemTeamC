@@ -4,7 +4,7 @@ namespace LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 
 public interface IUpdateUserHandler
 {
-    Task<UserDto> Handle(
+    Task<UserDto> HandleAsync(
         UpdateUserCommand command,
         CancellationToken cancellationToken);
 }

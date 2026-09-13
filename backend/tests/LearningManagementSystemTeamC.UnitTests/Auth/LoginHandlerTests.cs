@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Roles;
 using LearningManagementSystemTeamC.Application.Users;
 using LearningManagementSystemTeamC.Domain.Roles;
+using LearningManagementSystemTeamC.Domain.UserInfos;
 using LearningManagementSystemTeamC.Domain.Users;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -20,6 +21,7 @@ public class LoginHandlerTests
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
         var jwtTokenService = new Mock<IJwtTokenService>();
+        var userInfoRepository = new Mock<IUserInfoRepository>();
 
         var jwtSettings = Options.Create(new JwtSettings
         {
@@ -40,6 +42,11 @@ public class LoginHandlerTests
             testHashedPass,
             studentRole.Id);
 
+        var userInfo = new UserInfo(
+            user.Id,
+            "Test",
+            "User");
+
         userRepository
             .Setup(repository => repository.GetByEmailAsync(
                 testEmail,
@@ -58,6 +65,12 @@ public class LoginHandlerTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(studentRole);
 
+        userInfoRepository
+            .Setup(repository => repository.GetByUserIdAsync(
+                user.Id,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(userInfo);
+
         jwtTokenService
             .Setup(service => service.CreateToken(
                 user,
@@ -69,7 +82,8 @@ public class LoginHandlerTests
             roleRepository.Object,
             jwtTokenService.Object,
             jwtSettings,
-            passwordHasher.Object);
+             passwordHasher.Object,
+            userInfoRepository.Object);
 
         var command = new LoginCommand(
             testEmail,
@@ -85,6 +99,8 @@ public class LoginHandlerTests
         Assert.Equal(testToken, result.AccessToken);
         Assert.Equal(60, result.ExpiresInMinutes);
         Assert.Equal(testEmail, result.User.Email);
+        Assert.Equal("Test", result.User.FirstName);
+        Assert.Equal("User", result.User.LastName);
         Assert.Equal(
             RoleRules.StudentRoleName,
             result.User.RoleName);

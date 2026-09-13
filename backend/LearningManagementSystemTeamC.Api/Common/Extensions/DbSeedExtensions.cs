@@ -14,5 +14,6 @@ public static class DbSeedExtensions
         await RoleSeeder.SeedAsync(db);
         await UserSeeder.SeedAsync(db);
         await CourseSeeder.SeedAsync(db);
+        await ModuleSeeder.SeedAsync(db);
     }
 }

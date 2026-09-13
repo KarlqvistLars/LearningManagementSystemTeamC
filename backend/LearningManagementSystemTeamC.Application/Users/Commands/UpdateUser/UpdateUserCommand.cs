@@ -9,4 +9,6 @@ public record UpdateUserCommand(
     string? PhoneNumber,
     string? Address,
     string? PostalCode,
-    string? City);
+    string? City,
+    Guid RoleId,
+    bool IsActive);

@@ -1,10 +1,10 @@
+import { DisplayText } from "./DisplayText";
+
 export function Footer() {
-    return (
-        <div className="mx-auto max-w-7xl px-6 py-4">
-            <p className="text-center text-sm text-gray-500">
-                Sidfot
-                2026 © Learning Management System Team C
-            </p>
-        </div>
-    );
+  return (
+    <footer className="bg-menu flex flex-col justify-between px-6 py-4 border border-border items-center">
+      <DisplayText text="© 2026 Learning Portal TeamC. All rights reserved." />
+      <DisplayText text="Learning Management System" />
+    </footer>
+  );
 }

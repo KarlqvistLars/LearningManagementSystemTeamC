@@ -1,0 +1,99 @@
+using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Api.Controllers;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Domain.Activities;
+using LearningManagementSystemTeamC.Domain.Roles;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using System.Security.Claims;
+
+namespace LearningManagementSystemTeamC.UnitTests.Activities;
+
+public class ActivitiesControllerTests
+{
+    private static ActivitiesController CreateController(Guid userId, string role)
+    {
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, userId.ToString()),
+            new(ClaimTypes.Role, role)
+        };
+
+        return new ActivitiesController
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(claims, "TestAuth"))
+                }
+            }
+        };
+    }
+
+    [Fact]
+    public async Task GetByModule_ReturnsOkResultWithActivities()
+    {
+        // Arrange
+        var moduleId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var role = RoleRules.TeacherRoleCode;
+
+        var activities = new List<ActivityDto>
+        {
+            new(
+                Guid.NewGuid(),
+                "Introduction to C#",
+                "Overview of the course.",
+                DateTime.Parse("2024-06-01"),
+                DateTime.Parse("2024-06-02"),
+                ActivityType.Lecture,
+                moduleId)
+        };
+
+        var mockHandler = new Mock<IGetActivitiesByModuleIdHandler>();
+        mockHandler
+            .Setup(handler => handler.Handle(
+                It.IsAny<GetActivitiesByModuleIdQuery>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(activities);
+
+        var controller = CreateController(userId, role);
+
+        // Act
+        var result = await controller.GetByModule(moduleId, mockHandler.Object, CancellationToken.None);
+
+        // Assert
+        var okObjectResult = Assert.IsType<OkObjectResult>(result);
+        var returnValue = Assert.IsType<ApiResponse<IReadOnlyList<ActivityDto>>>(okObjectResult.Value);
+        Assert.NotEmpty(returnValue.Data!);
+    }
+
+    [Fact]
+    public async Task GetByModule_ReturnsEmptyListWhenNoActivities()
+    {
+        // Arrange
+        var moduleId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var role = RoleRules.TeacherRoleCode;
+
+        var mockHandler = new Mock<IGetActivitiesByModuleIdHandler>();
+        mockHandler
+            .Setup(handler => handler.Handle(
+                It.IsAny<GetActivitiesByModuleIdQuery>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<ActivityDto>());
+
+        var controller = CreateController(userId, role);
+
+        // Act
+        var result = await controller.GetByModule(moduleId, mockHandler.Object, CancellationToken.None);
+
+        // Assert
+        var okObjectResult = Assert.IsType<OkObjectResult>(result);
+        var returnValue = Assert.IsType<ApiResponse<IReadOnlyList<ActivityDto>>>(okObjectResult.Value);
+        Assert.Empty(returnValue.Data!);
+    }
+}

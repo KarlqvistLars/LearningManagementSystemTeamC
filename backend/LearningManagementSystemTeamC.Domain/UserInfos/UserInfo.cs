@@ -20,7 +20,12 @@ public class UserInfo
     public UserInfo(
         Guid userId,
         string firstName,
-        string lastName)
+        string lastName,
+        DateTime? dateOfBirth = null,
+        string? phoneNumber = null,
+        string? address = null,
+        string? postalCode = null,
+        string? city = null)
     {
         Validate(
             userId,
@@ -30,6 +35,11 @@ public class UserInfo
         UserId = userId;
         FirstName = firstName;
         LastName = lastName;
+        DateOfBirth = dateOfBirth;
+        PhoneNumber = phoneNumber;
+        Address = address;
+        PostalCode = postalCode;
+        City = city;
     }
 
     public void UpdateProfile(

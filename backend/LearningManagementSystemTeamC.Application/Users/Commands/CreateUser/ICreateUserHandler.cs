@@ -4,5 +4,5 @@ namespace LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 
 public interface ICreateUserHandler
 {
-    Task<UserDto> Handle(CreateUserCommand command, CancellationToken cancellationToken);
+    Task<UserDto> HandleAsync(CreateUserCommand command, CancellationToken cancellationToken);
 }

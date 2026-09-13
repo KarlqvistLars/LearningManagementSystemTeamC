@@ -19,6 +19,7 @@ public class RegisterUserHandlerTests
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
         var unitOfWork = new Mock<IUnitOfWork>();
+        var userInfoRepository = new Mock<IUserInfoRepository>();
 
         var studentRole = new Role(
             RoleRules.StudentRoleName,
@@ -27,6 +28,8 @@ public class RegisterUserHandlerTests
         var testEmail = "test@lms.com";
         var testPass = "testpass";
         var testHashedPass = "hashed-password";
+        var testFname = "FirstName";
+        var testLname = "LastName";
 
         roleRepository
             .Setup(repository => repository.GetDefaultRoleAsync(
@@ -45,16 +48,19 @@ public class RegisterUserHandlerTests
 
         var handler = new RegisterUserHandler(
             userRepository.Object,
-            unitOfWork.Object,
+            userInfoRepository.Object,
             roleRepository.Object,
-            passwordHasher.Object);
+            passwordHasher.Object,
+            unitOfWork.Object);
 
         var command = new RegisterUserCommand(
             testEmail,
-            testPass);
+            testPass,
+            testFname,
+            testLname);
 
         // Act
-        var result = await handler.Handle(
+        var result = await handler.HandleAsync(
             command,
             CancellationToken.None);
 
@@ -83,10 +89,13 @@ public class RegisterUserHandlerTests
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
         var unitOfWork = new Mock<IUnitOfWork>();
+        var userInfoRepository = new Mock<IUserInfoRepository>();
 
         var testEmail = "test@lms.com";
         var testPass = "testpass";
         var testHashedPass = "hashed-password";
+        var testFname = "FirstName";
+        var testLname = "LastName";
 
         var studentRole = new Role(
             RoleRules.StudentRoleName,
@@ -110,17 +119,20 @@ public class RegisterUserHandlerTests
 
         var handler = new RegisterUserHandler(
             userRepository.Object,
-            unitOfWork.Object,
+            userInfoRepository.Object,
             roleRepository.Object,
-            passwordHasher.Object);
+            passwordHasher.Object,
+            unitOfWork.Object);
 
         var command = new RegisterUserCommand(
             testEmail,
-            testPass);
+            testPass,
+            testFname,
+            testLname);
 
         // Act & Assert
         await Assert.ThrowsAsync<ConflictException>(() =>
-            handler.Handle(
+            handler.HandleAsync(
                 command,
                 CancellationToken.None));
 
@@ -144,9 +156,12 @@ public class RegisterUserHandlerTests
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
         var unitOfWork = new Mock<IUnitOfWork>();
+        var userInfoRepository = new Mock<IUserInfoRepository>();
 
         var testEmail = "test@lms.com";
         var testPass = "testpass";
+        var testFname = "FirstName";
+        var testLname = "LastName";
 
         roleRepository
             .Setup(repository => repository.GetDefaultRoleAsync(
@@ -155,17 +170,20 @@ public class RegisterUserHandlerTests
 
         var handler = new RegisterUserHandler(
             userRepository.Object,
-            unitOfWork.Object,
+            userInfoRepository.Object,
             roleRepository.Object,
-            passwordHasher.Object);
+            passwordHasher.Object,
+            unitOfWork.Object);
 
         var command = new RegisterUserCommand(
             testEmail,
-            testPass);
+            testPass,
+            testFname,
+            testLname);
 
         // Act & Assert
         await Assert.ThrowsAsync<NotFoundException>(() =>
-            handler.Handle(
+            handler.HandleAsync(
                 command,
                 CancellationToken.None));
 
