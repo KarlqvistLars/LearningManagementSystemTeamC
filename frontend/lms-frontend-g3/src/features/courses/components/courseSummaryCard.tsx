@@ -55,25 +55,6 @@ export function CourseSummaryCard({ course }: CourseSummaryCardProps) {
               </Button>
             )}
           </div>
-<<<<<<< HEAD
-          {isTeacher && (
-            <button
-              className="w-1/6 max-w-25 h-fit px-4 py-3 bg-button-edit text-button-edit-text rounded text-sm uppercase font-bold text-trim hover:cursor-pointer"
-              onClick={() => onEdit?.(course.id)}
-            >
-              Edit
-            </button>
-          )}
-          {isTeacher && (
-            <button
-              className="w-1/6 max-w-25 h-fit px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 hover:cursor-pointer"
-              onClick={() => navigate(`/courses/${course.id}/modules`)}
-            >
-              Modules
-            </button>
-          )}
-=======
->>>>>>> 8dd50a1163d8c2d210c8a19db05a6a75afb09c44
         </>
       )}
     </div>
