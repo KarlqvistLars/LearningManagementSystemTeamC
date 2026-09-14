@@ -9,9 +9,9 @@ public static class ActivityMapper
         new ActivityDto(
             activity.Id,
             activity.ActivityName,
+            activity.Type,
             activity.Description,
             activity.StartDate,
             activity.EndDate,
-            activity.Type,
             activity.ModuleId);
 }

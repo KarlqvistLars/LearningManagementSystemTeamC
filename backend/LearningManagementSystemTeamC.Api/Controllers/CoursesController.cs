@@ -77,8 +77,7 @@ public class CoursesController : ControllerBase
         [FromServices] IValidator<UpdateCourseCommand> updateCourseValidator,
         CancellationToken cancellationToken)
     {
-        var commandWithId = command with
-        {
+        var commandWithId = command with {
             Id = id
         };
 

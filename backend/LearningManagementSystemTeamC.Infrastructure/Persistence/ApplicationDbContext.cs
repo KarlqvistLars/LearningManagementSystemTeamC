@@ -1,4 +1,5 @@
 using LearningManagementSystemTeamC.Domain.Activities;
+using LearningManagementSystemTeamC.Domain.ActivityResources;
 using LearningManagementSystemTeamC.Domain.ChatRoomMembers;
 using LearningManagementSystemTeamC.Domain.ChatRooms;
 using LearningManagementSystemTeamC.Domain.Courses;
@@ -28,6 +29,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Module> Modules => Set<Module>();
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
     public DbSet<Activity> Activities => Set<Activity>();
+    public DbSet<ActivityResource> ActivityResources => Set<ActivityResource>();
     public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
     public DbSet<ChatRoom> ChatRooms => Set<ChatRoom>();
     public DbSet<ChatRoomMember> ChatRoomMembers => Set<ChatRoomMember>();
