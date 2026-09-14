@@ -10,16 +10,16 @@ public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
     {
         var errors = new Dictionary<string, string[]>();
 
-        if (string.IsNullOrWhiteSpace(command.Name))
+        if (string.IsNullOrWhiteSpace(command.CourseName))
         {
-            errors[nameof(command.Name)] =
+            errors[nameof(command.CourseName)] =
             [
                 CourseRules.CourseNameRequiredMessage
             ];
         }
-        else if (command.Name.Length > CourseRules.CourseNameMaxLength)
+        else if (command.CourseName.Length > CourseRules.CourseNameMaxLength)
         {
-            errors[nameof(command.Name)] =
+            errors[nameof(command.CourseName)] =
             [
                 CourseRules.CourseNameTooLongMessage
             ];

@@ -19,3 +19,23 @@ export async function fetchCoursesByStudent(studentId: string): Promise<Course[]
 
     return result.data;
 }
+
+export async function fetchCourseById(courseId: string): Promise<Course> {
+    const result: ApiResponse<Course> = await apiFetch<Course>(`/courses/${courseId}`);
+    if (!result.success) {
+        throw new Error(result.error?.message || "Failed to fetch course");
+    }
+
+    return result.data;
+}
+
+export async function editCourse(course: Course): Promise<Course> {
+    const result: ApiResponse<Course> = await apiFetch<Course>(`/courses/${course.id}`, {
+        method: "PUT",
+        body: JSON.stringify(course),
+    });
+    if (!result.success) {
+        throw new Error(result.error?.message || "Failed to edit course");
+    }
+    return result.data;
+}

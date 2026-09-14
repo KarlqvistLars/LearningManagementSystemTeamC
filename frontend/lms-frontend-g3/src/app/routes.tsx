@@ -16,6 +16,7 @@ import { UserPage } from "../features/users/pages/UserPage";
 import { EditUserPage } from "../features/users/pages/EditUserPage";
 import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
+import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
 
 export function AppRoutes() {
   return (
@@ -31,7 +32,7 @@ export function AppRoutes() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:courseId">
             <Route index element={<CourseDetailsPage />} />
-            {/* <Route path="edit" element={<CourseEditPage />} /> */}
+            <Route path="edit" element={<CourseEditPage />} />
           </Route>
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
           <Route
