@@ -1,14 +1,15 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import type { Course } from "../types";
 import { useAuth } from "../../auth/AuthContext";
 import { fetchCourseById } from "../api/courses";
 import { DisplayText } from "../../../shared/components/DisplayText";
-import { ListItemField } from "../../../shared/components/ListItemField";
+import { Button } from "../../../shared/components/Button";
 
 export function CourseDetailsPage() {
   const { isTeacher } = useAuth();
   const { courseId } = useParams<{ courseId: string }>();
+  const navigate = useNavigate();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -40,40 +41,74 @@ export function CourseDetailsPage() {
         </h1>
         {loading && <DisplayText text="Loading course details..." />}
         {course && (
-          // <div className="flex items-center rounded-xl border border-border bg-menu px-4 py-3">
-          //   <ListItemField
-          //     label="Name"
-          //     value={course.courseName}
-          //     className="flex-2"
-          //   />
-          // </div>
           <>
             <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-              <ListItemField
-                label="Name"
-                value={course.courseName}
-                className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-              />
+              <div>
+                <span className="text-white mb-1 block text-base font-medium block">
+                  Name
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {course.courseName}
+                </span>
+              </div>
 
-              <ListItemField
-                label="Description"
-                value={course.description}
-                className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-              />
+              <div className="row-span-2">
+                <span className="text-white mb-1 block text-base font-medium block">
+                  Mentors
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  John Doe
+                </span>
+              </div>
 
-              <ListItemField
-                label="Start Date"
-                value={new Date(course.startDate).toLocaleDateString()}
-                className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-              />
+              <div>
+                <span className="text-white mb-1 block text-base font-medium block">
+                  Start date
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {new Date(course.startDate).toLocaleDateString()}
+                </span>
+              </div>
 
-              <ListItemField
-                label="End Date"
-                value={new Date(course.endDate).toLocaleDateString()}
-                className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-              />
+              <div>
+                <span className="text-white mb-1 block text-base font-medium block">
+                  End date
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {new Date(course.endDate).toLocaleDateString()}
+                </span>
+              </div>
+
+              <div className="row-span-2">
+                <span className="text-white mb-1 block text-base font-medium block">
+                  Students
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  John Doe
+                </span>
+              </div>
+
+              <div className="row-span-4">
+                <span className="text-white mb-1 block text-base font-medium block">
+                  Description
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {course.description}
+                </span>
+              </div>
             </div>
           </>
+        )}
+      </div>
+      <div className="flex items-center">
+        {isTeacher && (
+          <Button
+            variant="list"
+            color="edit"
+            onClick={() => navigate(`/courses/${courseId}/edit`)}
+          >
+            Edit
+          </Button>
         )}
       </div>
     </section>
