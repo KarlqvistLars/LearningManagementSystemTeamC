@@ -17,6 +17,7 @@ import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
 import { ChatPage } from "../features/chat/pages/ChatPage";
 import { ModuleEditPage } from "../features/modules/pages/ModuleEditPage";
+import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
 
 export function AppRoutes() {
   return (
@@ -30,7 +31,10 @@ export function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
+          <Route path="/courses/:courseId">
+            <Route index element={<CourseDetailsPage />} />
+            <Route path="edit" element={<CourseEditPage />} />
+          </Route>
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
           <Route path="modules/:moduleId/edit" element={<ModuleEditPage />}/>
           <Route

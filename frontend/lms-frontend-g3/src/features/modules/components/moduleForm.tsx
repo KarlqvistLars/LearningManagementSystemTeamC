@@ -19,14 +19,12 @@ export function ModuleForm({courseId,module,onModuleSaved,}: ModuleFormProps) {
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setMessage("");
     setError("");
-    setIsSubmitting(true);
 
     try {
       if (module) {
@@ -65,8 +63,6 @@ export function ModuleForm({courseId,module,onModuleSaved,}: ModuleFormProps) {
     } catch (error) {
       console.error(error);
       setError(module ? "Couldn't update module." : "Couldn't create module.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
