@@ -29,7 +29,10 @@ export function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
+          <Route path="/courses/:courseId">
+            <Route index element={<CourseDetailsPage />} />
+            {/* <Route path="edit" element={<CourseEditPage />} /> */}
+          </Route>
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
           <Route
             path="/modules/:moduleId/activities"
