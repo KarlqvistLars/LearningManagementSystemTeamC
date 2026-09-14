@@ -44,7 +44,6 @@
                 CreatedAt,
                 type);
 
-            Id = resourceId;
             ResourceName = resourceName;
             Content = content;
             Url = url;

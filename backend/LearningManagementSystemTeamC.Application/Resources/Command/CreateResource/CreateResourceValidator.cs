@@ -5,7 +5,7 @@ namespace LearningManagementSystemTeamC.Application.Resources.Command.CreateReso
 
 public class CreateResourceValidator : IValidator<CreateResourceCommand>
 {
-    public Dictionary<string, string[]> Validate(CreateResourceCommand command, CancellationToken cancellationToken)
+    public Dictionary<string, string[]> Validate(CreateResourceCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

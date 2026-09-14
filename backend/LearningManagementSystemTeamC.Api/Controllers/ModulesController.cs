@@ -56,7 +56,7 @@ public class ModulesController : ControllerBase
         [FromServices] IValidator<CreateModuleCommand> createModuleValidator,
         CancellationToken cancellationToken)
     {
-        var details = createModuleValidator.Validate(command, cancellationToken);
+        var details = createModuleValidator.Validate(command);
 
         if (details.Count > 0)
         {
@@ -82,7 +82,7 @@ public class ModulesController : ControllerBase
         [FromServices] IValidator<EditModuleCommand> editModuleValidator,
         CancellationToken cancellationToken)
     {
-        var details = editModuleValidator.Validate(command, cancellationToken);
+        var details = editModuleValidator.Validate(command);
 
         if (details.Count > 0)
         {

@@ -61,7 +61,7 @@ public class AuthController : ControllerBase
         [FromServices] IValidator<ForgotPasswordCommand> forgotPasswordValidator,
         CancellationToken cancellationToken)
     {
-        var details = forgotPasswordValidator.Validate(command, cancellationToken);
+        var details = forgotPasswordValidator.Validate(command);
 
         if (details.Count > 0)
         {
@@ -87,7 +87,7 @@ public class AuthController : ControllerBase
     [FromServices] IValidator<ResetPasswordCommand> resetPasswordValidator,
     CancellationToken cancellationToken)
     {
-        var details = resetPasswordValidator.Validate(command, cancellationToken);
+        var details = resetPasswordValidator.Validate(command);
 
         if (details.Count > 0)
         {

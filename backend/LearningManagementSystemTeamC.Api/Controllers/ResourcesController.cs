@@ -58,7 +58,7 @@ public class ResourcesController : ControllerBase
         CancellationToken cancellationToken)
     {
         var validationResult =
-            createResourceValidator.Validate(command, cancellationToken);
+            createResourceValidator.Validate(command);
         if (validationResult.Count > 0)
         {
             return BadRequest(
@@ -69,7 +69,7 @@ public class ResourcesController : ControllerBase
                 );
         }
 
-        var resourceDto = await createResourceHandler.Handle(
+        var resourceDto = await createResourceHandler.HandleAsync(
             command,
             cancellationToken);
 
@@ -89,7 +89,7 @@ public class ResourcesController : ControllerBase
         var commandWithId = command with { ResourceId = resourceId };
 
         var validationResult =
-            updateResourceValidator.Validate(commandWithId, cancellationToken);
+            updateResourceValidator.Validate(commandWithId);
         if (validationResult.Count > 0)
         {
             return BadRequest(

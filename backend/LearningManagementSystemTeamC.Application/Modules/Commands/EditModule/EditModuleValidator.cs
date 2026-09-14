@@ -5,7 +5,7 @@ namespace LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 
 public class EditModuleValidator : IValidator<EditModuleCommand>
 {
-    public Dictionary<string, string[]> Validate(EditModuleCommand command, CancellationToken cancellationToken)
+    public Dictionary<string, string[]> Validate(EditModuleCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

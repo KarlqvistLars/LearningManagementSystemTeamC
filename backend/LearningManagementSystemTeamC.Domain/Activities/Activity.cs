@@ -47,27 +47,32 @@ public class Activity
     {
         if (string.IsNullOrWhiteSpace(activityName))
             throw new DomainException(
-                ActivityRules.ActivityNameRequiredCode,
-                nameof(activityName));
+                nameof(activityName),
+                ActivityRules.ActivityNameRequiredMessage
+                );
 
         if (!Enum.IsDefined(typeof(ActivityType), type))
             throw new DomainException(
-                ActivityRules.ActivityTypeRequiredCode,
-                nameof(type));
+                nameof(type),
+                ActivityRules.ActivityTypeRequiredMessage
+                );
 
         if (string.IsNullOrWhiteSpace(description))
             throw new DomainException(
-                ActivityRules.ActivityDescriptionRequiredCode,
-                nameof(description));
+                nameof(description),
+                ActivityRules.ActivityDescriptionRequiredMessage
+                );
 
         if (endDate < startDate)
             throw new DomainException(
-                ActivityRules.ActivityEndBeforeStartTimeCode,
-                nameof(endDate));
+                nameof(endDate),
+                ActivityRules.ActivityEndBeforeStartTimeMessage
+                );
 
         if (moduleId == Guid.Empty)
             throw new DomainException(
-                ActivityRules.ModuleIdRequiredMessage,
-                nameof(moduleId));
+                nameof(moduleId),
+                ActivityRules.ModuleIdRequiredMessage
+                );
     }
 }

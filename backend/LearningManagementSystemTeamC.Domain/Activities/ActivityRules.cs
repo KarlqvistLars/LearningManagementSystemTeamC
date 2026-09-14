@@ -14,5 +14,4 @@ public static class ActivityRules
     public const string ActivityDescriptionTooLongMessage = "Description too many characters.";
     public const string EndDateMustBeAfterStartDateMessage = "End date must be after start date.";
 
-
 }

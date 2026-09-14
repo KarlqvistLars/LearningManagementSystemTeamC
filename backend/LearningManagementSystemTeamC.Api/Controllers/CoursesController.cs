@@ -79,7 +79,7 @@ public class CoursesController : ControllerBase
     {
         var commandWithId = command with { Id = id };
 
-        var validationResult = updateCourseValidator.Validate(commandWithId, cancellationToken);
+        var validationResult = updateCourseValidator.Validate(commandWithId);
 
         if (validationResult.Count > 0)
         {

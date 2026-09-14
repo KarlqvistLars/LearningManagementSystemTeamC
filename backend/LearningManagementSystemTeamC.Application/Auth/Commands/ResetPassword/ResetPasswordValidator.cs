@@ -5,8 +5,7 @@ namespace LearningManagementSystemTeamC.Application.Auth.Commands.ResetPassword;
 public class ResetPasswordValidator : IValidator<ResetPasswordCommand>
 {
     public Dictionary<string, string[]> Validate(
-        ResetPasswordCommand command,
-        CancellationToken cancellationToken)
+        ResetPasswordCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

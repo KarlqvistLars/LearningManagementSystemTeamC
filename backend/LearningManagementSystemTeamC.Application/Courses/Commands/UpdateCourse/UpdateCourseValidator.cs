@@ -6,8 +6,7 @@ namespace LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCours
 public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
 {
     public Dictionary<string, string[]> Validate(
-        UpdateCourseCommand command,
-        CancellationToken cancellationToken)
+        UpdateCourseCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 
