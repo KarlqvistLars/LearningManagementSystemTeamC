@@ -3,16 +3,15 @@ using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
+using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourse;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCourses;
 using LearningManagementSystemTeamC.Application.Courses.Queries.GetCoursesByIdRange;
 using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
-using LearningManagementSystemTeamC.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
@@ -50,7 +49,7 @@ public class CoursesController : ControllerBase
         [FromServices] IValidator<CreateCourseCommand> createCourseValidator,
         CancellationToken cancellationToken)
     {
-        var details = createCourseValidator.Validate(command);
+        var details = createCourseValidator.Validate(command, cancellationToken);
 
         if (details.Count > 0)
         {
@@ -78,20 +77,17 @@ public class CoursesController : ControllerBase
         [FromServices] IValidator<UpdateCourseCommand> updateCourseValidator,
         CancellationToken cancellationToken)
     {
-        var commandWithId = command with
-        {
-            Id = id
-        };
+        var commandWithId = command with { Id = id };
 
-        var details = updateCourseValidator.Validate(commandWithId);
+        var validationResult = updateCourseValidator.Validate(commandWithId, cancellationToken);
 
-        if (details.Count > 0)
+        if (validationResult.Count > 0)
         {
             return BadRequest(
                 ApiResponse<Dictionary<string, string[]>>.Fail(
                     ExceptionConstants.ValidationFailedCode,
                     ExceptionConstants.DefaultExceptionMessage,
-                    details));
+                    validationResult));
         }
 
         var courseDto = await updateCourseHandler.Handle(commandWithId, cancellationToken);
@@ -130,7 +126,7 @@ public class CoursesController : ControllerBase
     public async Task<IActionResult> EnrollUserInCourse(Guid courseId, Guid userId, [FromServices] IEnrollUserInCourseHandler enrollUserInCourseHandler, CancellationToken cancellationToken)
     {
         var enrollment = await enrollUserInCourseHandler.Handle(new EnrollUserInCourseCommand(userId, courseId), cancellationToken);
-        return enrollment ? Ok(ApiResponse<bool>.Ok(enrollment)) 
+        return enrollment ? Ok(ApiResponse<bool>.Ok(enrollment))
             : BadRequest(ApiResponse<bool>.Fail(ExceptionConstants.DefaultExceptionCode, ExceptionConstants.DefaultExceptionMessage));
     }
 }

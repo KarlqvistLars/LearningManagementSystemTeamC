@@ -1,4 +1,7 @@
-﻿using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
+using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
@@ -16,6 +19,9 @@ using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
+using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
+using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
 using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
@@ -38,6 +44,8 @@ public static class DependencyInjection
         services.AddScoped<IGetCourseByIdHandler, GetCourseByIdHandler>();
         services.AddScoped<IGetEnrollmentsByCourseIdHandler, GetEnrollmentsByCourseIdHandler>();
         services.AddScoped<IGetActivitiesByModuleIdHandler, GetActivitiesByModuleIdHandler>();
+        services.AddScoped<IGetCourseByIdHandler, GetCourseByIdHandler>();
+        services.AddScoped<ICreateActivityHandler, CreateActivityHandler>();
         services.AddScoped<ICreateUserHandler, CreateUserHandler>();
         services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
@@ -57,18 +65,26 @@ public static class DependencyInjection
         services.AddScoped<IToggleUserStatusHandler, ToggleUserStatusHandler>();
         services.AddScoped<IGetRolesHandler, GetRolesHandler>();
         services.AddScoped<IUpdateCourseHandler, UpdateCourseHandler>();
+        services.AddScoped<IGetAllResourcesHandler, GetAllResourcesHandler>();
+        services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
+        services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
+        services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
+
 
         // Validators
         services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseValidator>();
         services.AddScoped<IValidator<CreateModuleCommand>, CreateModuleValidator>();
         services.AddScoped<IValidator<EditModuleCommand>, EditModuleValidator>();
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserValidator>();
+        services.AddScoped<IValidator<CreateActivityCommand>, CreateActivityValidator>();
         services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserValidator>();
         services.AddScoped<IValidator<ForgotPasswordCommand>, ForgotPasswordValidator>();
         services.AddScoped<IValidator<ResetPasswordCommand>, ResetPasswordValidator>();
         services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
+        services.AddScoped<IValidator<CreateResourceCommand>, CreateResourceValidator>();
+        services.AddScoped<IValidator<UpdateResourceCommand>, UpdateResourceValidator>();
 
         return services;
     }

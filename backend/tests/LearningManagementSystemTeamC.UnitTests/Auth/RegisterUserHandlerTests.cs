@@ -11,10 +11,14 @@ namespace LearningManagementSystemTeamC.UnitTests.Auth;
 
 public class RegisterUserHandlerTests
 {
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
     [Fact]
     public async Task Handle_ValidCommand_CreatesStudent()
     {
         // Arrange
+        var testFirstName = "Test";
+        var testLastName = "User";
+        var userInfoRepository = new Mock<IUserInfoRepository>();
         var userRepository = new Mock<IUserRepository>();
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
@@ -85,6 +89,9 @@ public class RegisterUserHandlerTests
     public async Task Handle_ExistingEmail_ThrowsConflictException()
     {
         // Arrange
+        var testFirstName = "Test";
+        var testLastName = "User";
+        var userInfoRepository = new Mock<IUserInfoRepository>();
         var userRepository = new Mock<IUserRepository>();
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
@@ -152,6 +159,9 @@ public class RegisterUserHandlerTests
     public async Task Handle_DefaultRoleDoesNotExist_ThrowsNotFoundException()
     {
         // Arrange
+        var testFirstName = "Test";
+        var testLastName = "User";
+        var userInfoRepository = new Mock<IUserInfoRepository>();
         var userRepository = new Mock<IUserRepository>();
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();

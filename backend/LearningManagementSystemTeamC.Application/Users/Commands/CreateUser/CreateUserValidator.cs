@@ -6,7 +6,7 @@ namespace LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 public class CreateUserValidator : IValidator<CreateUserCommand>
 {
     public Dictionary<string, string[]> Validate(
-        CreateUserCommand command)
+        CreateUserCommand command, CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 

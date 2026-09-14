@@ -34,7 +34,7 @@ public class ModulesController : ControllerBase
     }
 
     [HttpGet("course/{courseId:guid}")]
-    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModulesByCourseId(Guid courseId,
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModuleByCourseId(Guid courseId,
         [FromServices] IGetModulesHandler getModuleHandler,
         CancellationToken cancellationToken)
     {
@@ -56,7 +56,7 @@ public class ModulesController : ControllerBase
         [FromServices] IValidator<CreateModuleCommand> createModuleValidator,
         CancellationToken cancellationToken)
     {
-        var details = createModuleValidator.Validate(command);
+        var details = createModuleValidator.Validate(command, cancellationToken);
 
         if (details.Count > 0)
         {
@@ -82,7 +82,7 @@ public class ModulesController : ControllerBase
         [FromServices] IValidator<EditModuleCommand> editModuleValidator,
         CancellationToken cancellationToken)
     {
-        var details = editModuleValidator.Validate(command);
+        var details = editModuleValidator.Validate(command, cancellationToken);
 
         if (details.Count > 0)
         {

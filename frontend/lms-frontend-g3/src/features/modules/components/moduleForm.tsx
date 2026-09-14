@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Module, CreateModule, EditModule } from "../types";
 import { createModule, editModule } from "../api/modules";
 import { FormInput } from "../../../shared/components/FormInput";
-import { FormButton } from "../../../shared/components/FormButton";
+// import { Button } from "../../../shared/components/Button";
 import { FormLabel } from "../../../shared/components/FormLabel";
 
 interface ModuleFormProps {
@@ -15,7 +15,7 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState(""); 
+    const [endDate, setEndDate] = useState("");
 
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
@@ -25,39 +25,39 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
         event: React.SubmitEvent<HTMLFormElement>
     ) => {
         event.preventDefault();
-        
+
         setMessage("");
         setError("");
         setIsSubmitting(true);
 
         try {
-        if (module) {
-            const edit: EditModule = {
-                id: module.id,
-                name,
-                description,
-                startDate: new Date(startDate),
-                endDate: new Date(endDate),
-                courseId,
-            };
+            if (module) {
+                const edit: EditModule = {
+                    id: module.id,
+                    name,
+                    description,
+                    startDate: new Date(startDate),
+                    endDate: new Date(endDate),
+                    courseId,
+                };
 
-            await editModule(edit);
+                await editModule(edit);
 
-            setMessage("Module updated successfully!");
+                setMessage("Module updated successfully!");
 
-        }else {
-            const create: CreateModule = {
-                name,
-                description,
-                startDate: new Date(startDate),
-                endDate: new Date(endDate),
-                courseId
-            };
-    
+            } else {
+                const create: CreateModule = {
+                    name,
+                    description,
+                    startDate: new Date(startDate),
+                    endDate: new Date(endDate),
+                    courseId
+                };
+
                 await createModule(create);
-    
+
                 setMessage("Module created successfully!");
-        }
+            }
 
             // Clears the form
             setName("");
@@ -110,8 +110,8 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
                         type="text"
                         value={name}
                         required
-                        onChange={(event) => setName(event.target.value)} 
-                        placeholder="Enter Module Name"/>
+                        onChange={(event) => setName(event.target.value)}
+                        placeholder="Enter Module Name" />
                 </div>
 
                 {/* Description */}
@@ -145,7 +145,7 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
                         id="startDate"
                         type="date"
                         value={startDate}
-                        onChange={(event) => setStartDate(event.target.value)} 
+                        onChange={(event) => setStartDate(event.target.value)}
                         required
                         placeholder="Start date"
                         className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3
@@ -163,9 +163,9 @@ export function ModuleForm({ courseId, module, onModuleSaved }: ModuleFormProps)
                         id="endDate"
                         type="date"
                         value={endDate}
-                        onChange={(event) => setEndDate(event.target.value)} 
+                        onChange={(event) => setEndDate(event.target.value)}
                         required
-                        placeholder="Write your comment..."/>
+                        placeholder="Write your comment..." />
                 </div>
 
                 {/* Submit */}

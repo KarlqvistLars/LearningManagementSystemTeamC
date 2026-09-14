@@ -5,7 +5,8 @@ namespace LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword
 public class ForgotPasswordValidator : IValidator<ForgotPasswordCommand>
 {
     public Dictionary<string, string[]> Validate(
-        ForgotPasswordCommand command)
+        ForgotPasswordCommand command,
+        CancellationToken cancellationToken)
     {
         var errors = new Dictionary<string, string[]>();
 
