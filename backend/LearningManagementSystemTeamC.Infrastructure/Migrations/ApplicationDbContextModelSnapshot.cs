@@ -57,10 +57,44 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.ToTable("Activities");
                 });
 
-            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.ChatRoomMembers.ChatRoomMember", b =>
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.ActivityResources.ActivityResource", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ActivityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResourceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResourceType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActivityResources");
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.ChatRoomMembers.ChatRoomMember", b =>
+                {
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ChatRoomId")
@@ -163,7 +197,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Messages.Message", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ChatRoomId")

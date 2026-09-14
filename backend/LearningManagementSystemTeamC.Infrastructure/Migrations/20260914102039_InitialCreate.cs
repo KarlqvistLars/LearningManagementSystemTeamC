@@ -6,11 +6,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class chatroomOwner : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ActivityResources",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ResourceName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ResourceType = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ActivityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActivityResources", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "ChatRooms",
                 columns: table => new
@@ -322,6 +340,9 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Activities");
+
+            migrationBuilder.DropTable(
+                name: "ActivityResources");
 
             migrationBuilder.DropTable(
                 name: "ChatRoomMembers");

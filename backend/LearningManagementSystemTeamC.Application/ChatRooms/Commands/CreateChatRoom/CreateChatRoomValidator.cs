@@ -6,8 +6,7 @@ namespace LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateCha
 public class CreateChatRoomValidator : IValidator<CreateChatRoomCommand>
 {
     public Dictionary<string, string[]> Validate(
-        CreateChatRoomCommand command,
-        CancellationToken cancellationToken)
+        CreateChatRoomCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

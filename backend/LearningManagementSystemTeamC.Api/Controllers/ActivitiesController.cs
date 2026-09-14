@@ -1,8 +1,10 @@
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
+using LearningManagementSystemTeamC.Application.Activities.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,8 +40,10 @@ public class ActivitiesController : ControllerBase
         [FromServices] IGetActivitiesByModuleIdHandler getActivitiesByModuleHandler,
         CancellationToken cancellationToken)
     {
+        var userId = User.GetUserId();
+        var role = User.GetRole();
         var activities = await getActivitiesByModuleHandler.Handle(
-            new GetActivitiesByModuleIdQuery(moduleId),
+            new GetActivitiesByModuleIdQuery(moduleId, userId, role),
             cancellationToken);
         var activity = activities.FirstOrDefault(a => a.Id == activityId);
         if (activity == null)
@@ -58,7 +62,7 @@ public class ActivitiesController : ControllerBase
         [FromServices] IValidator<CreateActivityCommand> createActivityValidator,
         CancellationToken cancellationToken)
     {
-        var validationResult = createActivityValidator.Validate(command, cancellationToken);
+        var validationResult = createActivityValidator.Validate(command);
         if (validationResult.Count > 0)
         {
             return BadRequest(

@@ -21,7 +21,7 @@ public class AuthController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(RegisterUserCommand command, [FromServices] IRegisterUserHandler registerUserHandler, [FromServices] IValidator<RegisterUserCommand> registerUserValidator, CancellationToken cancellationToken)
     {
-        var details = registerUserValidator.Validate(command, cancellationToken);
+        var details = registerUserValidator.Validate(command);
 
         if (details.Count > 0)
             return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
@@ -41,7 +41,7 @@ public class AuthController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var details = loginValidator.Validate(command, cancellationToken);
+        var details = loginValidator.Validate(command);
 
         if (details.Count > 0)
             return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
