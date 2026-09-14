@@ -10,7 +10,6 @@
     <Folder Include="Modules\" />
     <Folder Include="Activities\" />
     <Folder Include="Submissions\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

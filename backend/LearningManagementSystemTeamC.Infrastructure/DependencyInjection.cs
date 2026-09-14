@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities;
+using LearningManagementSystemTeamC.Application.ActivityResources;
 using LearningManagementSystemTeamC.Application.Auth;
 using LearningManagementSystemTeamC.Application.ChatRooms;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
@@ -36,8 +37,7 @@ public static class DependencyInjection
         services.Configure<BrevoSettings>(
             config.GetSection("Brevo"));
 
-        services.AddHttpClient<IEmailService, BrevoEmailService>(client =>
-        {
+        services.AddHttpClient<IEmailService, BrevoEmailService>(client => {
             client.BaseAddress = new Uri("https://api.brevo.com/");
             client.DefaultRequestHeaders.Add(
                 "api-key",
@@ -48,14 +48,15 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IModuleRepository, ModuleRepository>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IActivityRepository, ActivityRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
         services.AddScoped<IUserInfoRepository, UserInfoRepository>();
         services.AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>();
         services.AddScoped<IPasswordResetTokenService, PasswordResetTokenService>();
+        services.AddScoped<IResourceRepository, ResourceRepository>();
         services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
         services.AddScoped<IChatRoomReadRepository, ChatRoomReadRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();

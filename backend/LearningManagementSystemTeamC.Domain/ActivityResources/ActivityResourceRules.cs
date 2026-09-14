@@ -1,18 +1,9 @@
-﻿namespace LearningManagementSystemTeamC.Domain.ActivityResources
+namespace LearningManagementSystemTeamC.Domain.ActivityResources;
+
+public static class ActivityResourceRules
 {
-    public class ActivityResourceRules
-    {
-        public const int ResourceNameMaxLength = 200;
-        public const int ContentMaxLength = 1000;
-        public const int UrlMaxLength = 200;
-        public const string ResourceNameRequiredMessage = "Resource name cannot be empty.";
-        public const string ContentRequiredMessage = "Content cannot be empty.";
-        public const string UserIdRequiredMessage = "User ID cannot be empty.";
-        public const string ActivityIdRequiredMessage = "Activity ID cannot be empty.";
-
-        public const string ActivityResourceCode = "ACTIVITY_NOT_FOUND";
-        public const string ActivityResourcesNotFound = "Activity resources not found.";
-
-
-    }
+    public const string ActivityIdRequiredCode = "ACTIVITY_ID_REQUIRED";
+    public const string ResourceIdRequiredCode = "RESOURCE_ID_REQUIRED";
+    public const string ActivityIdRequiredMessage = "Activity ID cannot be empty.";
+    public const string ResourceIdRequiredMessage = "Resource ID cannot be empty.";
 }

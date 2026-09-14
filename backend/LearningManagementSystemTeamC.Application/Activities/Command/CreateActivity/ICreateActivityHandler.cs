@@ -1,6 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 
-namespace LearningManagementSystemTeamC.Application.Activities.CreateActivity;
+namespace LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 
 public interface ICreateActivityHandler
 {

@@ -1,6 +1,9 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
-namespace LearningManagementSystemTeamC.Application.Activities.CreateActivity;
+using LearningManagementSystemTeamC.Application.Common.Mappers;
+using LearningManagementSystemTeamC.Domain.Activities;
+using LearningManagementSystemTeamC.Domain.Resources;
+namespace LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 
 public class CreateActivityHandler : ICreateActivityHandler
 {
@@ -20,29 +23,20 @@ public class CreateActivityHandler : ICreateActivityHandler
         CreateActivityCommand command,
         CancellationToken cancellationToken)
     {
-        // Validation if not using other tools
-
-        // Entity's method should have validation inside
-        var activity = new Domain.Activities.Activity(
+        var activity = new Activity(
             command.ActivityName,
-            command.Type,
             command.Description,
             command.StartDate,
             command.EndDate,
-            command.ModuleId);
-        // featureRepository handles actions
+            command.Type,
+            command.ModuleId) ?? throw new ArgumentNullException(
+                ResourceRules.ActivityCreationFailed,
+                ResourceRules.ActivityCreationFailedMessage
+                );
+
         await _activityRepository.AddAsync(activity, cancellationToken);
-        // UnitOfWork handles save
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new ActivityDto(
-            activity.Id,
-            activity.ActivityName,
-            activity.Type,
-            activity.Description,
-            activity.StartDate,
-            activity.EndDate,
-            activity.ModuleId
-        );
+        return ActivityMapper.ActivityToDto(activity);
     }
 }
