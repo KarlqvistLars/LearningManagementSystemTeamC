@@ -4,6 +4,7 @@ using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Application.Users;
 using LearningManagementSystemTeamC.Domain.ChatRooms;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
+using LearningManagementSystemTeamC.Domain.UserInfos;
 using LearningManagementSystemTeamC.Domain.Users;
 using InvalidOperationException =
     LearningManagementSystemTeamC.Domain.Common.Exceptions.InvalidOperationException;
@@ -15,17 +16,20 @@ public class GetOrCreateChatRoomHandler : IGetOrCreateChatRoomHandler
     private readonly IChatRoomRepository _chatRoomRepository;
     private readonly IChatRoomReadRepository _chatRoomReadRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUserInfoRepository _userInfoRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public GetOrCreateChatRoomHandler(
         IChatRoomRepository chatRoomRepository,
         IChatRoomReadRepository chatRoomReadRepository,
         IUserRepository userRepository,
+        IUserInfoRepository userInfoRepository,
         IUnitOfWork unitOfWork)
     {
         _chatRoomRepository = chatRoomRepository;
         _chatRoomReadRepository = chatRoomReadRepository;
         _userRepository = userRepository;
+        _userInfoRepository = userInfoRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -44,6 +48,18 @@ public class GetOrCreateChatRoomHandler : IGetOrCreateChatRoomHandler
             cancellationToken) ?? throw new NotFoundException(
                 UserRules.UserNotFoundCode,
                 UserRules.UserNotFoundMessage);
+
+        var targetUserInfo = await _userInfoRepository.GetByUserIdAsync(
+            targetUser.Id,
+            cancellationToken) ?? throw new NotFoundException(
+                UserInfoRules.UserInfoNotFoundCode,
+                UserInfoRules.UserInfoNotFoundMessage);
+
+        var currentUserInfo = await _userInfoRepository.GetByUserIdAsync(
+            currentUserId,
+            cancellationToken) ?? throw new NotFoundException(
+            UserInfoRules.UserInfoNotFoundCode,
+            UserInfoRules.UserInfoNotFoundMessage);
 
         var existingChatRoom =
             await _chatRoomRepository.GetDirectChatRoomAsync(
@@ -65,8 +81,16 @@ public class GetOrCreateChatRoomHandler : IGetOrCreateChatRoomHandler
                 : ChatRoomMapper.ToDto(existingReadModel);
         }
 
+        var names = new[]
+        {
+            currentUserInfo.FirstName,
+            targetUserInfo.FirstName
+        }
+        .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+        .ToArray();
+
         var chatRoom = new ChatRoom(
-            null,
+            $"{names[0]} & {names[1]}",
             currentUserId);
 
         chatRoom.AddMember(currentUserId);
