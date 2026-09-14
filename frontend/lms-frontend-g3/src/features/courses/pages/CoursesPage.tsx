@@ -9,7 +9,7 @@ const isTeacher = role === ROLES.TEACHER;
 
 export function CoursesPage() {
   return (
-    <section className="min-h-screen bg-background px-6 py-20">
+    <section className=" px-6 py-20">
       <div className="mx-auto max-w-5xl">
         <h1 className="mb-6 uppercase">
           <DisplayText text="Courses" />

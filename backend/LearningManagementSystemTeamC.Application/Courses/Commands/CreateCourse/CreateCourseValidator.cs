@@ -6,8 +6,7 @@ namespace LearningManagementSystemTeamC.Application.Courses.Commands.CreateCours
 public class CreateCourseValidator : IValidator<CreateCourseCommand>
 {
     public Dictionary<string, string[]> Validate(
-        CreateCourseCommand command,
-        CancellationToken cancellationToken)
+        CreateCourseCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

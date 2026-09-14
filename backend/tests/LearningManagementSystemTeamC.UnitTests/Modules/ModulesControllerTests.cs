@@ -112,7 +112,7 @@ public class ModulesControllerTests
 
         // Act
 
-        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
@@ -139,7 +139,7 @@ public class ModulesControllerTests
 
         // Act
 
-        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
@@ -189,7 +189,7 @@ public class ModulesControllerTests
         // Assert
         var createdResult = Assert.IsType<CreatedAtActionResult>(result);
 
-        Assert.Equal(nameof(ModulesController.GetModuleByCourseId), createdResult.ActionName);
+        Assert.Equal(nameof(ModulesController.GetModulesByCourseId), createdResult.ActionName);
         Assert.Equal(courseId, createdResult.RouteValues!["courseId"]);
 
         var response = Assert.IsType<ApiResponse<ModuleDto>>(createdResult.Value);
@@ -240,7 +240,7 @@ public class ModulesControllerTests
         Assert.Equal(validationErrors, response.Error.Details);
 
         _mockCreateModuleHandler.Verify(x => x.Handle(It.IsAny<CreateModuleCommand>(), It.IsAny<CancellationToken>()), Times.Never);
-        mockValidator.Verify(x => x.Validate(command, It.IsAny<CancellationToken>()), Times.Once);
+        mockValidator.Verify(x => x.Validate(command), Times.Once);
     }
 
     [Fact]

@@ -39,7 +39,6 @@ public class BrevoEmailService : IEmailService
                 resetLink
             }
         };
-
         using var response = await _httpClient.PostAsJsonAsync(
             "v3/smtp/email",
             request,

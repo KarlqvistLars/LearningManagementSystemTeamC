@@ -2,6 +2,7 @@ import type { Course } from "../types";
 import { Link, useNavigate } from "react-router";
 import type { User } from "../../users/types/types";
 import ROLES from "../../auth/roleConstants";
+import { Button } from "../../../shared/components/Button";
 
 const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
 const role = user?.roleName;

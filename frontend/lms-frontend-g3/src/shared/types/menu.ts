@@ -16,6 +16,10 @@ export const studentMenuItems: MenuItem[] = [
     label: "Assignments",
     path: "/assignments",
   },
+  {
+    label: "Chat",
+    path: "/chat",
+  },
 ];
 
 export const teacherMenuItems: MenuItem[] = [
@@ -34,5 +38,9 @@ export const teacherMenuItems: MenuItem[] = [
   {
     label: "Assignments",
     path: "/assignments",
+  },
+  {
+    label: "Chat",
+    path: "/chat",
   },
 ];

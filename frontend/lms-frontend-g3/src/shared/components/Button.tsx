@@ -8,7 +8,7 @@ interface ButtonProps {
   disabled?: boolean;
   variant?: ButtonVariant;
   color?: ButtonColor;
-  onClick?: () => void;
+  onClick?: () => void | Promise<void>;
 }
 
 const buttonVariants: Record<ButtonVariant, string> = {

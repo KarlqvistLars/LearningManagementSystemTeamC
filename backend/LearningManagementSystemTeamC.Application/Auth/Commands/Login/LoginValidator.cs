@@ -6,7 +6,7 @@ namespace LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 public class LoginValidator : IValidator<LoginCommand>
 {
     public Dictionary<string, string[]> Validate(
-        LoginCommand command, CancellationToken cancellationToken)
+        LoginCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

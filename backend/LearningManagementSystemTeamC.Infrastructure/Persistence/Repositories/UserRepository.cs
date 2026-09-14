@@ -37,4 +37,16 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.Where(u => ids.Contains(u.Id)).ToListAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<Guid>> GetMissingIdsAsync(IReadOnlyCollection<Guid> userIds, CancellationToken cancellationToken)
+    {
+        var existingIds = await _context.Users
+            .Where(user => userIds.Contains(user.Id))
+            .Select(user => user.Id)
+            .ToListAsync(cancellationToken);
+
+        return userIds
+            .Except(existingIds)
+            .ToList();
+    }
 }

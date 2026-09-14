@@ -49,7 +49,7 @@ public class CoursesController : ControllerBase
         [FromServices] IValidator<CreateCourseCommand> createCourseValidator,
         CancellationToken cancellationToken)
     {
-        var details = createCourseValidator.Validate(command, cancellationToken);
+        var details = createCourseValidator.Validate(command);
 
         if (details.Count > 0)
         {

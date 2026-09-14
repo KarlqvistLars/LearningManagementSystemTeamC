@@ -26,7 +26,7 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserCommand command, [FromServices] ICreateUserHandler createUserHandler, [FromServices] IValidator<CreateUserCommand> createUserValidator, CancellationToken cancellationToken)
     {
-        var details = createUserValidator.Validate(command, cancellationToken);
+        var details = createUserValidator.Validate(command);
 
         if (details.Count > 0)
             return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
@@ -66,7 +66,7 @@ public class UsersController : ControllerBase
             UserId = id
         };
 
-        var details = updateUserValidator.Validate(commandWithId, cancellationToken);
+        var details = updateUserValidator.Validate(commandWithId);
 
         if (details.Count > 0)
             return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(

@@ -62,7 +62,7 @@ public class ActivitiesController : ControllerBase
         [FromServices] IValidator<CreateActivityCommand> createActivityValidator,
         CancellationToken cancellationToken)
     {
-        var validationResult = createActivityValidator.Validate(command, cancellationToken);
+        var validationResult = createActivityValidator.Validate(command);
         if (validationResult.Count > 0)
         {
             return BadRequest(
