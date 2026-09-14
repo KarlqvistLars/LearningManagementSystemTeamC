@@ -59,7 +59,7 @@ export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
               className="w-1/6 max-w-25 h-fit px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 hover:cursor-pointer"
               onClick={() => navigate(`/courses/${course.id}/modules`)}
             >
-              Details
+              Modules
             </button>
           )}
         </>

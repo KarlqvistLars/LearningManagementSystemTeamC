@@ -16,6 +16,7 @@ import { EditUserPage } from "../features/users/pages/EditUserPage";
 import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
 import { ChatPage } from "../features/chat/pages/ChatPage";
+import { ModuleEditPage } from "../features/modules/pages/ModuleEditPage";
 
 export function AppRoutes() {
   return (
@@ -31,6 +32,7 @@ export function AppRoutes() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
+          <Route path="modules/:moduleId/edit" element={<ModuleEditPage />}/>
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}

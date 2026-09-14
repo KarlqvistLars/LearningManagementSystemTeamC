@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Module, CreateModule, EditModule } from "../types";
-import { createModule, editModule } from "../api/modules";
+import { createModule, editModule } from "../api/ModulesApi";
 import { FormInput } from "../../../shared/components/FormInput";
 import { Button } from "../../../shared/components/Button";
 import { FormLabel } from "../../../shared/components/FormLabel";
@@ -11,11 +11,7 @@ interface ModuleFormProps {
   onModuleSaved: () => void;
 }
 
-export function ModuleForm({
-  courseId,
-  module,
-  onModuleSaved,
-}: ModuleFormProps) {
+export function ModuleForm({courseId,module,onModuleSaved,}: ModuleFormProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -94,10 +90,13 @@ export function ModuleForm({
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+      <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
         {/* Name */}
-        <div>
-          <FormLabel htmlFor="name">Name</FormLabel>
+        <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+          <div>
+          <FormLabel htmlFor="name" className="text-white">
+            Name
+          </FormLabel>
 
           <FormInput
             id="name"
@@ -111,7 +110,9 @@ export function ModuleForm({
 
         {/* Description */}
         <div>
-          <FormLabel htmlFor="description">Description</FormLabel>
+          <FormLabel htmlFor="description" className="text-white">
+            Description
+          </FormLabel>
 
           <textarea
             id="description"
@@ -120,15 +121,15 @@ export function ModuleForm({
             required
             rows={5}
             placeholder="Enter module description"
-            className="w-full resize-none rounded-lg border border-gray-300
-                        bg-white px-4 py-2.5 text-gray-900 outline-none transition placeholder:text-gray-400
-                        focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            className="w-full resize-none rounded-md bg-form-input px-4 py-3 text-primary-display-text"
           ></textarea>
         </div>
 
         {/* StartDate */}
         <div>
-          <FormLabel htmlFor="startDate">Start date</FormLabel>
+          <FormLabel htmlFor="startDate" className="text-white">
+            Start date
+          </FormLabel>
 
           <FormInput
             id="startDate"
@@ -137,14 +138,14 @@ export function ModuleForm({
             onChange={(event) => setStartDate(event.target.value)}
             required
             placeholder="Start date"
-            className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3
-                        outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
           />
         </div>
 
         {/* EndDate */}
         <div>
-          <FormLabel htmlFor="endDate">End date</FormLabel>
+          <FormLabel htmlFor="endDate" className="text-white">
+            End date
+          </FormLabel>
 
           <FormInput
             id="endDate"
@@ -157,8 +158,11 @@ export function ModuleForm({
         </div>
 
         {/* Submit */}
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit module"}
+        <Button 
+          type="submit"
+          variant="form"
+          color="edit">
+          Submit module
         </Button>
 
         {/* Success */}
@@ -172,6 +176,7 @@ export function ModuleForm({
         {error && (
           <p className="rounded-lg bg-red-100 p-3 text-red-700">{error}</p>
         )}
+        </div>
       </form>
     </div>
   );
