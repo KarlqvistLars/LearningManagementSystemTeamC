@@ -7,11 +7,13 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
 [Route("api")]
 public class ResourcesController : ControllerBase
 {
@@ -19,6 +21,7 @@ public class ResourcesController : ControllerBase
 
     // api/resources
     [HttpGet("resources")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> GetAllResources(
         [FromServices] IGetAllResourcesHandler getAllResourcesHandler,
         CancellationToken cancellationToken)
@@ -32,7 +35,7 @@ public class ResourcesController : ControllerBase
 
     // "api/activities/{activityId}/resources"
     [HttpGet("activities/{activityId}/resources")]
-    public async Task<IActionResult> GetByActivityResources(
+    public async Task<IActionResult> GetResourceByActivityId(
         Guid activityId,
         [FromServices] IGetResourcesByActivityIdHandler getResourcesByActivityIdHandler,
         CancellationToken cancellationToken)
@@ -47,6 +50,7 @@ public class ResourcesController : ControllerBase
 
     // "api/resources"
     [HttpPost("resources")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Create(
         [FromBody] CreateResourceCommand command,
         [FromServices] ICreateResourceHandler createResourceHandler,
@@ -74,6 +78,7 @@ public class ResourcesController : ControllerBase
 
     // "api/resources/{resourceId}"
     [HttpPut("resources/{resourceId:guid}")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Update(
         Guid resourceId,
         [FromBody] UpdateResourceCommand command,

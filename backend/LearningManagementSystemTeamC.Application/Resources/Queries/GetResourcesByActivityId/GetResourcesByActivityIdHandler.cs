@@ -23,7 +23,7 @@ public class GetResourcesByActivityIdHandler : IGetResourcesByActivityIdHandler
     .GetResourcesByActivityIdAsync(
         query.ActivityId,
         cancellationToken)
-            ?? throw new DomainException(ResourceRules.ResourceCode, ResourceRules.ResourceNotFound);
+            ?? throw new DomainException(ResourceRules.NotFoundCode, ResourceRules.NotFoundMessage);
 
         return result
             .Select(ResourceMapper.ResourceToDto)

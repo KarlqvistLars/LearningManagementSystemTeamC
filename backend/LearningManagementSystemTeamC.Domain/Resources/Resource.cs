@@ -32,7 +32,6 @@
         }
 
         public void Update(
-            Guid resourceId,
             string resourceName,
             string content,
             string url,

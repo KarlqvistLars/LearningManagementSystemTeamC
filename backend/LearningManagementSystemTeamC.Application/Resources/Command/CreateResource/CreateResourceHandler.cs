@@ -20,7 +20,7 @@ public class CreateResourceHandler : ICreateResourceHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ResourceDto> Handle(
+    public async Task<ResourceDto> HandleAsync(
         CreateResourceCommand command,
         CancellationToken cancellationToken)
     {

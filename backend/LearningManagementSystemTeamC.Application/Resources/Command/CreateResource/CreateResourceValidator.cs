@@ -11,30 +11,30 @@ public class CreateResourceValidator : IValidator<CreateResourceCommand>
 
         if (string.IsNullOrWhiteSpace(command.ResourceName))
         {
-            errors[nameof(command.ResourceName)] = new[] { "Resource name is required." };
-        } else if (command.ResourceName.Length > 100)
+            errors[nameof(command.ResourceName)] = new[] { ResourceRules.ResourceNameRequiredMessage };
+        } else if (command.ResourceName.Length > ResourceRules.ResourceNameMaxLength)
         {
-            errors[nameof(command.ResourceName)] = new[] { "Resource name is too long." };
+            errors[nameof(command.ResourceName)] = new[] { $"Resource name cannot exceed {ResourceRules.ResourceNameMaxLength} characters." };
         }
 
         if (string.IsNullOrWhiteSpace(command.Content))
         {
-            errors[nameof(command.Content)] = new[] { "Content is required." };
+            errors[nameof(command.Content)] = new[] { ResourceRules.ContentRequiredMessage };
         }
 
         if (DateTime.UtcNow < command.CreatedAt)
         {
-            errors[nameof(command.CreatedAt)] = new[] { "CreatedAt cannot be in the future." };
+            errors[nameof(command.CreatedAt)] = new[] { ResourceRules.CreatedAtCannotBeInTheFutureMessage };
         }
 
         if (command.CreatedAt == default)
         {
-            errors[nameof(command.CreatedAt)] = new[] { "CreatedAt is required." };
+            errors[nameof(command.CreatedAt)] = new[] { ResourceRules.CreatedAtIsRequiredMessage };
         }
 
         if (command.Type == ResourceType.None)
         {
-            errors[nameof(command.Type)] = new[] { "Type is required." };
+            errors[nameof(command.Type)] = new[] { ResourceRules.TypeIsRequiredMessage };
         }
 
         return errors;

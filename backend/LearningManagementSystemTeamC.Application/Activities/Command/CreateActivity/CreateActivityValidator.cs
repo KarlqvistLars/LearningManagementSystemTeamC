@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Domain.Activities;
 
 namespace LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 
@@ -10,23 +11,23 @@ public class CreateActivityValidator : IValidator<CreateActivityCommand>
 
         if (string.IsNullOrWhiteSpace(command.ActivityName))
         {
-            errors[nameof(command.ActivityName)] = new[] { "Activity name is required." };
-        } else if (command.ActivityName.Length > 100)
+            errors[nameof(command.ActivityName)] = new[] { ActivityRules.ActivityNameRequiredMessage };
+        } else if (command.ActivityName.Length > ActivityRules.ActivityNameMaxLength)
         {
-            errors[nameof(command.ActivityName)] = new[] { "Activity name is too long." };
+            errors[nameof(command.ActivityName)] = new[] { ActivityRules.ActivityNameTooLongMessage };
         }
 
         if (string.IsNullOrWhiteSpace(command.Description))
         {
-            errors[nameof(command.Description)] = new[] { "Activity description is required." };
-        } else if (command.Description.Length > 500)
+            errors[nameof(command.Description)] = new[] { ActivityRules.ActivityDescriptionRequiredMessage };
+        } else if (command.Description.Length > ActivityRules.DescriptionMaxLength)
         {
-            errors[nameof(command.Description)] = new[] { "Activity description is too long." };
+            errors[nameof(command.Description)] = new[] { ActivityRules.ActivityDescriptionTooLongMessage };
         }
 
         if (command.EndDate <= command.StartDate)
         {
-            errors[nameof(command.EndDate)] = new[] { "End date must be after start date." };
+            errors[nameof(command.EndDate)] = new[] { ActivityRules.ActivityEndBeforeStartTimeMessage };
         }
 
         return errors;

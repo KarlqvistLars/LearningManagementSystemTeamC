@@ -1,8 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.ActivityResources;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Mappers;
-using LearningManagementSystemTeamC.Domain.Common.Exceptions;
-using LearningManagementSystemTeamC.Domain.Resources;
 
 namespace LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
 
@@ -22,8 +20,7 @@ public class GetAllResourcesHandler : IGetAllResourcesHandler
     {
         var result = await _resourceRepository
     .GetAllResourcesAsync(
-        cancellationToken)
-            ?? throw new DomainException(ResourceRules.ResourceCode, ResourceRules.ResourceNotFound);
+        cancellationToken);
 
         return result
             .Select(ResourceMapper.ResourceToDto)

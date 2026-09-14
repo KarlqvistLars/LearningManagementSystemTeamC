@@ -23,11 +23,10 @@ public class UpdateResourceHandler : IUpdateResourceHandler
     {
         var resource = await _resourceRepository.GetResourceByIdAsync(command.ResourceId, cancellationToken) ??
                         throw new NotFoundException(
-                            ResourceRules.ResourceCode,
-                            ResourceRules.ResourceNotFound);
+                            ResourceRules.NotFoundCode,
+                            ResourceRules.NotFoundMessage);
 
         resource.Update(
-            command.ResourceId,
             command.ResourceName,
             command.Content,
             command.Url,

@@ -11,20 +11,20 @@ public class UpdateResourceValidator : IValidator<UpdateResourceCommand>
 
         if (string.IsNullOrWhiteSpace(command.ResourceName))
         {
-            errors[nameof(command.ResourceName)] = new[] { "Resource name is required." };
-        } else if (command.ResourceName.Length > 100)
+            errors[nameof(command.ResourceName)] = new[] { ResourceRules.ResourceNameRequiredMessage };
+        } else if (command.ResourceName.Length > ResourceRules.ResourceNameMaxLength)
         {
-            errors[nameof(command.ResourceName)] = new[] { "Resource name is too long." };
+            errors[nameof(command.ResourceName)] = new[] { $"Resource name cannot be longer than {ResourceRules.ResourceNameMaxLength} characters." };
         }
 
         if (string.IsNullOrWhiteSpace(command.Content))
         {
-            errors[nameof(command.Content)] = new[] { "Content is required." };
+            errors[nameof(command.Content)] = new[] { ResourceRules.ContentRequiredMessage };
         }
 
         if (command.Type == ResourceType.None)
         {
-            errors[nameof(command.Type)] = new[] { "Type is required." };
+            errors[nameof(command.Type)] = new[] { ResourceRules.TypeIsRequiredMessage };
         }
 
         return errors;

@@ -9,9 +9,12 @@
         public const string ContentRequiredMessage = "Content cannot be empty.";
         public const string UserIdRequiredMessage = "User ID cannot be empty.";
         public const string ActivityIdRequiredMessage = "Activity ID cannot be empty.";
-        public const string ResourceCode = "RESOURCE_NOT_FOUND";
-        public const string ResourceNotFound = "Resource not found.";
-
-
+        public const string NotFoundCode = "RESOURCE_NOT_FOUND";
+        public const string NotFoundMessage = "Resource not found.";
+        public const string TypeIsRequiredMessage = "Type is required.";
+        public const string ActivityCreationFailed = "ACTIVITY_CREATION_FAILED";
+        public const string ActivityCreationFailedMessage = "Activity creation failed.";
+        public const string CreatedAtCannotBeInTheFutureMessage = "CreatedAt cannot be in the future.";
+        public const string CreatedAtIsRequiredMessage = "CreatedAt is required.";
     }
 }

@@ -5,5 +5,5 @@ namespace LearningManagementSystemTeamC.Application.ActivityResources.Command.Cr
 
 public interface ICreateResourceHandler
 {
-    Task<ResourceDto> Handle(CreateResourceCommand command, CancellationToken cancellationToken);
+    Task<ResourceDto> HandleAsync(CreateResourceCommand command, CancellationToken cancellationToken);
 }
