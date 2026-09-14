@@ -11,19 +11,19 @@ export function MainLayout() {
   const menuItems = isTeacher ? teacherMenuItems : studentMenuItems;
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
+    <div className="flex h-screen flex-col">
       <div className="shrink-0">
         <Header />
       </div>
 
-      <div className="flex min-h-0 flex-1 overflow-hidden">
+      <div className="flex min-h-0 flex-1">
         {isAuthenticated && (
           <div className="shrink-0">
             <SideMenu menuItems={menuItems} />
           </div>
         )}
 
-        <main className="min-h-0 min-w-0 flex-1 overflow-hidden">
+        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>
