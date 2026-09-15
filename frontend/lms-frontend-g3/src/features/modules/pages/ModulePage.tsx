@@ -46,7 +46,7 @@ export function ModulePage() {
                     reloadList={reloadList}
                     searchTerm={searchTerm}
                     />
-              <div className="self-center mt-auto">
+              <div className="mt-auto flex justify-center gap-4 pt-10">
                 {isTeacher && (
                   <Button 
                     variant="list"
@@ -55,6 +55,12 @@ export function ModulePage() {
                     Create new module
                   </Button>
                 )}
+                <Button 
+                    variant="list"
+                    color="cancel"
+                    onClick={() => navigate(-1)}>
+                    Back to Courses
+                  </Button>
                 </div>
             </section>
     );
