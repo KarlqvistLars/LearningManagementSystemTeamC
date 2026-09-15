@@ -7,10 +7,15 @@ import { toggleUserStatus, getUsers } from "../api/userApi";
 import type { User } from "../types/types";
 import { Button } from "../../../shared/components/Button";
 import { useAuth } from "../../auth/AuthContext";
+import type { ApiError } from "../../../api/types";
+import { ApiRequestError } from "../../../api/error";
+import { ErrorList } from "../../../shared/components/ErrorList";
 
 export function UserPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState<ApiError | undefined>();
+
   const navigate = useNavigate();
   const { isTeacher } = useAuth();
   const fetchUsers = async () => {
@@ -18,7 +23,10 @@ export function UserPage() {
       const users = await getUsers();
       setUsers(users);
     } catch (error) {
-      console.error(error);
+      if (error instanceof ApiRequestError) {
+        setError(error);
+        return;
+      }
     }
   };
 
@@ -31,7 +39,10 @@ export function UserPage() {
       await toggleUserStatus(userId);
       await fetchUsers();
     } catch (error) {
-      console.error(error);
+      if (error instanceof ApiRequestError) {
+        setError(error);
+        return;
+      }
     }
   };
 
@@ -54,7 +65,7 @@ export function UserPage() {
         onChange={setSearchTerm}
         placeholder="Search users..."
       />
-
+      <ErrorList error={error} variant="list" />
       <UserList users={filteredUsers} onToggleStatus={handleToggleStatus} />
 
       {isTeacher && (
