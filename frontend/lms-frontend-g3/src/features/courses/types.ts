@@ -6,3 +6,9 @@ export interface Course {
     endDate: Date;
     createdAt: Date;
 }
+
+export interface EnrollmentDto {
+    studentId: string;
+    enrollmentDate: Date;
+    studentName: string;
+}
