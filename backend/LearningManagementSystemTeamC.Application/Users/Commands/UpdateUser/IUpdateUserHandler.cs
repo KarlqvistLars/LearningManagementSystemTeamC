@@ -6,5 +6,7 @@ public interface IUpdateUserHandler
 {
     Task<UserDto> HandleAsync(
         UpdateUserCommand command,
+        Guid userId,
+        string roleCode,
         CancellationToken cancellationToken);
 }
