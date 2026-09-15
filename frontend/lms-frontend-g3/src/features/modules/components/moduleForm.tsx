@@ -157,7 +157,12 @@ export function ModuleForm({
         </div>
 
         {/* Submit */}
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          variant="form"
+          color="edit"
+        >
           {isSubmitting ? "Submitting..." : "Submit module"}
         </Button>
 
