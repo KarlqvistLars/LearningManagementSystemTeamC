@@ -1,12 +1,22 @@
+import { Link } from "react-router";
+
 interface MenuFullNameProps {
+  userId: string;
   firstName: string;
   lastName: string;
 }
 
-export function MenuFullName({ firstName, lastName }: MenuFullNameProps) {
+export function MenuFullName({
+  userId,
+  firstName,
+  lastName,
+}: MenuFullNameProps) {
   return (
-    <span className="text-sm font-medium text-primary-display-text">
+    <Link
+      to={`/users/${userId}/edit`}
+      className="text-sm font-medium text-primary-display-text"
+    >
       {firstName} {lastName}
-    </span>
+    </Link>
   );
 }
