@@ -17,11 +17,16 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Authorize]
 public class MessagesController : ControllerBase
 {
-
     public MessagesController()
     {
     }
 
+    /// <summary>
+    /// Sends a message to a chat room.
+    /// </summary>
+    /// <param name="chatRoomId">The ID of the chat room.</param>
+    /// <param name="request">The message content to send.</param>
+    /// <returns>The newly created message.</returns>
     [HttpPost]
     public async Task<IActionResult> SendMessage(
         Guid chatRoomId,
@@ -39,10 +44,11 @@ public class MessagesController : ControllerBase
 
         if (details.Count > 0)
         {
-            return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
-                ExceptionConstants.ValidationFailedCode,
-                ExceptionConstants.ValidationFailedMessage,
-                details));
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    details));
         }
 
         var userId = User.GetUserId();
@@ -59,9 +65,15 @@ public class MessagesController : ControllerBase
                 messageDto,
                 cancellationToken);
 
-        return Ok(ApiResponse<MessageDto>.Ok(messageDto));
+        return Ok(
+            ApiResponse<MessageDto>.Ok(messageDto));
     }
 
+    /// <summary>
+    /// Gets all messages from a chat room.
+    /// </summary>
+    /// <param name="chatRoomId">The ID of the chat room.</param>
+    /// <returns>A list of messages belonging to the chat room.</returns>
     [HttpGet]
     public async Task<IActionResult> GetMessages(
         Guid chatRoomId,
@@ -77,6 +89,7 @@ public class MessagesController : ControllerBase
             userId,
             cancellationToken);
 
-        return Ok(ApiResponse<IReadOnlyList<MessageDto>>.Ok(messageDtos));
+        return Ok(
+            ApiResponse<IReadOnlyList<MessageDto>>.Ok(messageDtos));
     }
 }

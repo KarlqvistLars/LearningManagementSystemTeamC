@@ -19,6 +19,10 @@ public class ResourcesController : ControllerBase
 {
     public ResourcesController() { }
 
+    /// <summary>
+    /// Gets all resources.
+    /// </summary>
+    /// <returns>A list of all resources including their creators.</returns>
     [HttpGet("resources")]
     [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> GetAllResources(
@@ -29,9 +33,15 @@ public class ResourcesController : ControllerBase
             new GetAllResourcesQuery(),
             cancellationToken);
 
-        return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
+        return Ok(
+            ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
     }
 
+    /// <summary>
+    /// Gets all resources belonging to an activity.
+    /// </summary>
+    /// <param name="activityId">The ID of the activity.</param>
+    /// <returns>A list of resources associated with the specified activity.</returns>
     [HttpGet("activities/{activityId}/resources")]
     public async Task<IActionResult> GetResourceByActivityId(
         Guid activityId,
@@ -42,9 +52,15 @@ public class ResourcesController : ControllerBase
             new GetResourcesByActivityIdQuery(activityId),
             cancellationToken);
 
-        return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
+        return Ok(
+            ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
     }
 
+    /// <summary>
+    /// Creates a new resource.
+    /// </summary>
+    /// <param name="command">The resource creation data.</param>
+    /// <returns>The newly created resource.</returns>
     [HttpPost("resources")]
     public async Task<IActionResult> Create(
         [FromBody] CreateResourceCommand command,
@@ -57,14 +73,14 @@ public class ResourcesController : ControllerBase
 
         var validationResult =
             createResourceValidator.Validate(command);
+
         if (validationResult.Count > 0)
         {
             return BadRequest(
                 ApiResponse<ResourceDto>.Fail(
                     ExceptionConstants.ValidationFailedCode,
                     ExceptionConstants.ValidationFailedMessage,
-                    validationResult)
-                );
+                    validationResult));
         }
 
         var resourceDto = await createResourceHandler.HandleAsync(
@@ -73,9 +89,16 @@ public class ResourcesController : ControllerBase
             userRole,
             cancellationToken);
 
-        return Ok(ApiResponse<ResourceDto>.Ok(resourceDto));
+        return Ok(
+            ApiResponse<ResourceDto>.Ok(resourceDto));
     }
 
+    /// <summary>
+    /// Updates an existing resource.
+    /// </summary>
+    /// <param name="resourceId">The ID of the resource to update.</param>
+    /// <param name="command">The updated resource data.</param>
+    /// <returns>The updated resource.</returns>
     [HttpPut("resources/{resourceId:guid}")]
     public async Task<IActionResult> Update(
         Guid resourceId,
@@ -88,14 +111,14 @@ public class ResourcesController : ControllerBase
 
         var validationResult =
             updateResourceValidator.Validate(commandWithId);
+
         if (validationResult.Count > 0)
         {
             return BadRequest(
                 ApiResponse<ResourceDto>.Fail(
                     ExceptionConstants.ValidationFailedCode,
                     ExceptionConstants.ValidationFailedMessage,
-                    validationResult)
-                );
+                    validationResult));
         }
 
         var userId = User.GetUserId();
@@ -107,6 +130,7 @@ public class ResourcesController : ControllerBase
             roleCode,
             cancellationToken);
 
-        return Ok(ApiResponse<ResourceDto>.Ok(updatedResourceDto));
+        return Ok(
+            ApiResponse<ResourceDto>.Ok(updatedResourceDto));
     }
 }

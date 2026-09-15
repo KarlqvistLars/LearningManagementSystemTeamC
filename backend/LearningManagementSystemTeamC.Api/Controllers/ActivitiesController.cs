@@ -19,6 +19,11 @@ public class ActivitiesController : ControllerBase
 {
     public ActivitiesController() { }
 
+    /// <summary>
+    /// Gets all activities belonging to a specific module.
+    /// </summary>
+    /// <param name="moduleId">The ID of the module.</param>
+    /// <returns>A list of activities belonging to the specified module.</returns>
     [HttpGet("modules/{moduleId}/activities")]
     public async Task<IActionResult> GetByModule(
         Guid moduleId,
@@ -35,6 +40,12 @@ public class ActivitiesController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<ActivityDto>>.Ok(activities));
     }
 
+    /// <summary>
+    /// Gets a specific activity belonging to a module.
+    /// </summary>
+    /// <param name="moduleId">The ID of the module.</param>
+    /// <param name="activityId">The ID of the activity.</param>
+    /// <returns>The requested activity if it belongs to the specified module.</returns>
     [HttpGet("modules/{moduleId}/activities/{activityId}")]
     public async Task<IActionResult> GetByModuleAndActivity(
         Guid moduleId,
@@ -61,6 +72,11 @@ public class ActivitiesController : ControllerBase
         return Ok(ApiResponse<ActivityDto>.Ok(activity));
     }
 
+    /// <summary>
+    /// Creates a new activity.
+    /// </summary>
+    /// <param name="command">The activity data used to create the activity.</param>
+    /// <returns>The newly created activity.</returns>
     [HttpPost("activities")]
     public async Task<IActionResult> Create(
         CreateActivityCommand command,
@@ -93,6 +109,12 @@ public class ActivitiesController : ControllerBase
             ApiResponse<ActivityDto>.Ok(activityDto));
     }
 
+    /// <summary>
+    /// Gets all assignments available to the current user.
+    /// Teachers receive all assignments.
+    /// Students receive assignments from courses they are enrolled in.
+    /// </summary>
+    /// <returns>A list of assignment details.</returns>
     [HttpGet("activities/assignments")]
     public async Task<IActionResult> GetAssignments(
         [FromServices] IGetAssignmentsHandler getAssignmentsHandler,
