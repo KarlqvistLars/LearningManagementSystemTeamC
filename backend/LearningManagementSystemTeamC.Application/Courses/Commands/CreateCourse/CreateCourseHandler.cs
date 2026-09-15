@@ -23,7 +23,7 @@ public class CreateCourseHandler : ICreateCourseHandler
         CancellationToken cancellationToken)
     {
         var course = new Course(
-            command.Name,
+            command.CourseName,
             command.Description,
             command.StartDate,
             command.EndDate);
