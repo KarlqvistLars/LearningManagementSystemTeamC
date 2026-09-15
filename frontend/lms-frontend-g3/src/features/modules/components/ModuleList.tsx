@@ -9,9 +9,10 @@ import { useAuth } from "../../auth/AuthContext";
 interface ModuleListProps {
     courseId: string;
     reloadList: number;
+    searchTerm: string;
 }
 
-export function ModuleList({ courseId, reloadList }: ModuleListProps){
+export function ModuleList({ courseId, reloadList, searchTerm}: ModuleListProps){
     const [modules, setModules] = useState<Module[]>([]);
     const [error, setError] = useState<string | null>(null);
     const  { isTeacher } = useAuth();
@@ -33,13 +34,18 @@ export function ModuleList({ courseId, reloadList }: ModuleListProps){
         }
     }, [courseId, reloadList, isTeacher]);
 
+    const filteredModules = modules.filter((module) =>
+        module.moduleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        module.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (error) {
         return <p>{error}</p>
     }
 
     return (
-        <div>
-            {modules.map((module) => (
+        <div className="flex flex-col gap-2">
+            {filteredModules.map((module) => (
                 <ModuleSummaryCard
                     key={module.id}
                     module={module}/>

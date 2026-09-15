@@ -1,7 +1,8 @@
 import type { Module } from "../types";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../auth/AuthContext";
 import { Button } from "../../../shared/components/Button";
+import { ListItemField } from "../../../shared/components/ListItemField";
 
 
 interface ModuleSummaryCardProps {
@@ -9,37 +10,29 @@ interface ModuleSummaryCardProps {
 }
 
 export function ModuleSummaryCard({ module }: ModuleSummaryCardProps) {
+  const navigate = useNavigate();
   const { isTeacher } = useAuth();
+
   return (
-    <div className="w-full p-7 bg-menu flex gap-4 align-items-start justify-between border border-border rounded-xl">
+    <div className="flex items-center rounded-xl border border-border bg-menu px-4 py-3">
       {module && (
         <>
-          <div className="w-5/6 text-left text-gray-600 flex gap-4">
-            <div className="w-2/4">
-              <p className="text-xs uppercase text-primary-title-text mb-4">
-                Name
-              </p>
-              <Link to={`/courses/${module.id}`}>
-                <p className="text-lg">{module.moduleName}</p>
-              </Link>
-            </div>
-            <div className="w-1/4">
-              <p className="text-xs uppercase text-primary-title-text mb-4">
-                Start Date
-              </p>
-              <p className="text-lg">
-                {new Date(module.startDate).toDateString()}
-              </p>
-            </div>
-            <div className="w-1/4">
-              <p className="text-xs uppercase text-primary-title-text mb-4">
-                End Date
-              </p>
-              <p className="text-lg">
-                {new Date(module.endDate).toDateString()}
-              </p>
-            </div>
-          </div>
+          <ListItemField
+            label="Name"
+            value={module.moduleName}
+            className="flex-2"/>
+
+          <ListItemField
+            label="Start date"
+            value={new Date(module.startDate).toDateString()}
+            className="flex-2"/>
+
+          <ListItemField
+            label="End date"
+            value={new Date(module.endDate).toDateString()}
+            className="flex-2"/>
+          
+          <div className="flex items-center gap-3">
           {isTeacher && (
             <Link to={`/modules/${module.id}/edit`}>
               <Button
@@ -49,6 +42,23 @@ export function ModuleSummaryCard({ module }: ModuleSummaryCardProps) {
               </Button>
             </Link>
           )}
+          {isTeacher && (
+            <Button
+              variant="list"
+              color="resource"
+              onClick={() => navigate(``)}>
+                Resource
+            </Button>
+          )}
+          {isTeacher && (
+            <Button
+              variant="list"
+              color="resource"
+              onClick={() => navigate(`/modules/${module.id}/activities`)}>
+                Activities
+            </Button>
+          )}
+          </div>
         </>
       )}
     </div>

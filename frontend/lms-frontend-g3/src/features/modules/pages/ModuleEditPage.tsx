@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router";
-import { ModuleForm } from "../components/ModuleForm";
-import type { Module } from "../types";
+import { ModuleForm, type ModuleFormData } from "../components/ModuleForm";
+import type { EditModule, Module } from "../types";
 import { useEffect, useState } from "react";
-import { fetchModulesById } from "../api/ModulesApi";
+import { editModule, fetchModulesById } from "../api/ModulesApi";
 import { FormTitle } from "../../../shared/components/FormTitle";
 
 
@@ -28,21 +28,48 @@ export function ModuleEditPage() {
         loadModule();
     }, [moduleId]);
     
-    function handleSaved() {
-        if (module)
+    async function handleEdit(data: ModuleFormData) {
+        if (!module) return;
+
+        const edit: EditModule = {
+            id: module.id,
+            name: data.name,
+            description: data.description,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            courseId: module.courseId,
+        };
+
+        try {
+            await editModule(edit);
+
             navigate(`/courses/${module.courseId}/modules`);
+        } catch (error) {
+            console.error("Failed to edit module", error);
+        }
     }
-        return (
-            <section className="flex h-full flex-col gap-6 p-6">
-                <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
-                    <FormTitle title="Edit Module" />
-                    {module && (
-                        <ModuleForm
-                            courseId={module.courseId}
-                            module={module}
-                            onModuleSaved={handleSaved}/>
-                    )}
-                </div>
-            </section>
-        )
+    if (!module) {
+        return <div>Loading...</div>
+    }
+
+    const values: ModuleFormData = {
+        name: module.moduleName,
+        description: module.description,
+        startDate: new Date(module.startDate),
+        endDate: new Date(module.endDate),
+    };
+
+    return (
+        <section className="flex h-full flex-col gap-6 p-6">
+            <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
+                <FormTitle title="Edit Module" />
+                {module && (
+                    <ModuleForm
+                        values={values}
+                        onSubmit={handleEdit}
+                        submitLabel="Save"/>
+                )}
+            </div>
+        </section>
+    )
 };

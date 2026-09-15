@@ -44,7 +44,7 @@ export function CourseDetailsPage() {
           <>
             <div className="grid grid-cols-2 gap-x-10 gap-y-5">
               <div>
-                <span className="text-white mb-1 block text-base font-medium block">
+                <span className="text-white mb-1 block text-base font-medium">
                   Name
                 </span>
                 <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
@@ -53,7 +53,7 @@ export function CourseDetailsPage() {
               </div>
 
               <div className="row-span-2">
-                <span className="text-white mb-1 block text-base font-medium block">
+                <span className="text-white mb-1 block text-base font-medium">
                   Mentors
                 </span>
                 <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
@@ -62,7 +62,7 @@ export function CourseDetailsPage() {
               </div>
 
               <div>
-                <span className="text-white mb-1 block text-base font-medium block">
+                <span className="text-white mb-1 block text-base font-medium">
                   Start date
                 </span>
                 <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
@@ -71,7 +71,7 @@ export function CourseDetailsPage() {
               </div>
 
               <div>
-                <span className="text-white mb-1 block text-base font-medium block">
+                <span className="text-white mb-1 block text-base font-medium">
                   End date
                 </span>
                 <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
@@ -80,7 +80,7 @@ export function CourseDetailsPage() {
               </div>
 
               <div className="row-span-2">
-                <span className="text-white mb-1 block text-base font-medium block">
+                <span className="text-white mb-1 block text-base font-medium">
                   Students
                 </span>
                 <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
@@ -89,7 +89,7 @@ export function CourseDetailsPage() {
               </div>
 
               <div className="row-span-4">
-                <span className="text-white mb-1 block text-base font-medium block">
+                <span className="text-white mb-1 block text-base font-medium">
                   Description
                 </span>
                 <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
