@@ -19,4 +19,6 @@ export interface ActivityDetailsDto {
   moduleName: string;
   courseId: string;
   courseName: string;
+  submittedCount: number;
+  totalStudents: number;
 }

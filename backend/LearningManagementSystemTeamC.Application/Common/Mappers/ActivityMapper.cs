@@ -29,6 +29,8 @@ public static class ActivityMapper
             model.ModuleId,
             model.ModuleName,
             model.CourseId,
-            model.CourseName);
+            model.CourseName,
+            model.SubmittedCount,
+            model.TotalStudents);
     }
 }

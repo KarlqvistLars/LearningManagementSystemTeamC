@@ -35,7 +35,7 @@ export function AssignmentPage() {
     fetchAssignments();
   }, []);
 
-  const search = searchTerm.toLowerCase();
+  const search = searchTerm.toLowerCase().trim();
 
   const filteredAssignments = assignments.filter((assignment) => {
     return (

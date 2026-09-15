@@ -30,15 +30,9 @@ export function AssignmentListItem({ assignment }: AssignmentListItemProps) {
       />
 
       <ListItemField
-        label="Course"
-        value={assignment.courseName}
-        className="flex-2"
-      />
-
-      <ListItemField
-        label="Module"
-        value={assignment.moduleName}
-        className="flex-2"
+        label="Submitted"
+        value={`${assignment.submittedCount ?? 0} of ${assignment.totalStudents ?? 0}`}
+        className="flex-1"
       />
 
       <ListItemField

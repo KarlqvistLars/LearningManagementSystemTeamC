@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Common.ReadModels;
 using LearningManagementSystemTeamC.Domain.Activities;
+using LearningManagementSystemTeamC.Domain.Resources;
 using LearningManagementSystemTeamC.Domain.Roles;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,7 +63,27 @@ public class ActivityReadRepository : IActivityReadRepository
                 x.Module.Id,
                 x.Module.ModuleName,
                 x.Course.Id,
-                x.Course.CourseName))
+                x.Course.CourseName,
+
+                _context.ActivityResources
+                    .Where(ar => ar.ActivityId == x.Activity.Id)
+                    .Join(
+                        _context.Resources,
+                        ar => ar.ResourceId,
+                        resource => resource.Id,
+                        (ar, resource) => resource)
+                    .Where(resource => resource.Type == ResourceType.Submission)
+                    .Select(resource => resource.CreatedBy)
+                    .Distinct()
+                    .Count(),
+
+                _context.Enrollments
+                    .Where(enrollment =>
+                        enrollment.CourseId == x.Course.Id)
+                    .Select(enrollment => enrollment.UserId)
+                    .Distinct()
+                    .Count()
+            ))
             .ToListAsync(cancellationToken);
     }
 }

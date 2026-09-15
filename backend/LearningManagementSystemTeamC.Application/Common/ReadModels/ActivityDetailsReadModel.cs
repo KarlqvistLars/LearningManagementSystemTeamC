@@ -10,5 +10,7 @@ public record ActivityDetailsReadModel(
     Guid ModuleId,
     string ModuleName,
     Guid CourseId,
-    string CourseName
+    string CourseName,
+    int SubmittedCount,
+    int TotalStudents
 );
