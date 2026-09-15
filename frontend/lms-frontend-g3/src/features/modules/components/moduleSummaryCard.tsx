@@ -52,14 +52,12 @@ export function ModuleSummaryCard({ module }: ModuleSummaryCardProps) {
                 Resource
             </Button>
           )}
-          {isTeacher && (
             <Button
               variant="list"
               color="resource"
               onClick={() => navigate(`/modules/${module.id}/activities`)}>
                 Activities
             </Button>
-          )}
           </div>
         </>
       )}

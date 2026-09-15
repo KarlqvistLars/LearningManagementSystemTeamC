@@ -19,7 +19,7 @@ export function ModuleList({ courseId, searchTerm}: ModuleListProps){
     useEffect(() => {
         async function loadModules() {
             try {
-                const modulesFetched = isTeacher ? await fetchModules(courseId) : [];
+                const modulesFetched = await fetchModules(courseId);
                 
                 setModules(modulesFetched);
             } catch (error) {
