@@ -6,7 +6,6 @@ using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
-using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,18 +18,18 @@ public class ResourcesController : ControllerBase
 {
     public ResourcesController() { }
 
-    [HttpGet("resources")]
-    [Authorize(Policy = PolicyConstants.TeacherOnly)]
-    public async Task<IActionResult> GetAllResources(
-        [FromServices] IGetAllResourcesHandler getAllResourcesHandler,
-        CancellationToken cancellationToken)
-    {
-        var resources = await getAllResourcesHandler.Handle(
-            new GetAllResourcesQuery(Guid.Empty),
-            cancellationToken);
+    //[HttpGet("resources")]
+    //[Authorize(Policy = PolicyConstants.TeacherOnly)]
+    //public async Task<IActionResult> GetAllResources(
+    //    [FromServices] IGetAllResourcesHandler getAllResourcesHandler,
+    //    CancellationToken cancellationToken)
+    //{
+    //    var resources = await getAllResourcesHandler.Handle(
+    //        new GetAllResourcesQuery(Guid.Empty),
+    //        cancellationToken);
 
-        return Ok(ApiResponse<IReadOnlyList<ResourceDto>>.Ok(resources));
-    }
+    //    return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
+    //}
 
     [HttpGet("activities/{activityId}/resources")]
     public async Task<IActionResult> GetResourceByActivityId(
@@ -38,12 +37,11 @@ public class ResourcesController : ControllerBase
         [FromServices] IGetResourcesByActivityIdHandler getResourcesByActivityIdHandler,
         CancellationToken cancellationToken)
     {
-
-        var resources = await getResourcesByActivityIdHandler.Handle(
+        var resources = await getResourcesByActivityIdHandler.HandleAsync(
             new GetResourcesByActivityIdQuery(activityId),
             cancellationToken);
 
-        return Ok(ApiResponse<IReadOnlyList<ResourceDto>>.Ok(resources));
+        return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
     }
 
     [HttpPost("resources")]
