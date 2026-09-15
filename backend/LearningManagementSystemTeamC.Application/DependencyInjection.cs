@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
+using LearningManagementSystemTeamC.Application.Activities.Command.EditActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
 using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
@@ -55,6 +56,7 @@ public static class DependencyInjection
         services.AddScoped<IGetActivitiesByModuleIdHandler, GetActivitiesByModuleIdHandler>();
         services.AddScoped<IGetCourseByIdHandler, GetCourseByIdHandler>();
         services.AddScoped<ICreateActivityHandler, CreateActivityHandler>();
+        services.AddScoped<IEditActivityHandler, EditActivityHandler>();
         services.AddScoped<ICreateUserHandler, CreateUserHandler>();
         services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
@@ -95,6 +97,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<EditModuleCommand>, EditModuleValidator>();
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserValidator>();
         services.AddScoped<IValidator<CreateActivityCommand>, CreateActivityValidator>();
+        services.AddScoped<IValidator<EditActivityCommand>, EditActivityValidator>();
         services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserValidator>();
         services.AddScoped<IValidator<LoginCommand>, LoginValidator>();
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserValidator>();
