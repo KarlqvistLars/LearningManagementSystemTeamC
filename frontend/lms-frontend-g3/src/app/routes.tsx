@@ -1,4 +1,6 @@
 import { Route, Routes } from "react-router";
+import { ResourcePage } from "../features/resourses/pages/ResourcePage";
+import { ResourceEditPage } from "../features/resourses/pages/ResourceEditPage";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
@@ -49,6 +51,12 @@ export function AppRoutes() {
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}
+          />
+          <Route path="/resources" element={<ResourcePage />} />
+          <Route path="/resources/create" element={<ResourceEditPage />} />
+          <Route
+            path="/resources/:resourceId/edit"
+            element={<ResourceEditPage />}
           />
 
           <Route path="users">

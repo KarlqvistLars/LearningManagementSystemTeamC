@@ -16,7 +16,8 @@ public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
             [
                 CourseRules.CourseNameRequiredMessage
             ];
-        } else if (command.CourseName.Length > CourseRules.CourseNameMaxLength)
+        }
+        else if (command.CourseName.Length > CourseRules.CourseNameMaxLength)
         {
             errors[nameof(command.CourseName)] =
             [
@@ -30,7 +31,8 @@ public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
             [
                 CourseRules.DescriptionRequiredMessage
             ];
-        } else if (command.Description.Length > CourseRules.DescriptionMaxLength)
+        }
+        else if (command.Description.Length > CourseRules.DescriptionMaxLength)
         {
             errors[nameof(command.Description)] =
             [

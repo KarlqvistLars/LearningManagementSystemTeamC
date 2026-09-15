@@ -1,5 +1,17 @@
 import { apiRequest } from "../../../api/request";
-import type { ResourceDto, ResourceWithCreatorDto } from "../types";
+import type {
+  ResourceDto,
+  CreateResource,
+  EditResource,
+  ResourceTypeOption,
+  ResourceWithCreatorDto,
+} from "../types/interfaces";
+
+export async function getResourceById(
+  resourceId: string,
+): Promise<ResourceWithCreatorDto> {
+  return apiRequest<ResourceWithCreatorDto>(`/resources/${resourceId}`);
+}
 
 export async function getResourcesByActivity(
   activityId: string,
@@ -9,31 +21,29 @@ export async function getResourcesByActivity(
   );
 }
 
-export async function getAllResources(): Promise<ResourceWithCreatorDto[]> {
-  return apiRequest<ResourceWithCreatorDto[]>("/resources");
+export async function getAllResources(): Promise<ResourceDto[]> {
+  return apiRequest<ResourceDto[]>("/resources");
 }
 
 export async function createResource(
-  resource: Omit<ResourceDto, "id" | "createdBy">,
-): Promise<ResourceDto> {
-  return apiRequest<ResourceDto>("/resources", {
+  resource: CreateResource,
+): Promise<CreateResource> {
+  return apiRequest<CreateResource>("/resources", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(resource),
   });
 }
 
 export async function updateResource(
   resourceId: string,
-  resource: Omit<ResourceDto, "id" | "createdBy">,
+  resource: EditResource,
 ): Promise<ResourceDto> {
   return apiRequest<ResourceDto>(`/resources/${resourceId}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(resource),
   });
+}
+
+export async function getResourceTypes(): Promise<ResourceTypeOption[]> {
+  return apiRequest<ResourceTypeOption[]>("/resources/types");
 }

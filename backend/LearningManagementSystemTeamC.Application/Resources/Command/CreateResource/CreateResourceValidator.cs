@@ -23,11 +23,6 @@ public class CreateResourceValidator : IValidator<CreateResourceCommand>
             errors[nameof(command.Content)] = new[] { ResourceRules.ContentRequiredMessage };
         }
 
-        if (DateTime.UtcNow < command.CreatedAt)
-        {
-            errors[nameof(command.CreatedAt)] = new[] { ResourceRules.CreatedAtCannotBeInTheFutureMessage };
-        }
-
         if (command.Type == ResourceType.None)
         {
             errors[nameof(command.Type)] = new[] { ResourceRules.TypeIsRequiredMessage };
