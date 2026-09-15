@@ -1,15 +1,15 @@
 ﻿using LearningManagementSystemTeamC.Application.ActivityResources;
-using LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Resources;
+using LearningManagementSystemTeamC.Domain.Roles;
 
 namespace LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 
 public class CreateResourceHandler : ICreateResourceHandler
 {
     private readonly IResourceRepository _resourceRepository;
-
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateResourceHandler(
@@ -22,22 +22,32 @@ public class CreateResourceHandler : ICreateResourceHandler
 
     public async Task<ResourceDto> HandleAsync(
         CreateResourceCommand command,
+        Guid userId,
+        string roleCode,
         CancellationToken cancellationToken)
     {
-        // Validation if not using other tools
+        if (roleCode == RoleRules.StudentRoleCode &&
+            command.Type != ResourceType.Submission)
+        {
+            throw new DomainException(
+                ResourceRules.InvalidStudentResourceTypeCode,
+                ResourceRules.InvalidStudentResourceTypeMessage);
+        }
 
-        // Entity's method should have validation inside
         var resource = new Resource(
             command.ResourceName,
             command.Content,
             command.Url,
             command.CreatedAt,
-            command.Type
-            );
-        // featureRepository handles actions
-        await _resourceRepository.AddAsync(resource, cancellationToken);
-        // UnitOfWork handles save
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+            command.Type,
+            userId);
+
+        await _resourceRepository.AddAsync(
+            resource,
+            cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(
+            cancellationToken);
 
         return new ResourceDto(
             resource.Id,
@@ -45,7 +55,8 @@ public class CreateResourceHandler : ICreateResourceHandler
             resource.Content,
             resource.Url,
             resource.CreatedAt,
-            resource.Type
+            resource.Type,
+            resource.CreatedBy
         );
     }
 }

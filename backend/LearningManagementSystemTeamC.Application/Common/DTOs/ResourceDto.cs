@@ -6,15 +6,8 @@ public record ResourceDto(
     Guid Id,
     string ResourceName,
     string Content,
-    string Url,
+    string? Url,
     DateTime CreatedAt,
-    ResourceType Type
-);
-
-public record CreateResourceDto(
-    string ResourceName,
-    string Content,
-    string Url,
-    DateTime CreatedAt,
-    ResourceType Type
+    ResourceType Type,
+    Guid CreatedBy
 );

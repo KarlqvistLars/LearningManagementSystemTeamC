@@ -1,9 +1,8 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
-using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 
-namespace LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
+namespace LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 
 public interface ICreateResourceHandler
 {
-    Task<ResourceDto> HandleAsync(CreateResourceCommand command, CancellationToken cancellationToken);
+    Task<ResourceDto> HandleAsync(CreateResourceCommand command, Guid userId, string roleCode, CancellationToken cancellationToken);
 }

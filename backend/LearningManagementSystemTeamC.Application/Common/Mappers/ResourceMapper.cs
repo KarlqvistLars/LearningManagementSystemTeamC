@@ -12,6 +12,7 @@ public static class ResourceMapper
             resource.Content,
             resource.Url,
             resource.CreatedAt,
-            resource.Type
+            resource.Type,
+            resource.CreatedBy
         );
 }
