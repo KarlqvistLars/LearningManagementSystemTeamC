@@ -44,22 +44,19 @@ export function ModuleSummaryCard({ module }: ModuleSummaryCardProps) {
               </Button>
             </Link>
           )}
-          {isTeacher && (
             <Button
               variant="list"
               color="resource"
               onClick={() => navigate(``)}>
                 Resource
             </Button>
-          )}
-          {isTeacher && (
+            
             <Button
               variant="list"
               color="resource"
               onClick={() => navigate(`/modules/${module.id}/activities`)}>
                 Activities
             </Button>
-          )}
           </div>
         </>
       )}
