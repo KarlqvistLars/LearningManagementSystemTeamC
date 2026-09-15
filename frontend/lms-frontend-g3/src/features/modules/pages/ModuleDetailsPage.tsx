@@ -89,7 +89,7 @@ export function ModuleDetailsPage() {
                 <Button
                   variant="list"
                   color="cancel"
-                  onClick={() => navigate(-1)}>
+                  onClick={() => navigate(`/courses/${module?.courseId}/modules`)}>
                   Back
                 </Button>
               </div>
