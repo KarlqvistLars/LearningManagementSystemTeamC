@@ -1,10 +1,14 @@
-import { apiFetch } from "../../../api/client";
-import type { ResourceDto } from "../types";
+import { apiRequest } from "../../../api/request";
+import type { ResourceWithCreatorDto } from "../types";
 
-export async function getResourcesByActivity(activityId: string): Promise<ResourceDto[]> {
-    const res = await apiFetch<ResourceDto[]>(`/activities/${activityId}/resources`);
-    if (!res.success) {
-        throw new Error(res.error.message);
-    }
-    return res.data;
+export async function getResourcesByActivity(
+  activityId: string,
+): Promise<ResourceWithCreatorDto[]> {
+  return apiRequest<ResourceWithCreatorDto[]>(
+    `/activities/${activityId}/resources`,
+  );
+}
+
+export async function getAllResources(): Promise<ResourceWithCreatorDto[]> {
+  return apiRequest<ResourceWithCreatorDto[]>("/resources");
 }
