@@ -8,11 +8,10 @@ import { useAuth } from "../../auth/AuthContext";
 
 interface ModuleListProps {
     courseId: string;
-    reloadList: number;
     searchTerm: string;
 }
 
-export function ModuleList({ courseId, reloadList, searchTerm}: ModuleListProps){
+export function ModuleList({ courseId, searchTerm}: ModuleListProps){
     const [modules, setModules] = useState<Module[]>([]);
     const [error, setError] = useState<string | null>(null);
     const  { isTeacher } = useAuth();
@@ -32,7 +31,7 @@ export function ModuleList({ courseId, reloadList, searchTerm}: ModuleListProps)
         if (courseId) {
             loadModules();
         }
-    }, [courseId, reloadList, isTeacher]);
+    }, [courseId,  isTeacher]);
 
     const filteredModules = modules.filter((module) =>
         module.moduleName.toLowerCase().includes(searchTerm.toLowerCase()) ||

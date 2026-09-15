@@ -2,24 +2,18 @@ import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react"
 import { ModuleList } from "../components/ModuleList";
 import type { Course } from "../../courses/types";
-import type { Module } from "../types";
 import { useAuth } from "../../auth/AuthContext"; 
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { fetchCourseById } from "../../courses/api/courses";
 import { Button } from "../../../shared/components/Button";
 import { SearchInput } from "../../../shared/components/SearchInput";
 
-
 export function ModulePage() {
   const { courseId } = useParams<{courseId: string}>();
   const [ course, setCourse] = useState<Course | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const search = searchTerm.toLowerCase();
-  const [reloadList, setReloadList] = useState(0);
   const { isTeacher } = useAuth();
   const navigate = useNavigate();
-
-
 
   useEffect(() => {
     if (!courseId) return;
@@ -43,7 +37,6 @@ export function ModulePage() {
                     placeholder="Search modules..."/>
                 <ModuleList 
                     courseId={courseId} 
-                    reloadList={reloadList}
                     searchTerm={searchTerm}
                     />
               <div className="mt-auto flex justify-center gap-4 pt-10">
@@ -55,10 +48,10 @@ export function ModulePage() {
                     Create new module
                   </Button>
                 )}
-                <Button 
+                  <Button 
                     variant="list"
                     color="cancel"
-                    onClick={() => navigate(-1)}>
+                    onClick={() => navigate("/courses")}>
                     Back to Courses
                   </Button>
                 </div>
