@@ -6,11 +6,13 @@ import { UserList } from "../components/UserList";
 import { toggleUserStatus, getUsers } from "../api/userApi";
 import type { User } from "../types/types";
 import { Button } from "../../../shared/components/Button";
+import { useAuth } from "../../auth/AuthContext";
 
 export function UserPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const navigate = useNavigate();
+  const { isTeacher } = useAuth();
   const fetchUsers = async () => {
     try {
       const users = await getUsers();
@@ -55,15 +57,17 @@ export function UserPage() {
 
       <UserList users={filteredUsers} onToggleStatus={handleToggleStatus} />
 
-      <div className="self-center mt-auto">
-        <Button
-          type="button"
-          children="Create new user"
-          variant="list"
-          color="create"
-          onClick={() => navigate("/users/create")}
-        />
-      </div>
+      {isTeacher && (
+        <div className="self-center mt-auto">
+          <Button
+            type="button"
+            children="Create new user"
+            variant="list"
+            color="create"
+            onClick={() => navigate("/users/create")}
+          />
+        </div>
+      )}
     </section>
   );
 }

@@ -9,6 +9,10 @@ export const studentMenuItems: MenuItem[] = [
     path: "/",
   },
   {
+    label: "Users",
+    path: "/users",
+  },
+  {
     label: "Courses",
     path: "/courses",
   },

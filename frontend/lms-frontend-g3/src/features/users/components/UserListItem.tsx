@@ -5,22 +5,27 @@ import type { TagVariant } from "../../../shared/components/Tag";
 import { Button } from "../../../shared/components/Button";
 import { useNavigate } from "react-router";
 import { getOrCreateChatRoom } from "../../chat/api/chatRoomApi";
+import { useAuth } from "../../auth/AuthContext";
 
 interface UserListItemProps {
   user: User;
   onToggleStatus: (userId: string) => void;
 }
 
-export function UserListItem({ user, onToggleStatus }: UserListItemProps) {
+export function UserListItem({
+  user: listedUser,
+  onToggleStatus,
+}: UserListItemProps) {
   const navigate = useNavigate();
+  const { isTeacher } = useAuth();
 
   const handleEdit = () => {
-    navigate(`/users/${user.id}/edit`);
+    navigate(`/users/${listedUser.id}/edit`);
   };
 
   const handleChat = async () => {
     try {
-      const chatRoom = await getOrCreateChatRoom(user.id);
+      const chatRoom = await getOrCreateChatRoom(listedUser.id);
       navigate(`/chat/${chatRoom.id}`);
     } catch (error) {
       console.error(error);
@@ -31,44 +36,50 @@ export function UserListItem({ user, onToggleStatus }: UserListItemProps) {
     <div className="flex items-center rounded-xl border border-border bg-menu px-4 py-3">
       <ListItemField
         label="Name"
-        value={`${user.firstName} ${user.lastName}`}
+        value={`${listedUser.firstName} ${listedUser.lastName}`}
         className="flex-2"
       />
 
       <Tag
         title="Role"
-        label={user.roleName}
-        variant={user.roleName as TagVariant}
+        label={listedUser.roleName}
+        variant={listedUser.roleName as TagVariant}
         className="flex-1"
       />
 
       <ListItemField
         label="Email"
-        value={user.email}
+        value={listedUser.email}
         className="min-w-0 flex-2"
       />
 
-      <Tag
-        title="Status"
-        label={user.isActive ? "Active" : "Inactive"}
-        variant={user.isActive ? "Active" : "Inactive"}
-        className="flex-1"
-      />
+      {isTeacher && (
+        <Tag
+          title="Status"
+          label={listedUser.isActive ? "Active" : "Inactive"}
+          variant={listedUser.isActive ? "Active" : "Inactive"}
+          className="flex-1"
+        />
+      )}
 
       <div className="flex items-center gap-3">
-        <Button
-          children="Edit"
-          variant="list"
-          color="edit"
-          onClick={handleEdit}
-        />
+        {isTeacher && (
+          <Button
+            children={listedUser.isActive ? "Deactivate" : "Activate"}
+            variant="list"
+            color={listedUser.isActive ? "delete" : "resource"}
+            onClick={() => onToggleStatus(listedUser.id)}
+          />
+        )}
 
-        <Button
-          children={user.isActive ? "Deactivate" : "Activate"}
-          variant="list"
-          color={user.isActive ? "delete" : "resource"}
-          onClick={() => onToggleStatus(user.id)}
-        />
+        {isTeacher && (
+          <Button
+            children="Edit"
+            variant="list"
+            color="edit"
+            onClick={handleEdit}
+          />
+        )}
 
         <Button
           children="Chat"
