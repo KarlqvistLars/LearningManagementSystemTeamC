@@ -1,67 +1,60 @@
 import type { Course } from "../types";
-import { Link, useNavigate } from "react-router";
-import type { User } from "../../users/types/types";
-import ROLES from "../../auth/roleConstants";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../auth/AuthContext";
 import { Button } from "../../../shared/components/Button";
-
-const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-const role = user?.roleName;
-const isTeacher = role === ROLES.TEACHER;
+import { ListItemField } from "../../../shared/components/ListItemField";
 
 interface CourseSummaryCardProps {
   course: Course;
-  onEdit?: (id: string) => void;
 }
 
-export function CourseSummaryCard({ course, onEdit }: CourseSummaryCardProps) {
+export function CourseSummaryCard({ course }: CourseSummaryCardProps) {
   const navigate = useNavigate();
+  const { isTeacher } = useAuth();
 
   return (
-    <div className="w-full p-7 bg-menu flex gap-4 align-items-start justify-between border border-border rounded-xl">
+    <div className="flex items-center rounded-xl border border-border bg-menu px-4 py-3">
       {course && (
         <>
-          <div className="w-5/6 text-left text-gray-600 flex gap-4">
-            <div className="w-2/4">
-              <p className="text-xs uppercase text-primary-title-text mb-4">
-                Name
-              </p>
-              <Link to={`/courses/${course.id}`}>
-                <p className="text-2xl">{course.courseName}</p>
-              </Link>
-            </div>
-            <div className="w-1/4">
-              <p className="text-xs uppercase text-primary-title-text mb-4">
-                Start Date
-              </p>
-              <p className="text-2xl">
-                {new Date(course.startDate).toLocaleDateString()}
-              </p>
-            </div>
-            <div className="w-1/4">
-              <p className="text-xs uppercase text-primary-title-text mb-4">
-                End Date
-              </p>
-              <p className="text-2xl">
-                {new Date(course.endDate).toLocaleDateString()}
-              </p>
-            </div>
+          <ListItemField
+            label="Name"
+            value={course.courseName}
+            className="flex-2"
+            link={`/courses/${course.id}`}
+          />
+
+          <ListItemField
+            label="Start date"
+            value={new Date(course.startDate).toLocaleDateString()}
+            className="flex-2"
+          />
+
+          <ListItemField
+            label="End date"
+            value={new Date(course.endDate).toLocaleDateString()}
+            className="flex-2"
+          />
+
+          <div className="flex items-center gap-3">
+            {isTeacher && (
+              <Button
+                variant="list"
+                color="edit"
+                onClick={() => navigate(`/courses/${course.id}/edit`)}
+              >
+                Edit
+              </Button>
+            )}
+            {isTeacher && (
+              <Button
+                variant="list"
+                color="resource"
+                onClick={() => navigate(`/courses/${course.id}/modules`)}
+              >
+                Modules
+              </Button>
+            )}
           </div>
-          {isTeacher && (
-            <button
-              className="w-1/6 max-w-25 h-fit px-4 py-3 bg-button-edit text-button-edit-text rounded text-sm uppercase font-bold text-trim hover:cursor-pointer"
-              onClick={() => onEdit?.(course.id)}
-            >
-              Edit
-            </button>
-          )}
-          {isTeacher && (
-            <button
-              className="w-1/6 max-w-25 h-fit px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 hover:cursor-pointer"
-              onClick={() => navigate(`/courses/${course.id}/modules`)}
-            >
-              Details
-            </button>
-          )}
         </>
       )}
     </div>

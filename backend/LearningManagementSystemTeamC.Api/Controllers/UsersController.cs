@@ -7,6 +7,7 @@ using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.ToggleUserStatus;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
 using Microsoft.AspNetCore.Authorization;
@@ -110,5 +111,12 @@ public class UsersController : ControllerBase
             cancellationToken);
 
         return Ok(ApiResponse<string>.Ok("User status updated"));
+    }
+
+    [HttpGet("{role}")]
+    public async Task<IActionResult> GetActiveUsersByRole([FromRoute] string role, [FromServices] IGetActiveUsersByRoleHandler getUsersHandler, CancellationToken cancellationToken)
+    {
+        var userDtos = await getUsersHandler.HandleAsync(new GetActiveUsersByRoleQuery(role), cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<UserSimplifiedDto>>.Ok(userDtos));
     }
 }
