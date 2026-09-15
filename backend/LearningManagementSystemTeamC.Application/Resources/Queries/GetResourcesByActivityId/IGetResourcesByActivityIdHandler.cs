@@ -4,7 +4,7 @@ namespace LearningManagementSystemTeamC.Application.ActivityResources.Queries.Ge
 
 public interface IGetResourcesByActivityIdHandler
 {
-    Task<IReadOnlyList<ResourceDto>> Handle(
+    Task<IReadOnlyList<ResourceWithCreatorDto>> HandleAsync(
         GetResourcesByActivityIdQuery query,
         CancellationToken cancellationToken);
 }
