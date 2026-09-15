@@ -4,5 +4,5 @@ namespace LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
 
 public interface IGetUsersHandler
 {
-    Task<IReadOnlyList<UserDto>> HandleAsync(GetUsersQuery query, CancellationToken cancellationToken);
+    Task<IReadOnlyList<UserDto>> HandleAsync(GetUsersQuery query, string roleCode, CancellationToken cancellationToken);
 }
