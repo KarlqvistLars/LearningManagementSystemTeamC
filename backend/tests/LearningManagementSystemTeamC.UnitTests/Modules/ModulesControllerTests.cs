@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Controllers;
@@ -7,6 +8,8 @@ using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
+using LearningManagementSystemTeamC.Domain.Roles;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -93,8 +96,24 @@ public class ModulesControllerTests
     public async Task Get_Modules_By_Course_Id_ReturnsOkResult()
     {
         // Arrange
-
+        var userId = Guid.NewGuid();
         var courseId = Guid.NewGuid();
+        var roleCode = "TEACHER";
+
+         var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            new Claim(ClaimTypes.Role, roleCode)  
+        };
+
+        var identify = new ClaimsIdentity(claims, "TestAuth");
+        _controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new ClaimsPrincipal(identify)
+            }
+        };
 
         var modules = new List<ModuleDto>
         {
@@ -107,12 +126,14 @@ public class ModulesControllerTests
                 courseId)
         };
 
-        _mockGetModulesHandler.Setup(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId),
+        _mockGetModulesHandler.Setup(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId &&
+            q.UserId == userId &&
+            q.RoleCode == roleCode),
         It.IsAny<CancellationToken>())).ReturnsAsync(modules);
 
         // Act
 
-        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
@@ -122,7 +143,9 @@ public class ModulesControllerTests
         Assert.NotNull(response);
         Assert.Equal(modules, response.Data);
 
-        _mockGetModulesHandler.Verify(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId),
+        _mockGetModulesHandler.Verify(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId &&
+            q.UserId == userId &&
+            q.RoleCode == roleCode),
             It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -130,16 +153,35 @@ public class ModulesControllerTests
     public async Task Get_Modules_By_Course_Id_ReturnsNotFound()
     {
         // Arrange
+        var userId = Guid.NewGuid();
         var courseId = Guid.NewGuid();
+        var roleCode = "STUDENT";
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            new Claim(ClaimTypes.Role, roleCode)  
+        };
+
+        var identify = new ClaimsIdentity(claims, "TestAuth");
+        _controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new ClaimsPrincipal(identify)
+            }
+        };
 
         var modules = new List<ModuleDto>();
 
-        _mockGetModulesHandler.Setup(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId),
+        _mockGetModulesHandler.Setup(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId && 
+            q.UserId == userId &&
+            q.RoleCode == roleCode),
         It.IsAny<CancellationToken>())).ReturnsAsync(modules);
 
         // Act
 
-        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
@@ -153,7 +195,9 @@ public class ModulesControllerTests
         Assert.Equal(ExceptionConstants.NotFoundCode, response.Error.Code);
         Assert.Equal(ExceptionConstants.NotFoundMessage, response.Error.Message);
 
-        _mockGetModulesHandler.Verify(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId),
+        _mockGetModulesHandler.Verify(x => x.Handle(It.Is<GetModulesQuery>(q => q.CourseId == courseId &&
+            q.UserId == userId &&
+            q.RoleCode == roleCode),
             It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -161,14 +205,13 @@ public class ModulesControllerTests
     public async Task Create_Module_ReturnsCreatedResult()
     {
         // Arrange
-        var courseId = Guid.NewGuid();
 
         var command = new CreateModuleCommand(
             "Test Module",
             "Test Module Description",
             DateTime.Parse("2026-06-05"),
             DateTime.Parse("2026-06-10"),
-            courseId);
+            Guid.NewGuid());
 
         var moduleDto = new ModuleDto(
             Guid.NewGuid(),
@@ -176,11 +219,11 @@ public class ModulesControllerTests
             "Test Module Description",
             DateTime.Parse("2026-06-05"),
             DateTime.Parse("2026-06-10"),
-            courseId);
+            Guid.NewGuid());
 
         var mockValidator = new Mock<IValidator<CreateModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(new Dictionary<string, string[]>());
+        mockValidator.Setup(x => x.Validate(command));
         _mockCreateModuleHandler.Setup(x => x.Handle(command, It.IsAny<CancellationToken>())).ReturnsAsync(moduleDto);
 
         // Act
@@ -189,8 +232,8 @@ public class ModulesControllerTests
         // Assert
         var createdResult = Assert.IsType<CreatedAtActionResult>(result);
 
-        Assert.Equal(nameof(ModulesController.GetModulesByCourseId), createdResult.ActionName);
-        Assert.Equal(courseId, createdResult.RouteValues!["courseId"]);
+        Assert.Equal(nameof(ModulesController.GetById), createdResult.ActionName);
+        Assert.Equal(moduleDto.Id, createdResult.RouteValues!["id"]);
 
         var response = Assert.IsType<ApiResponse<ModuleDto>>(createdResult.Value);
 
@@ -198,7 +241,7 @@ public class ModulesControllerTests
         Assert.Equal(moduleDto, response.Data);
 
         _mockCreateModuleHandler.Verify(x => x.Handle(command, It.IsAny<CancellationToken>()), Times.Once);
-        mockValidator.Verify(x => x.Validate(command, It.IsAny<CancellationToken>()), Times.Once);
+        mockValidator.Verify(x => x.Validate(command), Times.Once);
     }
 
     [Fact]
@@ -223,7 +266,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<CreateModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(validationErrors);
+        mockValidator.Setup(x => x.Validate(command));
 
         // Act
         var result = await _controller.Create(command, _mockCreateModuleHandler.Object, mockValidator.Object, CancellationToken.None);
@@ -268,7 +311,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(new Dictionary<string, string[]>());
+        mockValidator.Setup(x => x.Validate(command));
         _mockEditModuleHandler.Setup(x => x.Handle(command, It.IsAny<CancellationToken>())).ReturnsAsync(moduleDto);
 
         // Act
@@ -314,7 +357,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(validationErrors);
+        mockValidator.Setup(x => x.Validate(command));
 
         // Act
         var result = await _controller.Edit(command, _mockEditModuleHandler.Object, mockValidator.Object, CancellationToken.None);

@@ -1,47 +1,66 @@
 import type { Module } from "../types";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../auth/AuthContext";
+import { Button } from "../../../shared/components/Button";
+import { ListItemField } from "../../../shared/components/ListItemField";
 
 
 interface ModuleSummaryCardProps {
   module: Module;
-  onEdit?: (module: Module) => void;
 }
 
-export function ModuleSummaryCard({ module, onEdit }: ModuleSummaryCardProps) {
+export function ModuleSummaryCard({ module }: ModuleSummaryCardProps) {
+  const navigate = useNavigate();
   const { isTeacher } = useAuth();
+
   return (
-    <div className="w-full p-4 bg-gray-200 flex gap-4 align-items-start justify-between">
+    <div className="flex items-center rounded-xl border border-border bg-menu px-4 py-3">
       {module && (
         <>
-          <div className="w-5/6 text-left text-gray-600 flex gap-4">
-            <div className="w-2/4">
-              <p className="text-sm uppercase">Name</p>
-              <Link to={`/courses/${module.id}`}>
-                <p className="text-lg">{module.moduleName}</p>
-              </Link>
-            </div>
-            <div className="w-1/4">
-              <p className="text-sm uppercase">Start Date</p>
-              <p className="text-lg">
-                {new Date(module.startDate).toDateString()}
-              </p>
-            </div>
-            <div className="w-1/4">
-              <p className="text-sm uppercase">End Date</p>
-              <p className="text-lg">
-                {new Date(module.endDate).toDateString()}
-              </p>
-            </div>
-          </div>
+          <ListItemField
+            label="Name"
+            value={module.moduleName}
+            className="flex-2"
+            link={`/modules/${module.id}`}
+            />
+
+          <ListItemField
+            label="Start date"
+            value={new Date(module.startDate).toDateString()}
+            className="flex-2"/>
+
+          <ListItemField
+            label="End date"
+            value={new Date(module.endDate).toDateString()}
+            className="flex-2"/>
+          
+          <div className="flex items-center gap-3">
           {isTeacher && (
-            <button
-              className="w-1/6 max-w-25 h-fit px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 hover:cursor-pointer"
-              onClick={() => onEdit?.(module)}
-            >
-              Edit
-            </button>
+            <Link to={`/modules/${module.id}/edit`}>
+              <Button
+                variant="list"
+                color="edit">
+                  Edit
+              </Button>
+            </Link>
           )}
+          {isTeacher && (
+            <Button
+              variant="list"
+              color="resource"
+              onClick={() => navigate(``)}>
+                Resource
+            </Button>
+          )}
+          {isTeacher && (
+            <Button
+              variant="list"
+              color="resource"
+              onClick={() => navigate(`/modules/${module.id}/activities`)}>
+                Activities
+            </Button>
+          )}
+          </div>
         </>
       )}
     </div>
