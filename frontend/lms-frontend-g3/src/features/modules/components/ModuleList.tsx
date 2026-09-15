@@ -36,8 +36,11 @@ export function ModuleList({ courseId, reloadList, searchTerm}: ModuleListProps)
 
     const filteredModules = modules.filter((module) =>
         module.moduleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        module.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        module.description.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort((a, b) =>
+            new Date(a.startDate).getTime() -
+             new Date(b.startDate).getTime()
+        );
 
     if (error) {
         return <p>{error}</p>

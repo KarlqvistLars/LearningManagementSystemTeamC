@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import { ModuleForm, type ModuleFormData } from "../components/ModuleForm";
 import type { EditModule, Module } from "../types";
 import { useEffect, useState } from "react";
-import { editModule, fetchModulesById } from "../api/ModulesApi";
+import { editModule, fetchModuleById } from "../api/ModulesApi";
 import { FormTitle } from "../../../shared/components/FormTitle";
 
 
@@ -18,7 +18,7 @@ export function ModuleEditPage() {
             if (!moduleId) return;
 
             try {
-                const fetchModule = await fetchModulesById(moduleId);
+                const fetchModule = await fetchModuleById(moduleId);
                 setModule(fetchModule);
             } catch (error) {
                 console.error("Failed to load module", error);

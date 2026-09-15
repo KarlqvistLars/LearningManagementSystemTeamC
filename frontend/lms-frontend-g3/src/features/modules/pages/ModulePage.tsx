@@ -34,8 +34,7 @@ export function ModulePage() {
     }
     return(
         <section className="flex h-full flex-col gap-6 p-6">
-
-                <h1 className="mb-6 uppercase">
+                <h1 className="uppercase">
                   <DisplayText text={`${course?.courseName ?? "Course"} - Modules `}/>
                 </h1>
                 <SearchInput

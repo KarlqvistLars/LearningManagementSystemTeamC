@@ -20,7 +20,9 @@ export function ModuleSummaryCard({ module }: ModuleSummaryCardProps) {
           <ListItemField
             label="Name"
             value={module.moduleName}
-            className="flex-2"/>
+            className="flex-2"
+            link={`/modules/${module.id}`}
+            />
 
           <ListItemField
             label="Start date"
