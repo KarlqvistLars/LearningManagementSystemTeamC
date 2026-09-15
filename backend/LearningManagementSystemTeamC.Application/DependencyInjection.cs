@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
 using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
@@ -36,9 +37,9 @@ using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.ToggleUserStatus;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
-using LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LearningManagementSystemTeamC.Application;
@@ -89,6 +90,7 @@ public static class DependencyInjection
         services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
         services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
         services.AddScoped<IGetActiveUsersByRoleHandler, GetActiveUsersByRoleHandler>();
+        services.AddScoped<IGetAssignmentsHandler, GetAssignmentsHandler>();
 
 
         // Validators

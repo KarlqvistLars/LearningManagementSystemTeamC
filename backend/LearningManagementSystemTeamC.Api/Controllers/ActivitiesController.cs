@@ -2,7 +2,9 @@ using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivities;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -12,12 +14,12 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 
 [ApiController]
 [Authorize(Policy = PolicyConstants.AuthenticatedUser)]
-[Route("api/modules/{moduleId}/activities")]
+[Route("api")]
 public class ActivitiesController : ControllerBase
 {
     public ActivitiesController() { }
 
-    [HttpGet]
+    [HttpGet("modules/{moduleId}/activities")]
     public async Task<IActionResult> GetByModule(
         Guid moduleId,
         [FromServices] IGetActivitiesByModuleIdHandler getActivitiesByModuleHandler,
@@ -33,7 +35,7 @@ public class ActivitiesController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<ActivityDto>>.Ok(activities));
     }
 
-    [HttpGet("{activityId}")]
+    [HttpGet("modules/{moduleId}/activities/{activityId}")]
     public async Task<IActionResult> GetByModuleAndActivity(
         Guid moduleId,
         Guid activityId,
@@ -42,20 +44,24 @@ public class ActivitiesController : ControllerBase
     {
         var userId = User.GetUserId();
         var role = User.GetRole();
+
         var activities = await getActivitiesByModuleHandler.Handle(
             new GetActivitiesByModuleIdQuery(moduleId, userId, role),
             cancellationToken);
+
         var activity = activities.FirstOrDefault(a => a.Id == activityId);
+
         if (activity == null)
         {
             return NotFound(ApiResponse<ActivityDto>.Fail(
                 ExceptionConstants.NotFoundCode,
                 ExceptionConstants.NotFoundMessage));
         }
+
         return Ok(ApiResponse<ActivityDto>.Ok(activity));
     }
 
-    [HttpPost]
+    [HttpPost("activities")]
     public async Task<IActionResult> Create(
         CreateActivityCommand command,
         [FromServices] ICreateActivityHandler createActivityHandler,
@@ -63,13 +69,14 @@ public class ActivitiesController : ControllerBase
         CancellationToken cancellationToken)
     {
         var validationResult = createActivityValidator.Validate(command);
+
         if (validationResult.Count > 0)
         {
             return BadRequest(
                 ApiResponse<ActivityDto>.Fail(
-                ExceptionConstants.ValidationFailedCode,
-                ExceptionConstants.ValidationFailedMessage,
-                validationResult));
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    validationResult));
         }
 
         var activityDto = await createActivityHandler.Handle(
@@ -78,7 +85,28 @@ public class ActivitiesController : ControllerBase
 
         return CreatedAtAction(
             nameof(GetByModuleAndActivity),
-            new { moduleId = command.ModuleId, activityId = activityDto.Id },
+            new
+            {
+                moduleId = command.ModuleId,
+                activityId = activityDto.Id
+            },
             ApiResponse<ActivityDto>.Ok(activityDto));
+    }
+
+    [HttpGet("activities/assignments")]
+    public async Task<IActionResult> GetAssignments(
+        [FromServices] IGetAssignmentsHandler getAssignmentsHandler,
+        CancellationToken cancellationToken)
+    {
+        var userId = User.GetUserId();
+        var role = User.GetRole();
+
+        var assignments = await getAssignmentsHandler.HandleAsync(
+            new GetAssignmentsQuery(),
+            userId,
+            role,
+            cancellationToken);
+
+        return Ok(ApiResponse<IReadOnlyList<ActivityDetailsDto>>.Ok(assignments));
     }
 }
