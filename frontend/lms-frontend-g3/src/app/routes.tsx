@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router";
+import { ResourcePage } from "../features/resourses/pages/ResourcePage";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
@@ -31,10 +32,8 @@ export function AppRoutes() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
-          <Route
-            path="/modules/:moduleId/activities"
-            element={<ModuleActivitiesPage />}
-          />
+          <Route path="/modules/:moduleId/activities" element={<ModuleActivitiesPage />} />
+          <Route path="/resources" element={<ResourcePage />} />
 
           <Route path="users">
             <Route index element={<UserPage />} />

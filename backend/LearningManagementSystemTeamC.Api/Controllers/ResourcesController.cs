@@ -7,6 +7,7 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Domain.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -108,5 +109,22 @@ public class ResourcesController : ControllerBase
             return NotFound();
         }
         return Ok(ApiResponse<ResourceDto>.Ok(updatedResourceDto));
+    }
+
+
+    [HttpGet("resources/types")]
+    public IActionResult GetResourceTypes()
+    {
+        var resourceTypes = Enum
+            .GetValues<ResourceType>()
+            .Where(resourceType => resourceType != ResourceType.None)
+            .Select(resourceType => new
+            {
+                value = (int)resourceType,
+                name = resourceType.ToString()
+            })
+            .ToList();
+
+        return Ok(ApiResponse<object>.Ok(resourceTypes));
     }
 }
