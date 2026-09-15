@@ -17,7 +17,6 @@ import { UserPage } from "../features/users/pages/UserPage";
 import { EditUserPage } from "../features/users/pages/EditUserPage";
 import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
-import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
 import { ChatPage } from "../features/chat/pages/ChatPage";
 import { ModuleEditPage } from "../features/modules/pages/ModuleEditPage";
 import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
