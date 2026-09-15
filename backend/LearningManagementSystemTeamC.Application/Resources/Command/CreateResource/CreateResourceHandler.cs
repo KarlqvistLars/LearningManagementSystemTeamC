@@ -38,7 +38,6 @@ public class CreateResourceHandler : ICreateResourceHandler
             command.ResourceName,
             command.Content,
             command.Url,
-            command.CreatedDate,
             command.Type,
             userId);
 
@@ -54,7 +53,7 @@ public class CreateResourceHandler : ICreateResourceHandler
             resource.ResourceName,
             resource.Content,
             resource.Url,
-            resource.CreatedDate,
+            resource.CreatedAt,
             resource.Type,
             resource.CreatedBy
         );

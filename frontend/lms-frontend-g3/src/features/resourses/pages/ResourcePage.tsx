@@ -1,72 +1,68 @@
-import { useAuth } from "../../auth/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-// import { fetchResourcesById } from "../api/resources";
+import { useAuth } from "../../auth/AuthContext";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { SearchInput } from "../../../shared/components/SearchInput";
-import { Suspense, useState } from "react";
-import { ResourceList } from "../components/resourceList";
 import { Button } from "../../../shared/components/Button";
-import type { ResourceDto } from "../types/interfaces";
+import { ResourceList } from "../components/resourceList";
 import { getAllResources } from "../api";
+import type { ResourceDto } from "../types/interfaces";
 
 export function ResourcePage() {
-    const { user, isTeacher } = useAuth();
-    const navigate = useNavigate();
-    const [searchTerm, setSearchTerm] = useState("");
-    const search = searchTerm.toLowerCase();
-    const [resources, setResources] = useState<ResourceDto[]>([]);
-    const [loading, setLoading] = useState(true);
+  const { isTeacher } = useAuth();
+  const navigate = useNavigate();
 
-    const filteredResources = resources.filter((resource) => {
-        return (
-            resource.resourceName.toLowerCase().includes(search) ||
-            resource.content.toLowerCase().includes(search)
-        );
-    });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [resources, setResources] = useState<ResourceDto[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function loadResources() {
-            try {
-                const resourcesFetched = await getAllResources();
-                setResources(resourcesFetched);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        }
+  useEffect(() => {
+    const loadResources = async () => {
+      try {
+        const resources = await getAllResources();
+        setResources(resources);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        if (loading) {
-            loadResources();
-        }
-    }, [isTeacher, loading, user?.id]);
+    void loadResources();
+  }, []);
 
+  const search = searchTerm.toLowerCase().trim();
+
+  const filteredResources = resources.filter((resource) => {
     return (
-        <section className="flex flex-col gap-6 p-6 h-full">
-
-            <h1 className="uppercase">
-                <DisplayText text="Resources" />
-            </h1>
-            <SearchInput
-                value={searchTerm}
-                onChange={setSearchTerm}
-                placeholder="Search resources..."
-            />
-            <Suspense fallback={<DisplayText text="Loading resources..." />}>
-                <ResourceList resources={filteredResources} />
-            </Suspense>
-            <div className="self-center mt-auto">
-                {isTeacher && (
-                    <Button
-                        variant="list"
-                        onClick={() => navigate("/resources/create")}
-                    >
-                        Create new resource
-                    </Button>
-                )}
-            </div>
-            {/* </div> */}
-        </section>
+      resource.resourceName.toLowerCase().includes(search) ||
+      resource.content.toLowerCase().includes(search)
     );
+  });
+
+  return (
+    <section className="flex h-full flex-col gap-6 p-6">
+      <DisplayText text="Resources" />
+
+      <SearchInput
+        value={searchTerm}
+        onChange={setSearchTerm}
+        placeholder="Search resources..."
+      />
+
+      {loading ? (
+        <DisplayText text="Loading resources..." />
+      ) : (
+        <ResourceList resources={filteredResources} />
+      )}
+
+      {isTeacher && (
+        <div className="mt-auto self-center">
+          <Button variant="list" onClick={() => navigate("/resources/create")}>
+            Create new resource
+          </Button>
+        </div>
+      )}
+    </section>
+  );
 }

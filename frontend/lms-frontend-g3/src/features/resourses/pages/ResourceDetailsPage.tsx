@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useState, useEffect } from "react";
-import type { ResourceDto } from "../types/interfaces";
 import { useAuth } from "../../auth/AuthContext";
-import { getAllResources } from "../api/index";
+import { getResourceById } from "../api";
+import type { ResourceWithCreatorDto } from "../types/interfaces";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { Button } from "../../../shared/components/Button";
 
@@ -10,98 +10,112 @@ export function ResourceDetailsPage() {
   const { isTeacher } = useAuth();
   const { resourceId } = useParams<{ resourceId: string }>();
   const navigate = useNavigate();
-  const [resource, setResource] = useState<ResourceDto | null>(null);
+
+  const [resource, setResource] = useState<ResourceWithCreatorDto | null>(null);
+
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    async function loadResource() {
+    if (!resourceId) {
+      setError("Resource ID is required.");
+      setLoading(false);
+      return;
+    }
+
+    const loadResource = async () => {
       try {
-        if (!resourceId) {
-          throw new Error("Resource ID is required");
-        }
-        const resourceFetched = await getAllResources(resourceId);
-        setResource(resourceFetched);
+        const resource = await getResourceById(resourceId);
+        setResource(resource);
       } catch (error) {
         console.error(error);
+        setError("Could not load resource.");
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    if (loading) {
-      loadResource();
-    }
-  }, [loading, resourceId]);
+    void loadResource();
+  }, [resourceId]);
 
   return (
     <section className="flex h-full flex-col gap-6 p-6">
       <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
-        <h1 className="uppercase">
-          <DisplayText text="Resource Details" />
-        </h1>
+        <DisplayText text="Resource Details" />
+
         {loading && <DisplayText text="Loading resource details..." />}
+
+        {error && (
+          <p className="rounded-lg bg-red-100 p-3 text-red-700">{error}</p>
+        )}
+
         {resource && (
-          <>
-            <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-              <div>
-                <span className="text-white mb-1 block text-base font-medium block">
-                  Name
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  {resource.resourceName}
-                </span>
-              </div>
+          <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+            <div>
+              <span className="mb-1 block text-base font-medium text-white">
+                Name
+              </span>
 
-              <div className="row-span-2">
-                <span className="text-white mb-1 block text-base font-medium block">
-                  Mentors
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  John Doe
-                </span>
-              </div>
-
-              <div>
-                <span className="text-white mb-1 block text-base font-medium block">
-                  Start date
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  {new Date(resource.createdDate).toLocaleDateString()}
-                </span>
-              </div>
-
-              <div>
-                <span className="text-white mb-1 block text-base font-medium block">
-                  End date
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  {resource.createdBy.toString()}
-                </span>
-              </div>
-
-              <div className="row-span-2">
-                <span className="text-white mb-1 block text-base font-medium block">
-                  Students
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  John Doe
-                </span>
-              </div>
-
-              <div className="row-span-4">
-                <span className="text-white mb-1 block text-base font-medium block">
-                  Description
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  {resource.content}
-                </span>
-              </div>
+              <span className="block w-full rounded-md bg-form-input px-4 py-3 text-lg text-primary-display-text">
+                {resource.resourceName}
+              </span>
             </div>
-          </>
+
+            <div>
+              <span className="mb-1 block text-base font-medium text-white">
+                Created
+              </span>
+
+              <span className="block w-full rounded-md bg-form-input px-4 py-3 text-lg text-primary-display-text">
+                {new Date(resource.createdAt).toLocaleDateString()}
+              </span>
+            </div>
+
+            <div>
+              <span className="mb-1 block text-base font-medium text-white">
+                Created by
+              </span>
+
+              <span className="block w-full rounded-md bg-form-input px-4 py-3 text-lg text-primary-display-text">
+                {resource.createdByFirstName} {resource.createdByLastName}
+              </span>
+            </div>
+
+            <div>
+              <span className="mb-1 block text-base font-medium text-white">
+                Type
+              </span>
+
+              <span className="block w-full rounded-md bg-form-input px-4 py-3 text-lg text-primary-display-text">
+                {resource.type}
+              </span>
+            </div>
+
+            <div className="col-span-2">
+              <span className="mb-1 block text-base font-medium text-white">
+                URL
+              </span>
+
+              <span className="block w-full rounded-md bg-form-input px-4 py-3 text-lg text-primary-display-text">
+                {resource.url || "No URL"}
+              </span>
+            </div>
+
+            <div className="col-span-2">
+              <span className="mb-1 block text-base font-medium text-white">
+                Description
+              </span>
+
+              <span className="block w-full whitespace-pre-wrap rounded-md bg-form-input px-4 py-3 text-lg text-primary-display-text">
+                {resource.content}
+              </span>
+            </div>
+          </div>
         )}
       </div>
-      <div className="flex items-center">
-        {isTeacher && (
+
+      {isTeacher && resource && (
+        <div className="flex items-center">
           <Button
             variant="list"
             color="edit"
@@ -109,8 +123,8 @@ export function ResourceDetailsPage() {
           >
             Edit
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

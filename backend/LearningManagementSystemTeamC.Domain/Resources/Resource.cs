@@ -8,7 +8,7 @@ public class Resource
     public string ResourceName { get; private set; }
     public string Content { get; private set; }
     public string? Url { get; private set; }
-    public DateTime CreatedDate { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public ResourceType Type { get; private set; }
     public Guid CreatedBy { get; private set; }
 
@@ -16,7 +16,6 @@ public class Resource
         string resourceName,
         string content,
         string? url,
-        DateTime createdDate,
         ResourceType type,
         Guid createdBy)
     {
@@ -24,7 +23,6 @@ public class Resource
             resourceName,
             content,
             url,
-            createdDate,
             type,
             createdBy);
 
@@ -32,7 +30,7 @@ public class Resource
         ResourceName = resourceName;
         Content = content;
         Url = url;
-        CreatedDate = createdDate;
+        CreatedAt = DateTime.UtcNow;
         Type = type;
         CreatedBy = createdBy;
     }
@@ -47,7 +45,6 @@ public class Resource
             resourceName,
             content,
             url,
-            CreatedDate,
             type,
             CreatedBy);
 
@@ -61,7 +58,6 @@ public class Resource
         string resourceName,
         string content,
         string? url,
-        DateTime createdDate,
         ResourceType type,
         Guid createdBy)
     {
@@ -77,13 +73,6 @@ public class Resource
             throw new DomainException(
                 ResourceRules.ContentRequiredCode,
                 ResourceRules.ContentRequiredMessage);
-        }
-
-        if (createdDate == default)
-        {
-            throw new DomainException(
-                ResourceRules.CreatedDateRequiredCode,
-                ResourceRules.CreatedDateRequiredMessage);
         }
 
         if (!Enum.IsDefined(type))

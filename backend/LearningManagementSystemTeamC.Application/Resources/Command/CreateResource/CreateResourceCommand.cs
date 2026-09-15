@@ -5,7 +5,6 @@ namespace LearningManagementSystemTeamC.Application.Resources.Command.CreateReso
 public record CreateResourceCommand(
     string ResourceName,
     string Content,
-    string Url,
-    DateTime CreatedDate,
+    string? Url,
     ResourceType Type
     );

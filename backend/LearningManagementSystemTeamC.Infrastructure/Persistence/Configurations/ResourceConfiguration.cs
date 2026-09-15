@@ -22,7 +22,7 @@ internal class ResourceConfiguration : IEntityTypeConfiguration<Resource>
         builder.Property(r => r.Url)
             .HasMaxLength(ResourceRules.UrlMaxLength);
 
-        builder.Property(r => r.CreatedDate)
+        builder.Property(r => r.CreatedAt)
             .IsRequired();
 
         builder.Property(r => r.Type)

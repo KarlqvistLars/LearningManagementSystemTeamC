@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import { ResourcePage } from "../features/resourses/pages/ResourcePage";
-import { ResourceForm } from "../features/resourses/pages/ResourceEditPage";
+import { ResourceEditPage } from "../features/resourses/pages/ResourceEditPage";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
@@ -37,10 +37,16 @@ export function AppRoutes() {
             <Route path="edit" element={<CourseEditPage />} />
           </Route>
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
-          <Route path="/modules/:moduleId/activities" element={<ModuleActivitiesPage />} />
+          <Route
+            path="/modules/:moduleId/activities"
+            element={<ModuleActivitiesPage />}
+          />
           <Route path="/resources" element={<ResourcePage />} />
-          <Route path="/resources/create" element={<ResourceForm />} />
-          <Route path="/resources/:resourceId/edit" element={<ResourceForm />} />
+          <Route path="/resources/create" element={<ResourceEditPage />} />
+          <Route
+            path="/resources/:resourceId/edit"
+            element={<ResourceEditPage />}
+          />
 
           <Route path="users">
             <Route index element={<UserPage />} />

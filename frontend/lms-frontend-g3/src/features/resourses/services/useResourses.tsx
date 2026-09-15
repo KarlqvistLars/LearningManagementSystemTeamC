@@ -1,23 +1,40 @@
 import { useEffect, useState } from "react";
-import { getResourcesByActivity } from "../api/index";
-import type { Resource } from "../types/interfaces";
+import { getResourcesByActivity } from "../api";
+import type { ResourceWithCreatorDto } from "../types/interfaces";
 
-export function useResources(moduleId: string | undefined) {
-    const [activities, setActivities] = useState<Resource[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+export function useResources(activityId: string | undefined) {
+  const [resources, setResources] = useState<ResourceWithCreatorDto[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        if (!moduleId) return;
+  useEffect(() => {
+    if (!activityId) {
+      setResources([]);
+      return;
+    }
 
-        setLoading(true);
-        setError(null);
+    const loadResources = async () => {
+      setLoading(true);
+      setError(null);
 
-        getResourcesByActivity(moduleId)
-            .then(setActivities)
-            .catch((err: Error) => setError(err.message))
-            .finally(() => setLoading(false));
-    }, [moduleId]);
+      try {
+        const resources = await getResourcesByActivity(activityId);
+        setResources(resources);
+      } catch (error) {
+        setError(
+          error instanceof Error ? error.message : "Could not load resources.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return { activities, loading, error };
+    void loadResources();
+  }, [activityId]);
+
+  return {
+    resources,
+    loading,
+    error,
+  };
 }
