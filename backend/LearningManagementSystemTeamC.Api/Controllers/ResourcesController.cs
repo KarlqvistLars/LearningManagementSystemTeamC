@@ -1,6 +1,6 @@
 using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
-using LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
+using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
@@ -20,44 +20,42 @@ public class ResourcesController : ControllerBase
 {
     public ResourcesController() { }
 
-    // api/resources
     [HttpGet("resources")]
     [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> GetAllResources(
         [FromServices] IGetAllResourcesHandler getAllResourcesHandler,
         CancellationToken cancellationToken)
     {
-        var resources = await getAllResourcesHandler.Handle(
-            new GetAllResourcesQuery(Guid.Empty), // Assuming you want to get all resources without filtering by ResourceId
+        var resources = await getAllResourcesHandler.HandleAsync(
+            new GetAllResourcesQuery(),
             cancellationToken);
 
-        return Ok(ApiResponse<IReadOnlyList<ResourceDto>>.Ok(resources));
+        return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
     }
 
-    // "api/activities/{activityId}/resources"
     [HttpGet("activities/{activityId}/resources")]
     public async Task<IActionResult> GetResourceByActivityId(
         Guid activityId,
         [FromServices] IGetResourcesByActivityIdHandler getResourcesByActivityIdHandler,
         CancellationToken cancellationToken)
     {
-
-        var resources = await getResourcesByActivityIdHandler.Handle(
+        var resources = await getResourcesByActivityIdHandler.HandleAsync(
             new GetResourcesByActivityIdQuery(activityId),
             cancellationToken);
 
-        return Ok(ApiResponse<IReadOnlyList<ResourceDto>>.Ok(resources));
+        return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
     }
 
-    // "api/resources"
     [HttpPost("resources")]
-    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Create(
         [FromBody] CreateResourceCommand command,
         [FromServices] ICreateResourceHandler createResourceHandler,
         [FromServices] IValidator<CreateResourceCommand> createResourceValidator,
         CancellationToken cancellationToken)
     {
+        var userId = User.GetUserId();
+        var userRole = User.GetRole();
+
         var validationResult =
             createResourceValidator.Validate(command);
         if (validationResult.Count > 0)
@@ -72,14 +70,14 @@ public class ResourcesController : ControllerBase
 
         var resourceDto = await createResourceHandler.HandleAsync(
             command,
+            userId,
+            userRole,
             cancellationToken);
 
         return Ok(ApiResponse<ResourceDto>.Ok(resourceDto));
     }
 
-    // "api/resources/{resourceId}"
     [HttpPut("resources/{resourceId:guid}")]
-    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Update(
         Guid resourceId,
         [FromBody] UpdateResourceCommand command,
@@ -100,14 +98,16 @@ public class ResourcesController : ControllerBase
                     validationResult)
                 );
         }
-        var updatedResourceDto = await updateResourceHandler.Handle(
+
+        var userId = User.GetUserId();
+        var roleCode = User.GetRole();
+
+        var updatedResourceDto = await updateResourceHandler.HandleAsync(
             commandWithId,
+            userId,
+            roleCode,
             cancellationToken);
 
-        if (updatedResourceDto is null)
-        {
-            return NotFound();
-        }
         return Ok(ApiResponse<ResourceDto>.Ok(updatedResourceDto));
     }
 
