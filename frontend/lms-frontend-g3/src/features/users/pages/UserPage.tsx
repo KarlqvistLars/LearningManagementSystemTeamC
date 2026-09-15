@@ -57,7 +57,7 @@ export function UserPage() {
   });
 
   return (
-    <section className="flex flex-col gap-6 p-6 h-full">
+    <section className="flex flex-col gap-6 p-6 min-h-full">
       <DisplayText text="USERS" />
 
       <SearchInput

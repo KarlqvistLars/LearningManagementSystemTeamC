@@ -114,7 +114,7 @@ export function EditUserPage() {
   });
 
   return (
-    <section className="flex h-full flex-col gap-6 p-6">
+    <section className="flex min-h-full flex-col gap-6 p-6">
       <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
         <FormTitle title="Edit User" />
         <ErrorList error={error} variant="form" />
