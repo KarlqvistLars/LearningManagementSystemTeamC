@@ -1,3 +1,3 @@
 ﻿namespace LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
 
-public record GetAllResourcesQuery(Guid ResourceId);
+public record GetAllResourcesQuery();
