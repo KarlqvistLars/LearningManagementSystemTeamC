@@ -7,7 +7,7 @@ import { SearchInput } from "../../../shared/components/SearchInput";
 import { Suspense, useState } from "react";
 import { ResourceList } from "../components/resourceList";
 import { Button } from "../../../shared/components/Button";
-import type { ResourceDto, ResourceWithCreatorDto } from "../types/interfaces";
+import type { ResourceDto } from "../types/interfaces";
 import { getAllResources } from "../api";
 
 export function ResourcePage() {
@@ -28,10 +28,6 @@ export function ResourcePage() {
     useEffect(() => {
         async function loadResources() {
             try {
-                // const resourcesFetched = isTeacher
-                //     ? await getAllResources()
-                //     : await fetchResourcesById(user?.id || "");
-
                 const resourcesFetched = await getAllResources();
                 setResources(resourcesFetched);
             } catch (error) {

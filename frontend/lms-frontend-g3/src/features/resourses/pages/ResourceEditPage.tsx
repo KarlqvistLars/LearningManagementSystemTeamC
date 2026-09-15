@@ -7,9 +7,10 @@ import { Button } from "../../../shared/components/Button";
 import { FormLabel } from "../../../shared/components/FormLabel";
 import type { ResourceTypeOption } from "../types";
 import { FormTitle } from "../../../shared/components/FormTitle";
+import { useParams } from "react-router";
 
 interface ResourceFormProps {
-  courseId: string;
+  courseId?: string | undefined;
   resource?: ResourceDto;
   onResourceSaved: () => void;
 }
@@ -27,29 +28,34 @@ export function ResourceForm({
   const [resourceTypes, setResourceTypes] = useState<
     ResourceTypeOption[]
   >([]);
-
+  const { resourceId } = useParams<{ resourceId: string }>();
+  const isEditing = Boolean(resourceId);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    async function loadResourceTypes() {
+    async function loadData() {
       try {
-        const options = await getResourceTypes();
-        setResourceTypes(options);
+        const types = await getResourceTypes();
+        setResourceTypes(types);
+
+        if (resourceId) {
+          const fetchedResource = await getResourceById(resourceId);
+
+          setName(fetchedResource.resourceName);
+          setContent(fetchedResource.content);
+          setUrl(fetchedResource.url ?? "");
+          setCreatedDate(fetchedResource.createdDate);
+          setType(fetchedResource.type);
+        }
       } catch (error) {
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Failed to load resource types"
-        );
-      } finally {
-        // setLoading(false);
+        console.error(error);
+        setError("Could not load resource data.");
       }
     }
-
-    void loadResourceTypes();
-  }, []);
+    void loadData();
+  }, [resourceId]);
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();

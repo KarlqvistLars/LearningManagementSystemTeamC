@@ -39,9 +39,8 @@ export function AppRoutes() {
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
           <Route path="/modules/:moduleId/activities" element={<ModuleActivitiesPage />} />
           <Route path="/resources" element={<ResourcePage />} />
-          <Route path="/resources/create" element={<ResourceForm courseId={""} onResourceSaved={function (): void {
-            throw new Error("Function not implemented.");
-          }} />} />
+          <Route path="/resources/create" element={<ResourceForm />} />
+          <Route path="/resources/:resourceId/edit" element={<ResourceForm />} />
 
           <Route path="users">
             <Route index element={<UserPage />} />

@@ -7,6 +7,7 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourceById;
 using LearningManagementSystemTeamC.Domain.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,19 @@ public class ResourcesController : ControllerBase
             cancellationToken);
 
         return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
+    }
+
+    [HttpGet("resources/{resourceId:guid}")]
+    public async Task<IActionResult> GetResourceById(
+        Guid resourceId,
+        [FromServices] IGetResourceByIdHandler getResourceByIdHandler,
+        CancellationToken cancellationToken)
+    {
+        var resource = await getResourceByIdHandler.HandleAsync(
+            new GetResourceByIdQuery(resourceId),
+            cancellationToken);
+
+        return Ok(ApiResponse<ResourceWithCreatorDto>.Ok(resource));
     }
 
     [HttpGet("activities/{activityId}/resources")]

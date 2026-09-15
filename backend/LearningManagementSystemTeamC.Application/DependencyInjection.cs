@@ -30,6 +30,7 @@ using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourceById;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
@@ -87,6 +88,7 @@ public static class DependencyInjection
         services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
         services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
         services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
+        services.AddScoped<IGetResourceByIdHandler, GetResourceByIdHandler>();
 
 
         // Validators

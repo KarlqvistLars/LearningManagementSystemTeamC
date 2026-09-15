@@ -46,10 +46,10 @@ export function ResourceSummaryCard({ resource }: ResourceSummaryCardProps) {
                         {isTeacher && (
                             <Button
                                 variant="list"
-                                color="resource"
-                                onClick={() => navigate(`/resources/${resource.id}/modules`)}
+                                color="delete"
+                                onClick={() => alert(`Deleted resource ${resource.resourceName}\nWell NOT REALLY but just to show the functionality`)}
                             >
-                                Modules
+                                Delete
                             </Button>
                         )}
                     </div>
