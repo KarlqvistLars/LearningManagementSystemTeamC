@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { ModuleForm, type ModuleFormData } from "../components/ModuleForm";
 import type { EditModule, Module } from "../types";
 import { useEffect, useState } from "react";
@@ -8,7 +8,6 @@ import { ResponseMessage } from "../../../shared/components/ResponseMessage";
 
 export function ModuleEditPage() {
     const { moduleId } = useParams();
-    const navigate = useNavigate();
     const [module, setModule] = useState<Module | null>(null);
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState<"message" 
