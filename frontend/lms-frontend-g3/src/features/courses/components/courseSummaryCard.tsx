@@ -45,7 +45,6 @@ export function CourseSummaryCard({ course }: CourseSummaryCardProps) {
                 Edit
               </Button>
             )}
-            {isTeacher && (
               <Button
                 variant="list"
                 color="resource"
@@ -53,7 +52,6 @@ export function CourseSummaryCard({ course }: CourseSummaryCardProps) {
               >
                 Modules
               </Button>
-            )}
           </div>
         </>
       )}

@@ -11,12 +11,10 @@ import {
 import { fetchActiveUsersByRole } from "../../users/api/userApi";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormTitle } from "../../../shared/components/FormTitle";
-import { FormLabel } from "../../../shared/components/FormLabel";
-import { FormInput } from "../../../shared/components/FormInput";
-import { Button } from "../../../shared/components/Button";
 import { createPortal } from "react-dom";
 import { ResponseMessage } from "../../../shared/components/ResponseMessage";
 import type { UserSimplified } from "../../users/types/types";
+import { CourseForm, type CourseFormData } from "../components/courseForm";
 
 export function CourseEditPage() {
   const { isTeacher } = useAuth();
@@ -32,8 +30,6 @@ export function CourseEditPage() {
   const [mentorsAll, setMentorsAll] = useState<UserSimplified[]>([]);
   const [students, setStudents] = useState<string[]>([]);
   const [mentors, setMentors] = useState<string[]>([]);
-  const [studentsSelected, setStudentsSelected] = useState<string[]>(students);
-  const [mentorsSelected, setMentorsSelected] = useState<string[]>(mentors);
 
   useEffect(() => {
     if (!isTeacher) {
@@ -100,42 +96,40 @@ export function CourseEditPage() {
     }
   }, [loading, courseId]);
 
-  function formateDateForInput(date: string | Date): string {
-    return new Date(date).toISOString().split("T")[0];
-  }
-
-  async function enrollStudents(studentIds: string[]): Promise<void> {
+  function enrollStudents(studentIds: string[]): void {
     try {
       if (!courseId) {
         throw new Error("Course ID is required");
       }
 
       studentIds.forEach(async (studentId) => {
-        await enrollUserInCourse(courseId, studentId);
+        if (!students.includes(studentId)) {
+          await enrollUserInCourse(courseId, studentId);
+          setStudents((prevStudents) => [...prevStudents, studentId]);
+        }
       });
-
-      setStudents((prevStudents) => [...prevStudents, ...studentIds]);
     } catch (error) {
       console.error(error);
     }
   }
 
-  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSubmit = async (data: CourseFormData) => {
     try {
       if (course) {
         const edit: Course = {
           id: course.id,
-          courseName: course.courseName,
-          description: course.description,
-          startDate: course.startDate,
-          endDate: course.endDate,
+          courseName: data.name,
+          description: data.description,
+          startDate: data.startDate,
+          endDate: data.endDate,
           createdAt: course.createdAt,
         };
 
         await editCourse(edit);
-        enrollStudents(studentsSelected);
+        if (data.students && data.students.length > 0) {
+          enrollStudents(data.students);
+        }
+        setLoading(true);
         setMessage("Course updated successfully.");
         setMessageType("success");
       }
@@ -163,153 +157,22 @@ export function CourseEditPage() {
           <FormTitle title="Edit Course" />
           {loading && <DisplayText text="Loading course details..." />}
           {course && (
-            <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
-              <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-                <div>
-                  <FormLabel htmlFor="courseName" className="text-white">
-                    Course name
-                  </FormLabel>
-
-                  <FormInput
-                    id="courseName"
-                    name="courseName"
-                    value={course.courseName}
-                    required
-                    onChange={(event) =>
-                      setCourse({ ...course, courseName: event.target.value })
-                    }
-                  />
-                </div>
-                <div className="row-span-2">
-                  <FormLabel htmlFor="mentor" className="text-white">
-                    Mentor
-                  </FormLabel>
-
-                  <select
-                    id="mentor"
-                    name="mentor"
-                    multiple
-                    value={mentorsSelected}
-                    onChange={(event) =>
-                      setMentorsSelected(
-                        Array.from(
-                          event.target.selectedOptions,
-                          (option) => option.value,
-                        ),
-                      )
-                    }
-                    className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-                  >
-                    {mentorsAll.map((mentor) => (
-                      <option key={mentor.id} value={mentor.id}>
-                        {`${mentor.firstName} ${mentor.lastName}`}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <FormLabel htmlFor="startDate" className="text-white">
-                    Start date
-                  </FormLabel>
-
-                  <FormInput
-                    id="startDate"
-                    name="startDate"
-                    type="date"
-                    value={formateDateForInput(course.startDate)}
-                    required
-                    onChange={(event) =>
-                      setCourse({
-                        ...course,
-                        startDate: new Date(event.target.value),
-                      })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <FormLabel htmlFor="endDate" className="text-white">
-                    End date
-                  </FormLabel>
-
-                  <FormInput
-                    id="endDate"
-                    name="endDate"
-                    type="date"
-                    value={formateDateForInput(course.endDate)}
-                    required
-                    onChange={(event) =>
-                      setCourse({
-                        ...course,
-                        endDate: new Date(event.target.value),
-                      })
-                    }
-                  />
-                </div>
-
-                <div className="row-span-4">
-                  <FormLabel htmlFor="students" className="text-white">
-                    Students
-                  </FormLabel>
-
-                  <select
-                    id="students"
-                    name="students"
-                    multiple
-                    value={studentsSelected}
-                    onChange={(event) =>
-                      setStudentsSelected(
-                        Array.from(
-                          event.target.selectedOptions,
-                          (option) => option.value,
-                        ),
-                      )
-                    }
-                    className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-                  >
-                    {studentsAll.map((student) => (
-                      <option key={student.id} value={student.id}>
-                        {`${student.firstName} ${student.lastName}`}
-                      </option>
-                    ))}
-                  </select>
-
-                  <div className="mt-6">
-                    <span className="text-white mb-1 block text-base font-medium">
-                      Number of students
-                    </span>
-                    <span className="text-3xl text-primary-display-text">
-                      {students.length.toString()}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="row-span-2">
-                  <FormLabel htmlFor="description" className="text-white">
-                    Description
-                  </FormLabel>
-
-                  <textarea
-                    id="description"
-                    value={course.description}
-                    onChange={(event) =>
-                      setCourse({ ...course, description: event.target.value })
-                    }
-                    required
-                    rows={5}
-                    placeholder="Enter module description"
-                    className="w-full resize-none rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-                  ></textarea>
-                </div>
-              </div>
-
-              <div className="mt-auto flex justify-center gap-4 pt-10">
-                <Button type="submit" variant="list" color="edit">
-                  Save
-                </Button>
-              </div>
-            </form>
+            <>
+              <CourseForm
+                values={{
+                  name: course.courseName,
+                  description: course.description,
+                  startDate: course.startDate,
+                  endDate: course.endDate,
+                  mentors: mentors,
+                  students: students,
+                }}
+                onSubmit={handleSubmit}
+                submitLabel="Save"
+                mentorsAll={mentorsAll}
+                studentsAll={studentsAll}
+              />
+            </>
           )}
         </div>
       </section>
