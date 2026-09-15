@@ -132,7 +132,7 @@ export function ModuleForm({values, onSubmit, submitLabel = "Submit module" }: M
             variant="list"
             color="cancel"
             onClick={() => navigate(-1)}>
-            Cancel
+            Back
           </Button>
 
         </div>

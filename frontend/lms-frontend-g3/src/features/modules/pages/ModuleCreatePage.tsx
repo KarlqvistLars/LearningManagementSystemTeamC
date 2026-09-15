@@ -2,11 +2,15 @@ import { useNavigate, useParams } from "react-router";
 import type { CreateModule } from "../types";
 import { createModule } from "../api/ModulesApi";
 import { DisplayText } from "../../../shared/components/DisplayText";
+import { ResponseMessage } from "../../../shared/components/ResponseMessage";
 import { ModuleForm, type ModuleFormData } from "../components/ModuleForm";
-
+import { useState } from "react";
 
 export function ModuleCreatePage() {
     const { courseId } = useParams<{ courseId: string}>();
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState<"message" 
+        | "error" | "success">("message");
     const navigate = useNavigate();
 
     if (!courseId) {
@@ -14,17 +18,29 @@ export function ModuleCreatePage() {
     }
 
     const handleCreate = async (data: ModuleFormData) => {
-        const create: CreateModule = {
+        try {
+            const create: CreateModule = {
                 name: data.name,
                 description: data.description,
                 startDate: data.startDate,
                 endDate: data.endDate,
                 courseId,
             };
-
+    
             await createModule(create);
+    
+            setMessage("Module created successfully.");
+            setMessageType("success");
             
-        navigate(`/courses/${courseId}/modules`);
+            setTimeout(() => {
+                navigate(`/courses/${courseId}/modules`);
+            }, 3000);
+            
+        } catch (error) {
+            console.error("Failed to create module", error);
+            setMessage("Failed to create module.");
+            setMessageType("error");
+        }
     };
 
     return (
@@ -36,6 +52,13 @@ export function ModuleCreatePage() {
                         submitLabel="Create"
                     />
             </div>
+
+            {message && 
+                <ResponseMessage
+                    message={message}
+                    type={messageType}
+                    onClose={() => setMessage("")}/>
+            }
         </section>
     );
 }

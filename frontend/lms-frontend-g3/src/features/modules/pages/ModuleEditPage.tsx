@@ -4,14 +4,15 @@ import type { EditModule, Module } from "../types";
 import { useEffect, useState } from "react";
 import { editModule, fetchModuleById } from "../api/ModulesApi";
 import { FormTitle } from "../../../shared/components/FormTitle";
-
-
+import { ResponseMessage } from "../../../shared/components/ResponseMessage";
 
 export function ModuleEditPage() {
     const { moduleId } = useParams();
     const navigate = useNavigate();
-
     const [module, setModule] = useState<Module | null>(null);
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState<"message" 
+        | "error" | "success">("message");
 
     useEffect(() => {
         async function loadModule() {
@@ -31,21 +32,24 @@ export function ModuleEditPage() {
     async function handleEdit(data: ModuleFormData) {
         if (!module) return;
 
-        const edit: EditModule = {
-            id: module.id,
-            name: data.name,
-            description: data.description,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            courseId: module.courseId,
-        };
-
         try {
+            const edit: EditModule = {
+                id: module.id,
+                name: data.name,
+                description: data.description,
+                startDate: data.startDate,
+                endDate: data.endDate,
+                courseId: module.courseId,
+            };
             await editModule(edit);
 
-            navigate(`/courses/${module.courseId}/modules`);
+            setMessage("Module edited successfully.");
+            setMessageType("success");
+
         } catch (error) {
-            console.error("Failed to edit module", error);
+            console.error("Failed to edit module.", error);
+            setMessage("Failed to edit module.");
+            setMessageType("error");
         }
     }
     if (!module) {
@@ -70,6 +74,13 @@ export function ModuleEditPage() {
                         submitLabel="Save"/>
                 )}
             </div>
+
+            {message &&
+                <ResponseMessage
+                    message={message}
+                    type={messageType}
+                    onClose={() => setMessage("")}/>
+                }
         </section>
     )
 };
