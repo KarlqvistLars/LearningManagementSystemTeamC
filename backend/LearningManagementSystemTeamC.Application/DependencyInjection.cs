@@ -88,6 +88,7 @@ public static class DependencyInjection
         services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
         services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
         services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
+        services.AddScoped<IGetActiveUsersByRoleHandler, GetActiveUsersByRoleHandler>();
 
 
         // Validators
