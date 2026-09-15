@@ -38,7 +38,6 @@ public class CreateResourceHandler : ICreateResourceHandler
             command.ResourceName,
             command.Content,
             command.Url,
-            command.CreatedAt,
             command.Type,
             userId);
 

@@ -44,6 +44,10 @@ export const teacherMenuItems: MenuItem[] = [
     path: "/activities/assignments",
   },
   {
+    label: "Resources",
+    path: "/resources",
+  },
+  {
     label: "Chat",
     path: "/chat",
   },

@@ -21,11 +21,11 @@
         public const string CreatedByRequiredCode = "RESOURCE_CREATED_BY_REQUIRED";
         public const string CreatedByRequiredMessage = "Resource creator is required.";
 
-        public const string CreatedAtRequiredCode = "RESOURCE_CREATED_AT_REQUIRED";
-        public const string CreatedAtRequiredMessage = "CreatedAt is required.";
+        public const string CreatedDateRequiredCode = "RESOURCE_CREATED_DATE_REQUIRED";
+        public const string CreatedDateRequiredMessage = "CreatedDate is required.";
 
-        public const string CreatedAtCannotBeInTheFutureCode = "RESOURCE_CREATED_AT_IN_FUTURE";
-        public const string CreatedAtCannotBeInTheFutureMessage = "CreatedAt cannot be in the future.";
+        public const string CreatedDateCannotBeInTheFutureCode = "RESOURCE_CREATED_DATE_IN_FUTURE";
+        public const string CreatedDateCannotBeInTheFutureMessage = "CreatedDate cannot be in the future.";
 
         public const string InvalidResourceTypeCode = "INVALID_RESOURCE_TYPE";
         public const string InvalidResourceTypeMessage = "Resource type is invalid.";

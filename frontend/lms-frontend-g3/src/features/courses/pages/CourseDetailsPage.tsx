@@ -75,8 +75,8 @@ export function CourseDetailsPage() {
         </h1>
         {loading && <DisplayText text="Loading course details..." />}
         {course && (
-          <>
-            <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+          <div className="grid grid-cols-2 gap-x-10">
+            <div className="flex flex-col flex-1 gap-y-5">
               <div>
                 <span className="text-white mb-1 block text-base font-medium">
                   Name
@@ -86,7 +86,35 @@ export function CourseDetailsPage() {
                 </span>
               </div>
 
-              <div className="row-span-auto">
+              <div>
+                <span className="text-white mb-1 block text-base font-medium">
+                  Start date
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {new Date(course.startDate).toLocaleDateString()}
+                </span>
+              </div>
+
+              <div>
+                <span className="text-white mb-1 block text-base font-medium block">
+                  End date
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {new Date(course.endDate).toLocaleDateString()}
+                </span>
+              </div>
+
+              <div className="row-span-4 col-span-2">
+                <span className="text-white mb-1 block text-base font-medium block">
+                  Description
+                </span>
+                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {course.description}
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col flex-1 gap-y-5">
+              <div className="row-span-4">
                 <span className="text-white mb-1 block text-base font-medium block">
                   Mentors
                 </span>
@@ -103,20 +131,11 @@ export function CourseDetailsPage() {
                 </span>
               </div>
 
-              <div>
-                <span className="text-white mb-1 block text-base font-medium">
-                  Start date
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  {new Date(course.startDate).toLocaleDateString()}
-                </span>
-              </div>
-
-              <div className="row-span-auto">
+              <div className="row-span-4">
                 <span className="text-white mb-1 block text-base font-medium block">
                   Students
                 </span>
-                <div className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                <div className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-1">
                   {enrollments && enrollments.length > 0 ? (
                     enrollments.map((enrollment) => (
                       <span key={enrollment.studentId}>
@@ -128,29 +147,11 @@ export function CourseDetailsPage() {
                   )}
                 </div>
               </div>
-
-              <div>
-                <span className="text-white mb-1 block text-base font-medium block">
-                  End date
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  {new Date(course.endDate).toLocaleDateString()}
-                </span>
-              </div>
-
-              <div className="row-span-auto col-span-2">
-                <span className="text-white mb-1 block text-base font-medium block">
-                  Description
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  {course.description}
-                </span>
-              </div>
             </div>
-          </>
+          </div>
         )}
       </div>
-      <div className="flex items-center">
+      <div className="mt-auto flex justify-center gap-4 pb-5">
         {isTeacher && (
           <Button
             variant="list"
@@ -160,6 +161,14 @@ export function CourseDetailsPage() {
             Edit
           </Button>
         )}
+        <Button
+          type="button"
+          variant="list"
+          color="cancel"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </Button>
       </div>
     </section>
   );

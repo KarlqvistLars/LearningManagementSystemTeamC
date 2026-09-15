@@ -40,7 +40,9 @@ export function ModuleEditPage() {
                 endDate: data.endDate,
                 courseId: module.courseId,
             };
-            await editModule(edit);
+            const updatedModule = await editModule(edit);
+
+            setModule(updatedModule);
 
             setMessage("Module edited successfully.");
             setMessageType("success");

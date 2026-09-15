@@ -1,4 +1,6 @@
 import { Route, Routes } from "react-router";
+import { ResourcePage } from "../features/resourses/pages/ResourcePage";
+import { ResourceEditPage } from "../features/resourses/pages/ResourceEditPage";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
@@ -21,6 +23,7 @@ import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
 import { ModuleCreatePage } from "../features/modules/pages/ModuleCreatePage";
 import { ModuleDetailsPage } from "../features/modules/pages/ModuleDetailsPage";
 import { AssignmentPage } from "../features/activities/pages/AssignmentPage";
+import { CourseCreatePage } from "../features/courses/pages/CourseCreatePage";
 
 export function AppRoutes() {
   return (
@@ -34,6 +37,7 @@ export function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/create" element={<CourseCreatePage />} />
           <Route path="/courses/:courseId">
             <Route index element={<CourseDetailsPage />} />
             <Route path="edit" element={<CourseEditPage />} />
@@ -48,6 +52,12 @@ export function AppRoutes() {
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}
+          />
+          <Route path="/resources" element={<ResourcePage />} />
+          <Route path="/resources/create" element={<ResourceEditPage />} />
+          <Route
+            path="/resources/:resourceId/edit"
+            element={<ResourceEditPage />}
           />
 
           <Route path="activities">

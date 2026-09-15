@@ -7,6 +7,8 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourceById;
+using LearningManagementSystemTeamC.Domain.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +37,25 @@ public class ResourcesController : ControllerBase
 
         return Ok(
             ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
+    }
+    /// <summary>
+    /// Gets resourse by id number.
+    /// </summary>
+    /// <param name="resourceId">Id number</param>
+    /// <param name="getResourceByIdHandler">EnpointName GetResourceById</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("resources/{resourceId:guid}")]
+    public async Task<IActionResult> GetResourceById(
+        Guid resourceId,
+        [FromServices] IGetResourceByIdHandler getResourceByIdHandler,
+        CancellationToken cancellationToken)
+    {
+        var resource = await getResourceByIdHandler.HandleAsync(
+            new GetResourceByIdQuery(resourceId),
+            cancellationToken);
+
+        return Ok(ApiResponse<ResourceWithCreatorDto>.Ok(resource));
     }
 
     /// <summary>
@@ -132,5 +153,22 @@ public class ResourcesController : ControllerBase
 
         return Ok(
             ApiResponse<ResourceDto>.Ok(updatedResourceDto));
+    }
+
+
+    [HttpGet("resources/types")]
+    public IActionResult GetResourceTypes()
+    {
+        var resourceTypes = Enum
+            .GetValues<ResourceType>()
+            .Where(resourceType => resourceType != ResourceType.None)
+            .Select(resourceType => new
+            {
+                value = (int)resourceType,
+                name = resourceType.ToString()
+            })
+            .ToList();
+
+        return Ok(ApiResponse<object>.Ok(resourceTypes));
     }
 }

@@ -12,5 +12,8 @@ export async function apiRequest<T>(
     throw new ApiRequestError(result.error);
   }
 
+  // console.log(JSON.stringify(result.data));
+
+
   return result.data;
 }
