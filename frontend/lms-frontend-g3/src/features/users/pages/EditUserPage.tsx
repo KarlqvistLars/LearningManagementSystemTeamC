@@ -8,6 +8,7 @@ import { getUserById, updateUser } from "../api/userApi";
 import type { User } from "../types/types";
 import type { Role } from "../../roles/types/role";
 import { getRoles } from "../../roles/api/roleApi";
+import { ErrorList } from "../../../shared/components/ErrorList";
 
 export function EditUserPage() {
   const { userId } = useParams();
@@ -15,6 +16,7 @@ export function EditUserPage() {
 
   const [user, setUser] = useState<User | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -79,7 +81,14 @@ export function EditUserPage() {
 
       navigate("/users");
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        const validationError = error as Error & {
+          details?: Record<string, string[]>;
+        };
+
+        setErrors(validationError.details ?? {});
+        return;
+      }
     }
   };
 
@@ -107,6 +116,7 @@ export function EditUserPage() {
     <section className="flex h-full flex-col gap-6 p-6">
       <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
         <FormTitle title="Edit User" />
+        <ErrorList errors={errors} variant="form" />
 
         <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
           <div className="grid grid-cols-2 gap-x-10 gap-y-5">
