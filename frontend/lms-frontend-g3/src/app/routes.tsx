@@ -20,6 +20,7 @@ import { ModuleEditPage } from "../features/modules/pages/ModuleEditPage";
 import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
 import { ModuleCreatePage } from "../features/modules/pages/ModuleCreatePage";
 import { ModuleDetailsPage } from "../features/modules/pages/ModuleDetailsPage";
+import { AssignmentPage } from "../features/activities/pages/AssignmentPage";
 
 export function AppRoutes() {
   return (
@@ -37,14 +38,21 @@ export function AppRoutes() {
             <Route index element={<CourseDetailsPage />} />
             <Route path="edit" element={<CourseEditPage />} />
           </Route>
-          <Route path="courses/:courseId/modules" element={<ModulePage />}/> 
-          <Route path="modules/:moduleId" element={<ModuleDetailsPage />}/>
-          <Route path="courses/:courseId/modules/create" element={<ModuleCreatePage />}/>
-          <Route path="modules/:moduleId/edit" element={<ModuleEditPage />}/>
+          <Route path="courses/:courseId/modules" element={<ModulePage />} />
+          <Route path="modules/:moduleId" element={<ModuleDetailsPage />} />
+          <Route
+            path="courses/:courseId/modules/create"
+            element={<ModuleCreatePage />}
+          />
+          <Route path="modules/:moduleId/edit" element={<ModuleEditPage />} />
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}
           />
+
+          <Route path="activities">
+            <Route path="assignments" element={<AssignmentPage />} />
+          </Route>
 
           <Route path="users">
             <Route index element={<UserPage />} />

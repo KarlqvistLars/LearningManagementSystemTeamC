@@ -13,5 +13,5 @@ export async function getActivitiesByModule(
 }
 
 export async function getAssignments(): Promise<ActivityDetailsDto[]> {
-  return apiRequest<ActivityDetailsDto[]>("/assignments");
+  return apiRequest<ActivityDetailsDto[]>("/activities/assignments");
 }
