@@ -123,7 +123,6 @@ export function CourseEditPage() {
                     }
                   />
                 </div>
-
                 <div className="row-span-2">
                   <FormLabel htmlFor="mentor" className="text-white">
                     Mentor

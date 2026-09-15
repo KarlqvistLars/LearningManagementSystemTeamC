@@ -1,18 +1,30 @@
-export interface Resource {
+export interface ResourceDto {
     id: string;
     resourceName: string;
     content: string;
     url: string;
-    createdAt: Date;
+    createdDate: Date;
     type: number;
+    createdBy: string;
+}
+
+export interface ResourceWithCreatorDto {
+    id: string;
+    resourceName: string;
+    content: string;
+    url: string;
+    createdDate: Date;
+    type: number;
+    createdBy: string;
 }
 
 export interface CreateResource {
     resourceName: string;
     content: string;
     url: string;
-    createdAt: Date;
+    createdDate: Date;
     type: number;
+    createdBy: string;
 }
 
 export interface EditResource {
@@ -20,6 +32,7 @@ export interface EditResource {
     resourceName: string;
     content: string;
     url: string;
-    createdAt: Date;
+    createdDate: Date;
     type: number;
+    createdBy: string;
 }

@@ -7,6 +7,7 @@ interface CourseListProps {
 }
 
 export function CourseList({ courses }: CourseListProps) {
+  
   return (
     <div className="flex flex-col gap-2">
       {courses.length > 0 ? (

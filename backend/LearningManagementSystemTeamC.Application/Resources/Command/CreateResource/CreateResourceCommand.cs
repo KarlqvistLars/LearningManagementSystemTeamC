@@ -6,6 +6,6 @@ public record CreateResourceCommand(
     string ResourceName,
     string Content,
     string Url,
-    DateTime CreatedAt,
+    DateTime CreatedDate,
     ResourceType Type
     );

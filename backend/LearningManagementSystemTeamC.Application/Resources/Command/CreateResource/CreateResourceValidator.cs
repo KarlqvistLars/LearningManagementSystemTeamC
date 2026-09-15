@@ -12,8 +12,7 @@ public class CreateResourceValidator : IValidator<CreateResourceCommand>
         if (string.IsNullOrWhiteSpace(command.ResourceName))
         {
             errors[nameof(command.ResourceName)] = new[] { ResourceRules.ResourceNameRequiredMessage };
-        }
-        else if (command.ResourceName.Length > ResourceRules.ResourceNameMaxLength)
+        } else if (command.ResourceName.Length > ResourceRules.ResourceNameMaxLength)
         {
             errors[nameof(command.ResourceName)] = new[] { $"Resource name cannot exceed {ResourceRules.ResourceNameMaxLength} characters." };
         }
@@ -23,9 +22,9 @@ public class CreateResourceValidator : IValidator<CreateResourceCommand>
             errors[nameof(command.Content)] = new[] { ResourceRules.ContentRequiredMessage };
         }
 
-        if (DateTime.UtcNow < command.CreatedAt)
+        if (DateTime.UtcNow < command.CreatedDate)
         {
-            errors[nameof(command.CreatedAt)] = new[] { ResourceRules.CreatedAtCannotBeInTheFutureMessage };
+            errors[nameof(command.CreatedDate)] = new[] { ResourceRules.CreatedDateCannotBeInTheFutureMessage };
         }
 
         if (command.Type == ResourceType.None)

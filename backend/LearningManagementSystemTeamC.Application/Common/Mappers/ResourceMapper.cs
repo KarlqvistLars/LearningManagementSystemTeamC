@@ -12,7 +12,7 @@ public static class ResourceMapper
             resource.ResourceName,
             resource.Content,
             resource.Url,
-            resource.CreatedAt,
+            resource.CreatedDate,
             resource.Type,
             resource.CreatedBy
         );
@@ -26,7 +26,7 @@ public static class ResourceMapper
             resource.ResourceName,
             resource.Content,
             resource.Url,
-            resource.CreatedAt,
+            resource.CreatedDate,
             resource.Type,
             resource.CreatedBy,
             userInfo.FirstName,

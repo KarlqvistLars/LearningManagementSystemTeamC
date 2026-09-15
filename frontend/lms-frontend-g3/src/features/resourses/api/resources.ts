@@ -1,11 +1,11 @@
 import type { ApiResponse } from "../../../api/types";
 import { apiFetch } from "../../../api/client";
-import type { Resource, EditResource, CreateResource } from "../types/interfaces";
-import type { ResourceTypeOption } from "../../modules/types";
+import type { ResourceDto, CreateResource } from "../types";
+import type { ResourceTypeOption } from "../types";
 
 // Fetches modules based on id
-export async function fetchResourcesById(id: string): Promise<Resource> {
-    const result: ApiResponse<Resource> = await apiFetch<Resource>(`/resources/${id}`);
+export async function fetchResourcesById(id: string): Promise<ResourceDto> {
+    const result: ApiResponse<ResourceDto> = await apiFetch<ResourceDto>(`/resources/${id}`);
     if (!result.success) {
         throw new Error(result.error?.message || "Failed to fetch resource");
     }
@@ -14,8 +14,8 @@ export async function fetchResourcesById(id: string): Promise<Resource> {
 }
 
 // Fetches resources by activity id
-export async function fetchResources(activityId: string): Promise<Resource[]> {
-    const result: ApiResponse<Resource[]> = await apiFetch<Resource[]>(`/resources/activity/${activityId}`);
+export async function fetchResources(activityId: string): Promise<ResourceDto[]> {
+    const result: ApiResponse<ResourceDto[]> = await apiFetch<ResourceDto[]>(`/resources/activity/${activityId}`);
     if (!result.success) {
         throw new Error(result.error?.message || "Failed to fetch resources");
     }
@@ -24,8 +24,8 @@ export async function fetchResources(activityId: string): Promise<Resource[]> {
 }
 
 // Creates a module
-export async function createResource(resource: CreateResource): Promise<Resource> {
-    const result: ApiResponse<Resource> = await apiFetch<Resource>(`/resources`,
+export async function createResource(resource: CreateResource): Promise<ResourceDto> {
+    const result: ApiResponse<ResourceDto> = await apiFetch<ResourceDto>(`/resources`,
         {
             method: "POST",
             body: JSON.stringify(resource),
@@ -56,8 +56,8 @@ export async function createResource(resource: CreateResource): Promise<Resource
 }
 
 // Edits a resource
-export async function editResource(resource: EditResource): Promise<Resource> {
-    const result: ApiResponse<Resource> = await apiFetch<Resource>(`/resources`,
+export async function editResource(resource: ResourceDto): Promise<ResourceDto> {
+    const result: ApiResponse<ResourceDto> = await apiFetch<ResourceDto>(`/resources`,
         {
             method: "PUT",
             body: JSON.stringify(resource),

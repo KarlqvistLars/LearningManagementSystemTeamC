@@ -1,5 +1,6 @@
+import { apiFetch } from "../../../api/client";
 import { apiRequest } from "../../../api/request";
-import type { ResourceDto, ResourceWithCreatorDto } from "../types";
+import type { ResourceDto, ResourceTypeOption, ResourceWithCreatorDto } from "../types";
 
 export async function getResourcesByActivity(
   activityId: string,
@@ -36,4 +37,19 @@ export async function updateResource(
     },
     body: JSON.stringify(resource),
   });
+}
+
+export async function getResourceTypes(): Promise<
+  ResourceTypeOption[]
+> {
+  const result =
+    await apiFetch<ResourceTypeOption[]>("/resources/types");
+
+  if (!result.success) {
+    throw new Error(
+      result.error.message || "Failed to load resource types"
+    );
+  }
+
+  return result.data;
 }

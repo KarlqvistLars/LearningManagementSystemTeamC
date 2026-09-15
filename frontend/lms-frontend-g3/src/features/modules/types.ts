@@ -23,8 +23,3 @@ export interface EditModule {
     endDate: Date;
     courseId: string;
 }
-
-export interface ResourceTypeOption {
-    value: number;
-    name: string;
-}

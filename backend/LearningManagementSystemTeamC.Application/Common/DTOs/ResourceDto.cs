@@ -7,7 +7,7 @@ public record ResourceDto(
     string ResourceName,
     string Content,
     string? Url,
-    DateTime CreatedAt,
+    DateTime CreatedDate,
     ResourceType Type,
     Guid CreatedBy
 );
@@ -17,7 +17,7 @@ public record ResourceWithCreatorDto(
     string ResourceName,
     string Content,
     string? Url,
-    DateTime CreatedAt,
+    DateTime CreatedDate,
     ResourceType Type,
     Guid CreatedBy,
     string CreatedByFirstName,
