@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
@@ -41,7 +42,8 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetUsers([FromServices] IGetUsersHandler getUsersHandler, CancellationToken cancellationToken)
     {
-        var userDtos = await getUsersHandler.HandleAsync(new GetUsersQuery(), cancellationToken);
+        var userRole = User.GetRole();
+        var userDtos = await getUsersHandler.HandleAsync(new GetUsersQuery(), userRole, cancellationToken);
         return Ok(ApiResponse<IReadOnlyList<UserDto>>.Ok(userDtos));
     }
 
@@ -62,7 +64,8 @@ public class UsersController : ControllerBase
         [FromServices] IValidator<UpdateUserCommand> updateUserValidator,
         CancellationToken cancellationToken)
     {
-        var commandWithId = command with {
+        var commandWithId = command with
+        {
             UserId = id
         };
 

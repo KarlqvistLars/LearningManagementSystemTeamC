@@ -23,6 +23,11 @@ public class UserRepository : IUserRepository
         return await _context.Users.ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<User>> GetAllActiveAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Users.Where(u => u.IsActive).ToListAsync(cancellationToken);
+    }
+
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
