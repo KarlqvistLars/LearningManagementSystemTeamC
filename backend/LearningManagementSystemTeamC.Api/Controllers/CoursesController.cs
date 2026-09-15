@@ -77,20 +77,17 @@ public class CoursesController : ControllerBase
         [FromServices] IValidator<UpdateCourseCommand> updateCourseValidator,
         CancellationToken cancellationToken)
     {
-        var commandWithId = command with
-        {
-            Id = id
-        };
+        var commandWithId = command with { Id = id };
 
-        var details = updateCourseValidator.Validate(commandWithId);
+        var validationResult = updateCourseValidator.Validate(commandWithId);
 
-        if (details.Count > 0)
+        if (validationResult.Count > 0)
         {
             return BadRequest(
                 ApiResponse<Dictionary<string, string[]>>.Fail(
                     ExceptionConstants.ValidationFailedCode,
                     ExceptionConstants.DefaultExceptionMessage,
-                    details));
+                    validationResult));
         }
 
         var courseDto = await updateCourseHandler.Handle(commandWithId, cancellationToken);

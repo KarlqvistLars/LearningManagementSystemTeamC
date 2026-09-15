@@ -16,8 +16,7 @@ public class CreateChatRoomValidator : IValidator<CreateChatRoomCommand>
             [
                 ChatRoomRules.NameRequiredMessage
             ];
-        }
-        else if (command.Name.Length > ChatRoomRules.ChatRoomNameMaxLength)
+        } else if (command.Name.Length > ChatRoomRules.ChatRoomNameMaxLength)
         {
             errors[nameof(command.Name)] =
             [

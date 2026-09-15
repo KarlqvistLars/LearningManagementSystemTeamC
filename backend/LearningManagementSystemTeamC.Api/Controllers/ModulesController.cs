@@ -34,7 +34,7 @@ public class ModulesController : ControllerBase
     }
 
     [HttpGet("course/{courseId:guid}")]
-    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModulesByCourseId(Guid courseId,
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<ModuleDto>>>> GetModuleByCourseId(Guid courseId,
         [FromServices] IGetModulesHandler getModuleHandler,
         CancellationToken cancellationToken)
     {

@@ -62,8 +62,7 @@ public class UsersController : ControllerBase
         [FromServices] IValidator<UpdateUserCommand> updateUserValidator,
         CancellationToken cancellationToken)
     {
-        var commandWithId = command with
-        {
+        var commandWithId = command with {
             UserId = id
         };
 

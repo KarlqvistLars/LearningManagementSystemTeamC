@@ -1,0 +1,112 @@
+using LearningManagementSystemTeamC.Api.Common.Constants;
+using LearningManagementSystemTeamC.Api.Common.Contracts;
+using LearningManagementSystemTeamC.Api.Common.Extensions;
+using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
+using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
+using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LearningManagementSystemTeamC.Api.Controllers;
+
+[ApiController]
+[Authorize(Policy = PolicyConstants.AuthenticatedUser)]
+[Route("api")]
+public class ResourcesController : ControllerBase
+{
+    public ResourcesController() { }
+
+    [HttpGet("resources")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
+    public async Task<IActionResult> GetAllResources(
+        [FromServices] IGetAllResourcesHandler getAllResourcesHandler,
+        CancellationToken cancellationToken)
+    {
+        var resources = await getAllResourcesHandler.HandleAsync(
+            new GetAllResourcesQuery(),
+            cancellationToken);
+
+        return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
+    }
+
+    [HttpGet("activities/{activityId}/resources")]
+    public async Task<IActionResult> GetResourceByActivityId(
+        Guid activityId,
+        [FromServices] IGetResourcesByActivityIdHandler getResourcesByActivityIdHandler,
+        CancellationToken cancellationToken)
+    {
+        var resources = await getResourcesByActivityIdHandler.HandleAsync(
+            new GetResourcesByActivityIdQuery(activityId),
+            cancellationToken);
+
+        return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
+    }
+
+    [HttpPost("resources")]
+    public async Task<IActionResult> Create(
+        [FromBody] CreateResourceCommand command,
+        [FromServices] ICreateResourceHandler createResourceHandler,
+        [FromServices] IValidator<CreateResourceCommand> createResourceValidator,
+        CancellationToken cancellationToken)
+    {
+        var userId = User.GetUserId();
+        var userRole = User.GetRole();
+
+        var validationResult =
+            createResourceValidator.Validate(command);
+        if (validationResult.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<ResourceDto>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    validationResult)
+                );
+        }
+
+        var resourceDto = await createResourceHandler.HandleAsync(
+            command,
+            userId,
+            userRole,
+            cancellationToken);
+
+        return Ok(ApiResponse<ResourceDto>.Ok(resourceDto));
+    }
+
+    [HttpPut("resources/{resourceId:guid}")]
+    public async Task<IActionResult> Update(
+        Guid resourceId,
+        [FromBody] UpdateResourceCommand command,
+        [FromServices] IUpdateResourceHandler updateResourceHandler,
+        [FromServices] IValidator<UpdateResourceCommand> updateResourceValidator,
+        CancellationToken cancellationToken)
+    {
+        var commandWithId = command with { ResourceId = resourceId };
+
+        var validationResult =
+            updateResourceValidator.Validate(commandWithId);
+        if (validationResult.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<ResourceDto>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    validationResult)
+                );
+        }
+
+        var userId = User.GetUserId();
+        var roleCode = User.GetRole();
+
+        var updatedResourceDto = await updateResourceHandler.HandleAsync(
+            commandWithId,
+            userId,
+            roleCode,
+            cancellationToken);
+
+        return Ok(ApiResponse<ResourceDto>.Ok(updatedResourceDto));
+    }
+}
