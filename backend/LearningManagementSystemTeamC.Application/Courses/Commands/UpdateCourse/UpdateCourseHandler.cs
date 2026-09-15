@@ -28,7 +28,7 @@ public class UpdateCourseHandler : IUpdateCourseHandler
                 CourseRules.CourseNotFoundCode, 
                 CourseRules.CourseNotFoundMessage);
 
-        course.Update(command.Name, command.Description, command.StartDate, command.EndDate);
+        course.Update(command.CourseName, command.Description, command.StartDate, command.EndDate);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return CourseMapper.CourseToDto(course);

@@ -14,15 +14,18 @@ public class GetEnrollmentsByCourseIdHandler : IGetEnrollmentsByCourseIdHandler
     private readonly IEnrollmentRepository _enrollmentRepository;
     private readonly IUserRepository _userRepository;
     private readonly ICourseRepository _courseRepository;
+    private readonly IUserInfoRepository _userInfoRepository;
 
     public GetEnrollmentsByCourseIdHandler(
         IEnrollmentRepository enrollmentRepository,
         IUserRepository userRepository,
-        ICourseRepository courseRepository)
+        ICourseRepository courseRepository,
+        IUserInfoRepository userInfoRepository)
     {
         _enrollmentRepository = enrollmentRepository;
         _userRepository = userRepository;
         _courseRepository = courseRepository;
+        _userInfoRepository = userInfoRepository;
     }
 
     public async Task<IEnumerable<CourseEnrollmentDto>> Handle(GetEnrollmentsByCourseIdQuery query, CancellationToken cancellationToken)
@@ -37,8 +40,13 @@ public class GetEnrollmentsByCourseIdHandler : IGetEnrollmentsByCourseIdHandler
 
         var result = await _enrollmentRepository.GetByCourseIdAsync(query.CourseId, cancellationToken);
         var enrolledStudents = result.Select(e => e.UserId).ToList();
+        var userInfos = await _userInfoRepository.GetAllAsync(cancellationToken);
         var users = await _userRepository.GetUsersByIdsAsync(enrolledStudents, cancellationToken);
-        // Change to user name when UserInfo is implemented
-        return result.Select(e => EnrollmentMapper.CourseEnrollmentToDto(e, users.FirstOrDefault(u => u.Id == e.UserId)?.Email ?? string.Empty));
+        return result.Select(e => 
+        {
+            var userInfo = userInfos.FirstOrDefault(u => u.UserId == e.UserId);
+            var fullName = userInfo != null ? $"{userInfo.FirstName} {userInfo.LastName}" : string.Empty;
+            return EnrollmentMapper.CourseEnrollmentToDto(e, fullName);
+        });
     }
 }

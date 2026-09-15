@@ -15,7 +15,7 @@ public class CourseRepository : ICourseRepository
 
     public async Task<IEnumerable<Course>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _context.Courses.ToListAsync(cancellationToken);
+        return await _context.Courses.OrderBy(course => course.StartDate).ToListAsync(cancellationToken);
     }
 
     public async Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -31,6 +31,7 @@ public class CourseRepository : ICourseRepository
     {
         return await _context.Courses
             .Where(course => ids.Contains(course.Id))
+            .OrderBy(course => course.StartDate)
             .ToListAsync(cancellationToken);
     }
 
