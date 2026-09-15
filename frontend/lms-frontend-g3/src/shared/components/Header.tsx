@@ -22,7 +22,11 @@ export function Header() {
               {initial}
             </div>
 
-            <MenuFullName firstName={user.firstName} lastName={user.lastName} />
+            <MenuFullName
+              userId={user?.id}
+              firstName={user.firstName}
+              lastName={user.lastName}
+            />
           </Link>
         )}
       </div>
