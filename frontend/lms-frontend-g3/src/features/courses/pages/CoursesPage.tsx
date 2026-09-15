@@ -1,5 +1,6 @@
 import { CourseList } from "../components/courseList";
 import { useAuth } from "../../auth/AuthContext";
+import { useNavigate } from "react-router";
 import { Suspense } from "react";
 import { SearchInput } from "../../../shared/components/SearchInput";
 import { DisplayText } from "../../../shared/components/DisplayText";
@@ -10,6 +11,7 @@ import type { Course } from "../types";
 
 export function CoursesPage() {
   const { user, isTeacher } = useAuth();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const search = searchTerm.toLowerCase();
   const [courses, setCourses] = useState<Course[]>([]);
@@ -54,12 +56,9 @@ export function CoursesPage() {
       <Suspense fallback={<DisplayText text="Loading courses..." />}>
         <CourseList courses={filteredCourses} />
       </Suspense>
-      <div className="self-center mt-auto">
+      <div className="self-center mt-auto pb-6">
         {isTeacher && (
-          <Button
-            variant="list"
-            onClick={() => alert("Create new course clicked")}
-          >
+          <Button variant="list" onClick={() => navigate("/courses/create")}>
             Create new course
           </Button>
         )}
