@@ -6,15 +6,19 @@ import { Button } from "../../../shared/components/Button";
 import { useNavigate } from "react-router";
 import { getOrCreateChatRoom } from "../../chat/api/chatRoomApi";
 import { useAuth } from "../../auth/AuthContext";
+import type { ApiError } from "../../../api/types";
+import { ApiRequestError } from "../../../api/error";
 
 interface UserListItemProps {
   user: User;
   onToggleStatus: (userId: string) => void;
+  onError: (error: ApiError) => void;
 }
 
 export function UserListItem({
   user: listedUser,
   onToggleStatus,
+  onError,
 }: UserListItemProps) {
   const navigate = useNavigate();
   const { isTeacher } = useAuth();
@@ -28,7 +32,9 @@ export function UserListItem({
       const chatRoom = await getOrCreateChatRoom(listedUser.id);
       navigate(`/chat/${chatRoom.id}`);
     } catch (error) {
-      console.error(error);
+      if (error instanceof ApiRequestError) {
+        onError(error);
+      }
     }
   };
 
