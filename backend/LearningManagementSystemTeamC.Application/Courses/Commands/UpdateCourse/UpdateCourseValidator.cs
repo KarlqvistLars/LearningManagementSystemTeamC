@@ -31,8 +31,7 @@ public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
             [
                 CourseRules.DescriptionRequiredMessage
             ];
-        }
-        else if (command.Description.Length > CourseRules.DescriptionMaxLength)
+        } else if (command.Description.Length > CourseRules.DescriptionMaxLength)
         {
             errors[nameof(command.Description)] =
             [

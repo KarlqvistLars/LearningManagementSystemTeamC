@@ -29,7 +29,7 @@ public class GetActivitiesByModuleIdHandlerTests
             DateTime.Parse("2024-06-02"),
             courseId);
 
-        var activities = new List<Activity>
+        var activities = new List<ActivityResource>
         {
             new(
                 "Introduction to C#",
@@ -136,7 +136,7 @@ public class GetActivitiesByModuleIdHandlerTests
             DateTime.Parse("2024-06-02"),
             courseId);
 
-        var activities = new List<Activity>
+        var activities = new List<ActivityResource>
         {
             new(
                 "Introduction to C#",

@@ -4,5 +4,6 @@ namespace LearningManagementSystemTeamC.Application.Activities;
 
 public interface IActivityRepository
 {
-    Task<IReadOnlyList<Activity>> GetActivitiesByModuleIdAsync(Guid moduleId);
+    Task AddAsync(Activity activity, CancellationToken cancellationToken);
+    Task<IReadOnlyList<Activity>> GetActivitiesByModuleIdAsync(Guid moduleId, CancellationToken cancellationToken);
 }

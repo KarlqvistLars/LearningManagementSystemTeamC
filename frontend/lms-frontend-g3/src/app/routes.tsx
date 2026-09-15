@@ -7,7 +7,6 @@ import { NotFoundPage } from "../features/not-found/NotFoundPage";
 import { LoginPage } from "../features/auth/pages/LoginPage";
 import { RegisterPage } from "../features/auth/pages/RegisterPage";
 import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
-import { CourseModulesPage } from "../features/modules/pages/CourseModulesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
 import { ModulePage } from "../features/modules/pages/ModulePage";
 import { ForgotPasswordPage } from "../features/auth/pages/ForgotPasswordPage";
@@ -16,6 +15,7 @@ import { UserPage } from "../features/users/pages/UserPage";
 import { EditUserPage } from "../features/users/pages/EditUserPage";
 import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
+import { ChatPage } from "../features/chat/pages/ChatPage";
 import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
 
 export function AppRoutes() {
@@ -44,6 +44,11 @@ export function AppRoutes() {
             <Route index element={<UserPage />} />
             <Route path="create" element={<CreateUserPage />} />
             <Route path=":userId/edit" element={<EditUserPage />} />
+          </Route>
+
+          <Route path="chat">
+            <Route index element={<ChatPage />} />
+            <Route path=":chatRoomId" element={<ChatPage />} />
           </Route>
         </Route>
       </Route>

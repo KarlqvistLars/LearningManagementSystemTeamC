@@ -1,4 +1,4 @@
-using LearningManagementSystemTeamC.Domain.Activities;
+﻿using LearningManagementSystemTeamC.Domain.Activities;
 using LearningManagementSystemTeamC.Domain.Modules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

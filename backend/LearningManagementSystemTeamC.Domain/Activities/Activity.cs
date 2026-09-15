@@ -6,68 +6,73 @@ public class Activity
 {
     public Guid Id { get; set; }
     public string ActivityName { get; set; }
-    public ActivityType Type { get; set; }
     public string Description { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    public ActivityType Type { get; set; }
     public Guid ModuleId { get; set; }
 
     public Activity(
         string activityName,
-        ActivityType type,
         string description,
         DateTime startDate,
         DateTime endDate,
+        ActivityType type,
         Guid moduleId)
     {
         Validate(
             activityName,
-            type,
             description,
             startDate,
             endDate,
+            type,
             moduleId);
 
         Id = Guid.NewGuid();
         ActivityName = activityName;
-        Type = type;
         Description = description;
         StartDate = startDate;
         EndDate = endDate;
+        Type = type;
         ModuleId = moduleId;
     }
 
     private static void Validate(
         string activityName,
-        ActivityType type,
         string description,
         DateTime startDate,
         DateTime endDate,
+        ActivityType type,
         Guid moduleId)
     {
         if (string.IsNullOrWhiteSpace(activityName))
             throw new DomainException(
-                ActivityRules.ActivityNameRequiredCode,
-                nameof(activityName));
+                nameof(activityName),
+                ActivityRules.ActivityNameRequiredMessage
+                );
 
         if (!Enum.IsDefined(typeof(ActivityType), type))
             throw new DomainException(
-                ActivityRules.ActivityTypeRequiredCode,
-                nameof(type));
+                nameof(type),
+                ActivityRules.ActivityTypeRequiredMessage
+                );
 
         if (string.IsNullOrWhiteSpace(description))
             throw new DomainException(
-                ActivityRules.ActivityDescriptionRequiredCode,
-                nameof(description));
+                nameof(description),
+                ActivityRules.ActivityDescriptionRequiredMessage
+                );
 
-        if (endDate <= startDate)
+        if (endDate < startDate)
             throw new DomainException(
-                ActivityRules.ActivityEndBeforeStartTimeCode,
-                nameof(endDate));
+                nameof(endDate),
+                ActivityRules.ActivityEndBeforeStartTimeMessage
+                );
 
         if (moduleId == Guid.Empty)
             throw new DomainException(
-                ActivityRules.ModuleIdRequiredMessage,
-                nameof(moduleId));
+                nameof(moduleId),
+                ActivityRules.ModuleIdRequiredMessage
+                );
     }
 }

@@ -49,7 +49,7 @@ public class GetActivitiesByModuleIdHandler : IGetActivitiesByModuleIdHandler
             }
         }
 
-        var activities = await _activityRepository.GetActivitiesByModuleIdAsync(query.ModuleId);
+        var activities = await _activityRepository.GetActivitiesByModuleIdAsync(query.ModuleId, cancellationToken);
 
         return activities
             .Select(ActivityMapper.ActivityToDto)
