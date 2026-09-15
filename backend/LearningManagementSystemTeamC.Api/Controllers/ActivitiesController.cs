@@ -2,6 +2,7 @@ using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
+using LearningManagementSystemTeamC.Application.Activities.Command.EditActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
@@ -56,6 +57,7 @@ public class ActivitiesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Create(
         CreateActivityCommand command,
         [FromServices] ICreateActivityHandler createActivityHandler,
@@ -80,5 +82,34 @@ public class ActivitiesController : ControllerBase
             nameof(GetByModuleAndActivity),
             new { moduleId = command.ModuleId, activityId = activityDto.Id },
             ApiResponse<ActivityDto>.Ok(activityDto));
+    }
+
+    [HttpPut("{activityId:guid}")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
+    public async Task<IActionResult> Edit(
+        Guid moduleId,
+        Guid activityId,
+        EditActivityCommand command,
+        [FromServices] IEditActivityHandler editActivityHandler,
+        [FromServices] IValidator<EditActivityCommand> editActivityValidator,
+        CancellationToken cancellationToken)
+    {
+        var editCommand = command with { Id = activityId, ModuleId = moduleId };
+
+        var validationResult = editActivityValidator.Validate(editCommand);
+        if (validationResult.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<ActivityDto>.Fail(
+                ExceptionConstants.ValidationFailedCode,
+                ExceptionConstants.ValidationFailedMessage,
+                validationResult));
+        }
+
+        var activityDto = await editActivityHandler.Handle(
+            editCommand,
+            cancellationToken);
+
+        return Ok(ApiResponse<ActivityDto>.Ok(activityDto));
     }
 }
