@@ -133,7 +133,7 @@ public class ModulesControllerTests
 
         // Act
 
-        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
