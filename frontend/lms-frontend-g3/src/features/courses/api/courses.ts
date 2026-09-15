@@ -1,6 +1,6 @@
 import type { ApiResponse } from "../../../api/types";
 import { apiFetch } from "../../../api/client";
-import type { Course, EnrollmentDto } from "../types";
+import type { Course, CourseDto, EnrollmentDto } from "../types";
 import type { User } from "../../users/types/types";
 
 export async function fetchCourses(): Promise<Course[]> {
@@ -41,7 +41,7 @@ export async function editCourse(course: Course): Promise<Course> {
     return result.data;
 }
 
-export async function createCourse(course: Course): Promise<Course> {
+export async function createCourse(course: CourseDto): Promise<Course> {
     const result: ApiResponse<Course> = await apiFetch<Course>(`/courses`, {
         method: "POST",
         body: JSON.stringify(course),
