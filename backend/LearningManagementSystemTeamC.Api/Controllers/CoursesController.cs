@@ -113,14 +113,9 @@ public class CoursesController : ControllerBase
     }
 
     [HttpGet("{courseId}/enrollments")]
-    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> GetEnrollmentsByCourseId(Guid courseId, [FromServices] IGetEnrollmentsByCourseIdHandler getEnrollmentsByCourseIdHandler, CancellationToken cancellationToken)
     {
         var enrollments = await getEnrollmentsByCourseIdHandler.Handle(new GetEnrollmentsByCourseIdQuery(courseId), cancellationToken);
-        if (!enrollments.Any())
-        {
-            return NotFound(ApiResponse<IEnumerable<CourseEnrollmentDto>>.Fail(ExceptionConstants.NotFoundCode, ExceptionConstants.NotFoundMessage));
-        }
         return Ok(ApiResponse<IEnumerable<CourseEnrollmentDto>>.Ok(enrollments));
     }
 

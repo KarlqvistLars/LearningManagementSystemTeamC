@@ -1,8 +1,13 @@
 import { useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
-import type { Course } from "../types";
+import type { Course, EnrollmentDto } from "../types";
+import type { UserSimplified } from "../../users/types/types";
 import { useAuth } from "../../auth/AuthContext";
-import { fetchCourseById } from "../api/courses";
+import {
+  fetchCourseById,
+  fetchEnrollmentsByCourse,
+  fetchMentorsByCourse,
+} from "../api/courses";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { Button } from "../../../shared/components/Button";
 
@@ -11,6 +16,8 @@ export function CourseDetailsPage() {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const [course, setCourse] = useState<Course | null>(null);
+  const [enrollments, setEnrollments] = useState<EnrollmentDto[]>([]);
+  const [mentors, setMentors] = useState<UserSimplified[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,6 +40,33 @@ export function CourseDetailsPage() {
     }
   }, [loading, courseId]);
 
+  useEffect(() => {
+    async function loadEnrollments() {
+      if (course && course.id) {
+        try {
+          const enrollmentsFetched = await fetchEnrollmentsByCourse(course.id);
+          setEnrollments(enrollmentsFetched);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
+    async function loadMentors() {
+      if (course && course.id) {
+        try {
+          const mentorsFetched = await fetchMentorsByCourse(course.id);
+          setMentors(mentorsFetched);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
+    //loadMentors();
+    loadEnrollments();
+  }, [course]);
+
   return (
     <section className="flex h-full flex-col gap-6 p-6">
       <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
@@ -52,12 +86,20 @@ export function CourseDetailsPage() {
                 </span>
               </div>
 
-              <div className="row-span-2">
+              <div className="row-span-auto">
                 <span className="text-white mb-1 block text-base font-medium block">
                   Mentors
                 </span>
                 <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  John Doe
+                  {mentors && mentors.length > 0 ? (
+                    mentors.map((mentor) => (
+                      <span
+                        key={mentor.id}
+                      >{`${mentor.firstName} ${mentor.lastName}`}</span>
+                    ))
+                  ) : (
+                    <span>No mentors assigned</span>
+                  )}
                 </span>
               </div>
 
@@ -70,6 +112,23 @@ export function CourseDetailsPage() {
                 </span>
               </div>
 
+              <div className="row-span-auto">
+                <span className="text-white mb-1 block text-base font-medium block">
+                  Students
+                </span>
+                <div className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
+                  {enrollments && enrollments.length > 0 ? (
+                    enrollments.map((enrollment) => (
+                      <span key={enrollment.studentId}>
+                        {enrollment.studentName}
+                      </span>
+                    ))
+                  ) : (
+                    <span>No students enrolled</span>
+                  )}
+                </div>
+              </div>
+
               <div>
                 <span className="text-white mb-1 block text-base font-medium block">
                   End date
@@ -79,16 +138,7 @@ export function CourseDetailsPage() {
                 </span>
               </div>
 
-              <div className="row-span-2">
-                <span className="text-white mb-1 block text-base font-medium block">
-                  Students
-                </span>
-                <span className="text-lg w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text block">
-                  John Doe
-                </span>
-              </div>
-
-              <div className="row-span-4">
+              <div className="row-span-auto col-span-2">
                 <span className="text-white mb-1 block text-base font-medium block">
                   Description
                 </span>

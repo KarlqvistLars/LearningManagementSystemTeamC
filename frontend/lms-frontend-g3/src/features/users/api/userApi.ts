@@ -1,6 +1,6 @@
 import type { ApiResponse } from "../../../api/types";
 import { apiFetch } from "../../../api/client";
-import type { User } from "../types/types";
+import type { User, UserSimplified } from "../types/types";
 
 export async function getUsers(): Promise<User[]> {
   const result: ApiResponse<User[]> = await apiFetch<User[]>("/users");
@@ -88,6 +88,16 @@ export async function createUser(data: {
     });
 
     throw error;
+  }
+
+  return result.data;
+}
+
+export async function fetchActiveUsersByRole(role: string): Promise<UserSimplified[]> {
+  const result: ApiResponse<UserSimplified[]> = await apiFetch<UserSimplified[]>(`/users/${role}`);
+
+  if (!result.success) {
+    throw new Error(result.error?.message || "Failed to fetch users");
   }
 
   return result.data;
