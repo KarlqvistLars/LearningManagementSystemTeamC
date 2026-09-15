@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ResourceDto, CreateResource } from "../types";
 import { useAuth } from "../../auth/AuthContext";
-import { createResource, updateResource, getResourceTypes } from "../api/index";
+import { useNavigate } from "react-router";
+import { createResource, updateResource, getResourceTypes, getResourceById } from "../api/index";
 import { FormInput } from "../../../shared/components/FormInput";
 import { Button } from "../../../shared/components/Button";
 import { FormLabel } from "../../../shared/components/FormLabel";
@@ -19,6 +20,7 @@ export function ResourceForm({
   resource,
   onResourceSaved,
 }: ResourceFormProps) {
+  const resourceProp = resource;
   const { user } = useAuth();
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
@@ -33,6 +35,11 @@ export function ResourceForm({
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const reroute = useNavigate();
+
+  const currentResourceId = window.location.pathname.split("/") ?? "";
+  const currentResourceIdValue = currentResourceId[currentResourceId.length - 2];
 
   useEffect(() => {
     async function loadData() {
@@ -65,20 +72,23 @@ export function ResourceForm({
     setIsSubmitting(true);
 
     try {
-      if (resource) {
+
+      if (isEditing) {
+
         const edit: ResourceDto = {
-          id: resource.id,
+          id: currentResourceIdValue ?? "",
           resourceName: name,
           content: content,
           url: url,
-          createdDate: resource.createdDate,
+          createdDate: resourceProp?.createdDate ?? "",
           type: type,
-          createdBy: resource.createdBy,
+          createdBy: resourceProp?.createdBy ?? "",
         };
 
         await updateResource(edit.id, edit);
 
         setMessage("Resource updated successfully!");
+
       } else {
         if (!user) {
           setError("You must be logged in to create a resource.");
@@ -104,6 +114,7 @@ export function ResourceForm({
       setUrl("");
       setCreatedDate("");
       onResourceSaved();
+      reroute("/resources");
     } catch (error) {
       console.error(error);
       setError(resource ? "Couldn't update resource." : "Couldn't create resource.");
@@ -137,7 +148,7 @@ export function ResourceForm({
     <div>
       <section className="flex flex-col gap-8 p-6">
         <div className="gap-8 rounded-lg border border-border bg-menu px-10 py-5">
-          <FormTitle title={resource ? "Edit Resource" : "Create Resource"} />
+          <FormTitle title={isEditing ? "Edit Resource" : "Create Resource"} />
           <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
             <div className="grid grid-cols-2 grid-rows-[auto_1fr] gap-x-10 gap-y-5">
               {/* Överst till vänster */}
@@ -219,7 +230,7 @@ export function ResourceForm({
             {/* Submit */}
             <div className="my-6">
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Submit resource"}
+                {isSubmitting ? "Submitting..." : isEditing ? "Update resource" : "Submit resource"}
               </Button>
             </div>
 

@@ -33,7 +33,13 @@ public class ResourcesController : ControllerBase
 
         return Ok(ApiResponse<IReadOnlyList<ResourceWithCreatorDto>>.Ok(resources));
     }
-
+    /// <summary>
+    /// Gets resourse by id number.
+    /// </summary>
+    /// <param name="resourceId">Id number</param>
+    /// <param name="getResourceByIdHandler">EnpointName GetResourceById</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpGet("resources/{resourceId:guid}")]
     public async Task<IActionResult> GetResourceById(
         Guid resourceId,
