@@ -181,7 +181,7 @@ public class ModulesControllerTests
 
         // Act
 
-        var result = await _controller.GetModulesByCourseId(courseId, _mockGetModulesHandler.Object,
+        var result = await _controller.GetModuleByCourseId(courseId, _mockGetModulesHandler.Object,
         CancellationToken.None);
 
         // Assert
@@ -223,7 +223,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<CreateModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(new Dictionary<string, string[]>());
+        mockValidator.Setup(x => x.Validate(command));
         _mockCreateModuleHandler.Setup(x => x.Handle(command, It.IsAny<CancellationToken>())).ReturnsAsync(moduleDto);
 
         // Act
@@ -241,7 +241,7 @@ public class ModulesControllerTests
         Assert.Equal(moduleDto, response.Data);
 
         _mockCreateModuleHandler.Verify(x => x.Handle(command, It.IsAny<CancellationToken>()), Times.Once);
-        mockValidator.Verify(x => x.Validate(command, It.IsAny<CancellationToken>()), Times.Once);
+        mockValidator.Verify(x => x.Validate(command), Times.Once);
     }
 
     [Fact]
@@ -266,7 +266,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<CreateModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(validationErrors);
+        mockValidator.Setup(x => x.Validate(command));
 
         // Act
         var result = await _controller.Create(command, _mockCreateModuleHandler.Object, mockValidator.Object, CancellationToken.None);
@@ -311,7 +311,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(new Dictionary<string, string[]>());
+        mockValidator.Setup(x => x.Validate(command));
         _mockEditModuleHandler.Setup(x => x.Handle(command, It.IsAny<CancellationToken>())).ReturnsAsync(moduleDto);
 
         // Act
@@ -357,7 +357,7 @@ public class ModulesControllerTests
 
         var mockValidator = new Mock<IValidator<EditModuleCommand>>();
 
-        mockValidator.Setup(x => x.Validate(command, It.IsAny<CancellationToken>())).Returns(validationErrors);
+        mockValidator.Setup(x => x.Validate(command));
 
         // Act
         var result = await _controller.Edit(command, _mockEditModuleHandler.Object, mockValidator.Object, CancellationToken.None);
