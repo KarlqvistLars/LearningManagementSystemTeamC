@@ -6,5 +6,5 @@ public record UpdateResourceCommand(
     Guid ResourceId,
     string ResourceName,
     string Content,
-    string Url,
+    string? Url,
     ResourceType Type);

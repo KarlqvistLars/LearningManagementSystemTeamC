@@ -78,7 +78,6 @@ public class ResourcesController : ControllerBase
     }
 
     [HttpPut("resources/{resourceId:guid}")]
-    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Update(
         Guid resourceId,
         [FromBody] UpdateResourceCommand command,
@@ -99,14 +98,16 @@ public class ResourcesController : ControllerBase
                     validationResult)
                 );
         }
-        var updatedResourceDto = await updateResourceHandler.Handle(
+
+        var userId = User.GetUserId();
+        var roleCode = User.GetRole();
+
+        var updatedResourceDto = await updateResourceHandler.HandleAsync(
             commandWithId,
+            userId,
+            roleCode,
             cancellationToken);
 
-        if (updatedResourceDto is null)
-        {
-            return NotFound();
-        }
         return Ok(ApiResponse<ResourceDto>.Ok(updatedResourceDto));
     }
 }

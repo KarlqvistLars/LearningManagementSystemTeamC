@@ -45,5 +45,8 @@
         public const string InvalidStudentResourceTypeCode = "INVALID_STUDENT_RESOURCE_TYPE";
         public const string InvalidStudentResourceTypeMessage = "Students can only create submission resources.";
 
+        public const string ResourceUpdateNotAllowedCode = "RESOURCE_UPDATE_NOT_ALLOWED";
+        public const string ResourceUpdateNotAllowedMessage = "You are not allowed to update this resource.";
+
     }
 }
