@@ -30,9 +30,19 @@ public class UpdateUserHandler : IUpdateUserHandler
     }
 
     public async Task<UserDto> HandleAsync(
-        UpdateUserCommand command,
-        CancellationToken cancellationToken)
+    UpdateUserCommand command,
+    Guid currentUserId,
+    string roleCode,
+    CancellationToken cancellationToken)
     {
+        if (roleCode == RoleRules.StudentRoleCode &&
+            command.UserId != currentUserId)
+        {
+            throw new DomainException(
+                UserRules.CannotUpdateOtherUserCode,
+                UserRules.CannotUpdateOtherUserMessage);
+        }
+
         var existingUser = await _userRepository.GetByIdAsync(
             command.UserId,
             cancellationToken)
@@ -62,15 +72,24 @@ public class UpdateUserHandler : IUpdateUserHandler
         var lastName =
             StringNormalizer.NormalizeName(command.LastName);
 
+        var roleId = command.RoleId;
+        var isActive = command.IsActive;
+
+        if (roleCode == RoleRules.StudentRoleCode)
+        {
+            roleId = existingUser.RoleId;
+            isActive = existingUser.IsActive;
+        }
+
         var existingRole = await _roleRepository.GetActiveByIdAsync(
-            command.RoleId,
+            roleId,
             cancellationToken)
             ?? throw new NotFoundException(
                 RoleRules.RoleNotFoundCode,
                 RoleRules.RoleNotFoundMessage);
 
-        existingUser.UpdateRole(command.RoleId);
-        existingUser.UpdateStatus(command.IsActive);
+        existingUser.UpdateRole(roleId);
+        existingUser.UpdateStatus(isActive);
 
         var userInfo = await _userInfoRepository.GetByUserIdAsync(
             existingUser.Id,

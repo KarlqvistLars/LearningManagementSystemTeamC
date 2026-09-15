@@ -55,31 +55,35 @@ public class UsersController : ControllerBase
         return Ok(ApiResponse<UserDto>.Ok(userDto));
     }
 
-    // TODO: this is currently an security debt, waitting for extension method on other's branch, get Id and Role from jwt then compare
-    // Student can only update own user, teacher can update all
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(
-        [FromRoute] Guid id,
-        UpdateUserCommand command,
-        [FromServices] IUpdateUserHandler updateUserHandler,
-        [FromServices] IValidator<UpdateUserCommand> updateUserValidator,
-        CancellationToken cancellationToken)
+    [FromRoute] Guid id,
+    UpdateUserCommand command,
+    [FromServices] IUpdateUserHandler updateUserHandler,
+    [FromServices] IValidator<UpdateUserCommand> updateUserValidator,
+    CancellationToken cancellationToken)
     {
         var commandWithId = command with
         {
             UserId = id
         };
 
+        var userId = User.GetUserId();
+        var roleCode = User.GetRole();
+
         var details = updateUserValidator.Validate(commandWithId);
 
         if (details.Count > 0)
-            return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
-                ExceptionConstants.ValidationFailedCode,
-                ExceptionConstants.ValidationFailedMessage,
-                details));
+            return BadRequest(
+                ApiResponse<Dictionary<string, string[]>>.Fail(
+                    ExceptionConstants.ValidationFailedCode,
+                    ExceptionConstants.ValidationFailedMessage,
+                    details));
 
         var userDto = await updateUserHandler.HandleAsync(
             commandWithId,
+            userId,
+            roleCode,
             cancellationToken);
 
         return Ok(ApiResponse<UserDto>.Ok(userDto));
