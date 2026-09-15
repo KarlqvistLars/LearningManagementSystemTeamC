@@ -39,6 +39,7 @@ using LearningManagementSystemTeamC.Application.Users.Commands.ToggleUserStatus;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LearningManagementSystemTeamC.Application;
@@ -88,6 +89,7 @@ public static class DependencyInjection
         services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
         services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
         services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
+        services.AddScoped<IGetActiveUsersByRoleHandler, GetActiveUsersByRoleHandler>();
         services.AddScoped<IGetResourceByIdHandler, GetResourceByIdHandler>();
 
 

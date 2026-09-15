@@ -1,0 +1,3 @@
+﻿namespace LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
+
+public record GetActiveUsersByRoleQuery(string Role);

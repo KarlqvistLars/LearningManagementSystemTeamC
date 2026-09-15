@@ -16,8 +16,19 @@ public class UpdateCourseValidator : IValidator<UpdateCourseCommand>
             [
                 CourseRules.CourseNameRequiredMessage
             ];
-        }
+        } else if (command.CourseName.Length > CourseRules.CourseNameMaxLength)
         else if (command.CourseName.Length > CourseRules.CourseNameMaxLength)
+=========
+        } else if (command.Name.Length > CourseRules.CourseNameMaxLength)
+>>>>>>>>> Temporary merge branch 2
+        else if (command.CourseName.Length > CourseRules.CourseNameMaxLength)
+=========
+        } else if (command.Name.Length > CourseRules.CourseNameMaxLength)
+>>>>>>>>> Temporary merge branch 2
+        else if (command.CourseName.Length > CourseRules.CourseNameMaxLength)
+=========
+        } else if (command.Name.Length > CourseRules.CourseNameMaxLength)
+>>>>>>>>> Temporary merge branch 2
         {
             errors[nameof(command.CourseName)] =
             [

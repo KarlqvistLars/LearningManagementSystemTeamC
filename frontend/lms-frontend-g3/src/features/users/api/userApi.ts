@@ -1,5 +1,5 @@
 import { apiRequest } from "../../../api/request";
-import type { User } from "../types/types";
+import type { User, UserSimplified } from "../types/types";
 
 export async function getUsers(): Promise<User[]> {
   return apiRequest<User[]>("/users");
@@ -52,4 +52,8 @@ export async function createUser(data: {
     method: "POST",
     body: JSON.stringify(data),
   });
+}
+
+export async function fetchActiveUsersByRole(role: string): Promise<UserSimplified[]> {
+  return apiRequest<UserSimplified[]>(`/users/${role}`);
 }

@@ -17,8 +17,14 @@ import { UserPage } from "../features/users/pages/UserPage";
 import { EditUserPage } from "../features/users/pages/EditUserPage";
 import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
+<<<<<<<<< Temporary merge branch 1
 import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
+=========
 import { ChatPage } from "../features/chat/pages/ChatPage";
+import { ModuleEditPage } from "../features/modules/pages/ModuleEditPage";
+import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
+import { ModuleCreatePage } from "../features/modules/pages/ModuleCreatePage";
+import { ModuleDetailsPage } from "../features/modules/pages/ModuleDetailsPage";
 
 export function AppRoutes() {
   return (
@@ -34,11 +40,15 @@ export function AppRoutes() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:courseId">
             <Route index element={<CourseDetailsPage />} />
-            <Route path="edit" element={<CourseEditPage />} />
-          </Route>
-          <Route path="courses/:courseId/modules" element={<ModulePage />} />
-          <Route path="/modules/:moduleId/activities" element={<ModuleActivitiesPage />} />
-          <Route path="/resources" element={<ResourcePage />} />
+          <Route path="courses/:courseId/modules" element={<ModulePage />}/> 
+          <Route path="modules/:moduleId" element={<ModuleDetailsPage />}/>
+          <Route path="courses/:courseId/modules/create" element={<ModuleCreatePage />}/>
+          <Route path="modules/:moduleId/edit" element={<ModuleEditPage />}/>
+          <Route
+            path="/modules/:moduleId/activities"
+            element={<ModuleActivitiesPage />}
+          />
+                    <Route path="/resources" element={<ResourcePage />} />
           <Route path="/resources/create" element={<ResourceForm />} />
           <Route path="/resources/:resourceId/edit" element={<ResourceForm />} />
 

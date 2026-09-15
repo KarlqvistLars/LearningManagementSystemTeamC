@@ -2,7 +2,13 @@ import { useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import type { Course } from "../types";
 import { useAuth } from "../../auth/AuthContext";
-import { fetchCourseById, editCourse } from "../api/courses";
+import {
+  fetchCourseById,
+  editCourse,
+  fetchEnrollmentsByCourse,
+  enrollUserInCourse,
+} from "../api/courses";
+import { fetchActiveUsersByRole } from "../../users/api/userApi";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { FormTitle } from "../../../shared/components/FormTitle";
 import { FormLabel } from "../../../shared/components/FormLabel";
@@ -10,6 +16,7 @@ import { FormInput } from "../../../shared/components/FormInput";
 import { Button } from "../../../shared/components/Button";
 import { createPortal } from "react-dom";
 import { ResponseMessage } from "../../../shared/components/ResponseMessage";
+import type { UserSimplified } from "../../users/types/types";
 
 export function CourseEditPage() {
   const { isTeacher } = useAuth();
@@ -21,18 +28,12 @@ export function CourseEditPage() {
   const [messageType, setMessageType] = useState<
     "message" | "error" | "success"
   >("message");
-  const [studentsAll, setStudentsAll] = useState<string[]>([
-    "student1",
-    "student2",
-    "student3",
-  ]);
-  const [mentorsAll, setMentorsAll] = useState<string[]>([
-    "mentor1",
-    "mentor2",
-    "mentor3",
-  ]);
+  const [studentsAll, setStudentsAll] = useState<UserSimplified[]>([]);
+  const [mentorsAll, setMentorsAll] = useState<UserSimplified[]>([]);
   const [students, setStudents] = useState<string[]>([]);
   const [mentors, setMentors] = useState<string[]>([]);
+  const [studentsSelected, setStudentsSelected] = useState<string[]>(students);
+  const [mentorsSelected, setMentorsSelected] = useState<string[]>(mentors);
 
   useEffect(() => {
     if (!isTeacher) {
@@ -41,7 +42,7 @@ export function CourseEditPage() {
   }, [isTeacher, navigate, courseId]);
 
   useEffect(() => {
-    async function loadCourse() {
+    async function loadCourse(): Promise<void> {
       try {
         if (!courseId) {
           throw new Error("Course ID is required");
@@ -55,13 +56,68 @@ export function CourseEditPage() {
       }
     }
 
+    async function loadEnrolledStudents(): Promise<void> {
+      try {
+        if (!courseId) {
+          throw new Error("Course ID is required");
+        }
+        const studentsEnrolled = await fetchEnrollmentsByCourse(courseId);
+        setStudents(studentsEnrolled.map((student) => student.studentId));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function loadAllTeachers(): Promise<void> {
+      try {
+        if (!courseId) {
+          throw new Error("Course ID is required");
+        }
+        const teachersFetched = await fetchActiveUsersByRole("teacher");
+        setMentorsAll(teachersFetched);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function loadAllStudents(): Promise<void> {
+      try {
+        if (!courseId) {
+          throw new Error("Course ID is required");
+        }
+        const studentsFetched = await fetchActiveUsersByRole("student");
+        setStudentsAll(studentsFetched);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     if (loading) {
       loadCourse();
+      loadEnrolledStudents();
+      loadAllTeachers();
+      loadAllStudents();
     }
   }, [loading, courseId]);
 
-  function formateDateForInput(date: string | Date) {
+  function formateDateForInput(date: string | Date): string {
     return new Date(date).toISOString().split("T")[0];
+  }
+
+  async function enrollStudents(studentIds: string[]): Promise<void> {
+    try {
+      if (!courseId) {
+        throw new Error("Course ID is required");
+      }
+
+      studentIds.forEach(async (studentId) => {
+        await enrollUserInCourse(courseId, studentId);
+      });
+
+      setStudents((prevStudents) => [...prevStudents, ...studentIds]);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
@@ -79,6 +135,7 @@ export function CourseEditPage() {
         };
 
         await editCourse(edit);
+        enrollStudents(studentsSelected);
         setMessage("Course updated successfully.");
         setMessageType("success");
       }
@@ -132,13 +189,20 @@ export function CourseEditPage() {
                     id="mentor"
                     name="mentor"
                     multiple
-                    value={mentors}
-                    onChange={(event) => setMentors([...event.target.value])}
+                    value={mentorsSelected}
+                    onChange={(event) =>
+                      setMentorsSelected(
+                        Array.from(
+                          event.target.selectedOptions,
+                          (option) => option.value,
+                        ),
+                      )
+                    }
                     className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
                   >
                     {mentorsAll.map((mentor) => (
-                      <option key={mentor} value={mentor}>
-                        {mentor}
+                      <option key={mentor.id} value={mentor.id}>
+                        {`${mentor.firstName} ${mentor.lastName}`}
                       </option>
                     ))}
                   </select>
@@ -193,13 +257,20 @@ export function CourseEditPage() {
                     id="students"
                     name="students"
                     multiple
-                    value={students}
-                    onChange={(event) => setStudents([...event.target.value])}
+                    value={studentsSelected}
+                    onChange={(event) =>
+                      setStudentsSelected(
+                        Array.from(
+                          event.target.selectedOptions,
+                          (option) => option.value,
+                        ),
+                      )
+                    }
                     className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
                   >
                     {studentsAll.map((student) => (
-                      <option key={student} value={student}>
-                        {student}
+                      <option key={student.id} value={student.id}>
+                        {`${student.firstName} ${student.lastName}`}
                       </option>
                     ))}
                   </select>
@@ -234,7 +305,7 @@ export function CourseEditPage() {
               </div>
 
               <div className="mt-auto flex justify-center gap-4 pt-10">
-                <Button type="submit" variant="form" color="edit">
+                <Button type="submit" variant="list" color="edit">
                   Save
                 </Button>
               </div>
