@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260915080250_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260916073316_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,6 +283,9 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ResourceName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -292,11 +295,12 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Resources");
                 });
@@ -464,6 +468,15 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Resources.Resource", b =>
+                {
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

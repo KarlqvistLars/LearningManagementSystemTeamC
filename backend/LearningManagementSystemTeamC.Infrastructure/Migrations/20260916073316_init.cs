@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,22 +67,6 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PasswordResetTokens", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Resources",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ResourceName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Resources", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -247,6 +231,29 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Resources",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ResourceName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resources", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Resources_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserInfos",
                 columns: table => new
                 {
@@ -321,6 +328,11 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                 name: "IX_PasswordResetTokens_UserId",
                 table: "PasswordResetTokens",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resources_CreatedBy",
+                table: "Resources",
+                column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Roles_Code",
