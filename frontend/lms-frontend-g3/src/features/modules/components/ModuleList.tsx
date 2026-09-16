@@ -1,5 +1,5 @@
 import type { Module } from "../types";
-import { ModuleSummaryCard } from "./ModuleSummaryCard";
+import { ModuleSummaryCard } from "./moduleSummaryCard";
 import { fetchModules } from "../api/ModulesApi";
 import { useEffect, useState } from "react"
 import { useAuth } from "../../auth/AuthContext";

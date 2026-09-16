@@ -62,11 +62,14 @@ export function AppRoutes() {
           />
 
           <Route path="/resources" element={<ResourcePage />} />
+          <Route path="/resources/:resourceId" element={<ResourcePage />} />
 
           <Route
             path="/activities/:activityId/submission"
             element={<ResourceEditPage />}
           />
+
+          <Route path="/resources/create" element={<ResourceEditPage />} />
 
           <Route
             path="/activities/:activityId/submission/:resourceId/edit"

@@ -1,22 +1,21 @@
-﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
+using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
+using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Application.Modules;
 using LearningManagementSystemTeamC.Domain.Activities;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Modules;
-using LearningManagementSystemTeamC.Domain.Resources;
-namespace LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 
-public class CreateActivityHandler : ICreateActivityHandler
+namespace LearningManagementSystemTeamC.Application.Activities.Command.EditActivity;
+
+public class EditActivityHandler : IEditActivityHandler
 {
     private readonly IActivityRepository _activityRepository;
-
     private readonly IModuleRepository _moduleRepository;
-
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateActivityHandler(
+    public EditActivityHandler(
         IActivityRepository activityRepository,
         IModuleRepository moduleRepository,
         IUnitOfWork unitOfWork)
@@ -27,9 +26,17 @@ public class CreateActivityHandler : ICreateActivityHandler
     }
 
     public async Task<ActivityDto> Handle(
-        CreateActivityCommand command,
+        EditActivityCommand command,
         CancellationToken cancellationToken)
     {
+        var activity = await _activityRepository.GetByIdAsync(command.Id, cancellationToken);
+        if (activity == null)
+        {
+            throw new NotFoundException(
+                ActivityRules.ActivityNotFoundCode,
+                ActivityRules.ActivityNotFoundMessage);
+        }
+
         var module = await _moduleRepository.GetByIdAsync(command.ModuleId, cancellationToken);
         if (module == null)
         {
@@ -49,7 +56,7 @@ public class CreateActivityHandler : ICreateActivityHandler
             command.ModuleId,
             command.StartDate,
             command.EndDate,
-            null,
+            command.Id,
             cancellationToken);
         if (hasOverlap)
         {
@@ -58,18 +65,13 @@ public class CreateActivityHandler : ICreateActivityHandler
                 ActivityRules.ActivityOverlapMessage);
         }
 
-        var activity = new Activity(
+        activity.Update(
             command.ActivityName,
             command.Description,
             command.StartDate,
             command.EndDate,
-            command.Type,
-            command.ModuleId) ?? throw new ArgumentNullException(
-                ResourceRules.ActivityCreationFailed,
-                ResourceRules.ActivityCreationFailedMessage
-                );
+            command.Type);
 
-        await _activityRepository.AddAsync(activity, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return ActivityMapper.ActivityToDto(activity);

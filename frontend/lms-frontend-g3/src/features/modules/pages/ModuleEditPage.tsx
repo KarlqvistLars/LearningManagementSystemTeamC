@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { ModuleForm, type ModuleFormData } from "../components/ModuleForm";
+import { ModuleForm, type ModuleFormData } from "../components/moduleForm";
 import type { EditModule, Module } from "../types";
 import { useEffect, useState } from "react";
 import { editModule, fetchModuleById } from "../api/ModulesApi";

@@ -2,6 +2,7 @@ using LearningManagementSystemTeamC.Api.Common.Constants;
 using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
+using LearningManagementSystemTeamC.Application.Activities.Command.EditActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivities;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
@@ -79,6 +80,7 @@ public class ActivitiesController : ControllerBase
     /// <param name="command">The activity data used to create the activity.</param>
     /// <returns>The newly created activity.</returns>
     [HttpPost("activities")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
     public async Task<IActionResult> Create(
         CreateActivityCommand command,
         [FromServices] ICreateActivityHandler createActivityHandler,
@@ -108,6 +110,40 @@ public class ActivitiesController : ControllerBase
                 activityId = activityDto.Id
             },
             ApiResponse<ActivityDto>.Ok(activityDto));
+    }
+
+    /// <summary>
+    /// Edits a specific activity.
+    /// </summary>
+    /// <param name="activityId">The ID of the activity.</param>
+    /// <param name="command">The updated activity data.</param>
+    /// <returns>The updated activity.</returns>
+    [HttpPut("activities/{activityId:guid}")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
+    public async Task<IActionResult> Edit(
+        Guid activityId,
+        EditActivityCommand command,
+        [FromServices] IEditActivityHandler editActivityHandler,
+        [FromServices] IValidator<EditActivityCommand> editActivityValidator,
+        CancellationToken cancellationToken)
+    {
+        var editCommand = command with { Id = activityId };
+
+        var validationResult = editActivityValidator.Validate(editCommand);
+        if (validationResult.Count > 0)
+        {
+            return BadRequest(
+                ApiResponse<ActivityDto>.Fail(
+                ExceptionConstants.ValidationFailedCode,
+                ExceptionConstants.ValidationFailedMessage,
+                validationResult));
+        }
+
+        var activityDto = await editActivityHandler.Handle(
+            editCommand,
+            cancellationToken);
+
+        return Ok(ApiResponse<ActivityDto>.Ok(activityDto));
     }
 
     /// <summary>

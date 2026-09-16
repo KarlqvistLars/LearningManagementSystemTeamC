@@ -37,6 +37,28 @@ public class Activity
         ModuleId = moduleId;
     }
 
+    public void Update(
+        string activityName,
+        string description,
+        DateTime startDate,
+        DateTime endDate,
+        ActivityType type)
+    {
+        Validate(
+            activityName,
+            description,
+            startDate,
+            endDate,
+            type,
+            ModuleId);
+
+        ActivityName = activityName;
+        Description = description;
+        StartDate = startDate;
+        EndDate = endDate;
+        Type = type;
+    }
+
     private static void Validate(
         string activityName,
         string description,

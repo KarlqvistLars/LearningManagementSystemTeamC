@@ -63,7 +63,7 @@ export function CourseDetailsPage() {
       }
     }
 
-    //loadMentors();
+    loadMentors();
     loadEnrollments();
   }, [course]);
 

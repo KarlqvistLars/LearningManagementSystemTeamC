@@ -35,3 +35,22 @@ export interface AssignmentSubmissionDto {
   submissionId: string | null;
   submittedAt: string | null;
 }
+
+export interface CreateActivity {
+    activityName: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    type: string;
+    moduleId: string;
+}
+
+export interface EditActivity {
+    id: string;
+    activityName: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    type: string;
+    moduleId: string;
+}

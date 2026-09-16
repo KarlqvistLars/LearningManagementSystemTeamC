@@ -6,6 +6,7 @@ export function useActivities(moduleId: string | undefined) {
     const [activities, setActivities] = useState<ActivityDto[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
         if (!moduleId) return;
@@ -17,7 +18,7 @@ export function useActivities(moduleId: string | undefined) {
             .then(setActivities)
             .catch((err: Error) => setError(err.message))
             .finally(() => setLoading(false));
-    }, [moduleId]);
+    }, [moduleId, reloadKey]);
 
-    return { activities, loading, error };
+    return { activities, loading, error, refetch: () => setReloadKey((k) => k + 1) };
 }
