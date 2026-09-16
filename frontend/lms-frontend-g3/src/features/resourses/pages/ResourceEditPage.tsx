@@ -150,11 +150,13 @@ export function ResourceEditPage() {
       <div className="w-full rounded-lg border border-border bg-menu px-10 py-5">
         <FormTitle
           title={
-            isSubmission
-              ? "Submit Assignment"
-              : isEditing
-                ? "Edit Resource"
-                : "Create Resource"
+            isEditing && isSubmission
+              ? "Edit Submission"
+              : isSubmission
+                ? "Submit Assignment"
+                : isEditing
+                  ? "Edit Resource"
+                  : "Create Resource"
           }
         />
 
@@ -237,13 +239,17 @@ export function ResourceEditPage() {
           </div>
 
           <div className="my-6">
-            <Button type="submit" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              color={isEditing ? "edit" : "create"}
+            >
               {isSubmitting
-                ? "Submitting..."
-                : isSubmission
-                  ? "Submit assignment"
-                  : isEditing
-                    ? "Update resource"
+                ? "Saving..."
+                : isEditing
+                  ? "Edit submission"
+                  : isSubmission
+                    ? "Submit assignment"
                     : "Create resource"}
             </Button>
           </div>
