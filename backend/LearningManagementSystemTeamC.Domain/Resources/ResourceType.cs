@@ -7,4 +7,5 @@ public enum ResourceType
     CourseLiterature = 2,
     ExerciseMaterial = 3,
     Assignment = 4,
+    Submission = 5
 }

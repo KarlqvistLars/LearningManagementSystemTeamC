@@ -5,7 +5,7 @@ namespace LearningManagementSystemTeamC.Application.Resources.Command.UpdateReso
 
 public class UpdateResourceValidator : IValidator<UpdateResourceCommand>
 {
-    public Dictionary<string, string[]> Validate(UpdateResourceCommand command, CancellationToken cancellationToken)
+    public Dictionary<string, string[]> Validate(UpdateResourceCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

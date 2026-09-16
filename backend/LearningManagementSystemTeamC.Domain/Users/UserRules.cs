@@ -35,4 +35,7 @@ public class UserRules
     public const string AccountNotAvailableCode = "USER_ACCOUNT_NOT_AVAILABLE";
     public const string AccountNotAvailableMessage = "User account is not available.";
 
+    public const string CannotUpdateOtherUserCode = "USER_UPDATE_OTHERS";
+    public const string CannotUpdateOtherUserMessage = "You can not edit other users";
+
 }

@@ -8,13 +8,19 @@ import { getUserById, updateUser } from "../api/userApi";
 import type { User } from "../types/types";
 import type { Role } from "../../roles/types/role";
 import { getRoles } from "../../roles/api/roleApi";
+import { ErrorList } from "../../../shared/components/ErrorList";
+import type { ApiError } from "../../../api/types";
+import { ApiRequestError } from "../../../api/error";
+import { useAuth } from "../../auth/AuthContext";
 
 export function EditUserPage() {
   const { userId } = useParams();
   const navigate = useNavigate();
+  const { isTeacher } = useAuth();
 
   const [user, setUser] = useState<User | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
+  const [error, setError] = useState<ApiError | undefined>();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -32,13 +38,9 @@ export function EditUserPage() {
 
     const fetchData = async () => {
       try {
-        const [user, roles] = await Promise.all([
-          getUserById(userId),
-          getRoles(),
-        ]);
+        const user = await getUserById(userId);
 
         setUser(user);
-        setRoles(roles);
 
         setFirstName(user.firstName);
         setLastName(user.lastName);
@@ -50,13 +52,21 @@ export function EditUserPage() {
         setPhoneNumber(user.phoneNumber ?? "");
         setRoleId(user.roleId);
         setIsActive(user.isActive);
+
+        if (isTeacher) {
+          const roles = await getRoles();
+          setRoles(roles);
+        }
       } catch (error) {
-        console.error(error);
+        if (error instanceof ApiRequestError) {
+          setError(error);
+          return;
+        }
       }
     };
 
     fetchData();
-  }, [userId]);
+  }, [userId, isTeacher]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,7 +89,10 @@ export function EditUserPage() {
 
       navigate("/users");
     } catch (error) {
-      console.error(error);
+      if (error instanceof ApiRequestError) {
+        setError(error);
+        return;
+      }
     }
   };
 
@@ -104,9 +117,10 @@ export function EditUserPage() {
   });
 
   return (
-    <section className="flex h-full flex-col gap-6 p-6">
+    <section className="flex min-h-full flex-col gap-6 p-6">
       <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
         <FormTitle title="Edit User" />
+        <ErrorList error={error} variant="form" />
 
         <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
           <div className="grid grid-cols-2 gap-x-10 gap-y-5">
@@ -229,44 +243,48 @@ export function EditUserPage() {
               />
             </div>
 
-            <div>
-              <FormLabel htmlFor="status" className="text-white">
-                Status
-              </FormLabel>
+            {isTeacher && (
+              <>
+                <div>
+                  <FormLabel htmlFor="status" className="text-white">
+                    Status
+                  </FormLabel>
 
-              <select
-                id="status"
-                name="status"
-                value={isActive ? "active" : "inactive"}
-                onChange={(event) =>
-                  setIsActive(event.target.value === "active")
-                }
-                className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
+                  <select
+                    id="status"
+                    name="status"
+                    value={isActive ? "active" : "inactive"}
+                    onChange={(event) =>
+                      setIsActive(event.target.value === "active")
+                    }
+                    className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
+                  >
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
 
-            <div>
-              <FormLabel htmlFor="role" className="text-white">
-                Role
-              </FormLabel>
+                <div>
+                  <FormLabel htmlFor="role" className="text-white">
+                    Role
+                  </FormLabel>
 
-              <select
-                id="role"
-                name="roleId"
-                value={roleId}
-                onChange={(event) => setRoleId(event.target.value)}
-                className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-              >
-                {roles.map((role) => (
-                  <option key={role.id} value={role.id}>
-                    {role.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+                  <select
+                    id="role"
+                    name="roleId"
+                    value={roleId}
+                    onChange={(event) => setRoleId(event.target.value)}
+                    className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
+                  >
+                    {roles.map((role) => (
+                      <option key={role.id} value={role.id}>
+                        {role.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="mt-auto flex justify-center gap-4 pt-10">

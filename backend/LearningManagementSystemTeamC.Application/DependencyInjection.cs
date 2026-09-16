@@ -1,11 +1,19 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
-using LearningManagementSystemTeamC.Application.ActivityResources.Command.CreateActivityResource;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignmentSubmissions;
 using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
 using LearningManagementSystemTeamC.Application.Auth.Commands.RegisterUser;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ResetPassword;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.AddChatRoomMember;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.CreateChatRoom;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.DeleteChatRoom;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.GetOrCreateChatRoom;
+using LearningManagementSystemTeamC.Application.ChatRooms.Commands.RemoveChatRoomMember;
+using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetChatRoomById;
+using LearningManagementSystemTeamC.Application.ChatRooms.Queries.GetMyChatRooms;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Courses.Commands.CreateCourse;
 using LearningManagementSystemTeamC.Application.Courses.Commands.UpdateCourse;
@@ -15,6 +23,8 @@ using LearningManagementSystemTeamC.Application.Courses.Queries.GetCoursesByIdRa
 using LearningManagementSystemTeamC.Application.Enrollments.Commands.EnrollUserInCourse;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByCourseId;
 using LearningManagementSystemTeamC.Application.Enrollments.Queries.GetEnrollmentsByUserId;
+using LearningManagementSystemTeamC.Application.Messages.Commands.SendMessage;
+using LearningManagementSystemTeamC.Application.Messages.Queries.GetMessages;
 using LearningManagementSystemTeamC.Application.Modules.Commands.CreateModule;
 using LearningManagementSystemTeamC.Application.Modules.Commands.EditModule;
 using LearningManagementSystemTeamC.Application.Modules.Queries.GetModuleById;
@@ -22,11 +32,15 @@ using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetMySubmission;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourceById;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
 using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.ToggleUserStatus;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,10 +79,24 @@ public static class DependencyInjection
         services.AddScoped<IToggleUserStatusHandler, ToggleUserStatusHandler>();
         services.AddScoped<IGetRolesHandler, GetRolesHandler>();
         services.AddScoped<IUpdateCourseHandler, UpdateCourseHandler>();
+        services.AddScoped<ICreateChatRoomHandler, CreateChatRoomHandler>();
+        services.AddScoped<IGetChatRoomByIdHandler, GetChatRoomByIdHandler>();
+        services.AddScoped<IGetMyChatRoomsHandler, GetMyChatRoomsHandler>();
+        services.AddScoped<IDeleteChatRoomHandler, DeleteChatRoomHandler>();
+        services.AddScoped<IAddChatRoomMemberHandler, AddChatRoomMemberHandler>();
+        services.AddScoped<IRemoveChatRoomMemberHandler, RemoveChatRoomMemberHandler>();
+        services.AddScoped<ISendMessageHandler, SendMessageHandler>();
+        services.AddScoped<IGetMessagesHandler, GetMessagesHandler>();
+        services.AddScoped<IGetOrCreateChatRoomHandler, GetOrCreateChatRoomHandler>();
         services.AddScoped<IGetAllResourcesHandler, GetAllResourcesHandler>();
         services.AddScoped<IGetResourcesByActivityIdHandler, GetResourcesByActivityIdHandler>();
         services.AddScoped<ICreateResourceHandler, CreateResourceHandler>();
         services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
+        services.AddScoped<IGetResourceByIdHandler, GetResourceByIdHandler>();
+        services.AddScoped<IGetActiveUsersByRoleHandler, GetActiveUsersByRoleHandler>();
+        services.AddScoped<IGetAssignmentsHandler, GetAssignmentsHandler>();
+        services.AddScoped<IGetMySubmissionHandler, GetMySubmissionHandler>();
+        services.AddScoped<IGetAssignmentSubmissionsHandler, GetAssignmentSubmissionsHandler>();
 
 
         // Validators
@@ -85,6 +113,8 @@ public static class DependencyInjection
         services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseValidator>();
         services.AddScoped<IValidator<CreateResourceCommand>, CreateResourceValidator>();
         services.AddScoped<IValidator<UpdateResourceCommand>, UpdateResourceValidator>();
+        services.AddScoped<IValidator<CreateChatRoomCommand>, CreateChatRoomValidator>();
+        services.AddScoped<IValidator<SendMessageCommand>, SendMessageValidator>();
 
         return services;
     }

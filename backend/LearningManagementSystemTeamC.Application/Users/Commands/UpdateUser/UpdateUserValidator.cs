@@ -7,7 +7,7 @@ namespace LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
 public class UpdateUserValidator : IValidator<UpdateUserCommand>
 {
     public Dictionary<string, string[]> Validate(
-        UpdateUserCommand command, CancellationToken cancellationToken)
+        UpdateUserCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 

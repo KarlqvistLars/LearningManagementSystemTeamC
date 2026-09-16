@@ -30,13 +30,13 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
 
                     b.Property<string>("ActivityName")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -72,6 +72,51 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ActivityResources");
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.ChatRoomMembers.ChatRoomMember", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ChatRoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ChatRoomId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("ChatRoomMembers");
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.ChatRooms.ChatRoom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChatRooms");
                 });
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Courses.Course", b =>
@@ -129,6 +174,34 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Enrollments");
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Messages.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ChatRoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("ChatRoomId", "CreatedAt");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Modules.Module", b =>
@@ -204,7 +277,10 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ResourceName")
@@ -216,11 +292,12 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Resources");
                 });
@@ -337,6 +414,21 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.ChatRoomMembers.ChatRoomMember", b =>
+                {
+                    b.HasOne("LearningManagementSystemTeamC.Domain.ChatRooms.ChatRoom", null)
+                        .WithMany("Members")
+                        .HasForeignKey("ChatRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Enrollments.Enrollment", b =>
                 {
                     b.HasOne("LearningManagementSystemTeamC.Domain.Courses.Course", null)
@@ -352,12 +444,36 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Messages.Message", b =>
+                {
+                    b.HasOne("LearningManagementSystemTeamC.Domain.ChatRooms.ChatRoom", null)
+                        .WithMany()
+                        .HasForeignKey("ChatRoomId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Modules.Module", b =>
                 {
                     b.HasOne("LearningManagementSystemTeamC.Domain.Courses.Course", null)
                         .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.Resources.Resource", b =>
+                {
+                    b.HasOne("LearningManagementSystemTeamC.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -377,6 +493,11 @@ namespace LearningManagementSystemTeamC.Infrastructure.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LearningManagementSystemTeamC.Domain.ChatRooms.ChatRoom", b =>
+                {
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

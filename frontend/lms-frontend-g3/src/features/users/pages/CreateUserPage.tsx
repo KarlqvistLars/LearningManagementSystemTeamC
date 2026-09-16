@@ -7,12 +7,15 @@ import { Button } from "../../../shared/components/Button";
 import { createUser } from "../api/userApi";
 import type { Role } from "../../roles/types/role";
 import { getRoles } from "../../roles/api/roleApi";
+import { ErrorList } from "../../../shared/components/ErrorList";
+import { ApiRequestError } from "../../../api/error";
+import type { ApiError } from "../../../api/types";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
 
   const [roles, setRoles] = useState<Role[]>([]);
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [error, setError] = useState<ApiError | undefined>();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -36,7 +39,10 @@ export function CreateUserPage() {
           setRoleId(roles[0].id);
         }
       } catch (error) {
-        console.error(error);
+        if (error instanceof ApiRequestError) {
+          setError(error);
+          return;
+        }
       }
     };
 
@@ -46,7 +52,7 @@ export function CreateUserPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setErrors({});
+    setError(undefined);
 
     try {
       await createUser({
@@ -64,38 +70,20 @@ export function CreateUserPage() {
 
       navigate("/users");
     } catch (error) {
-      if (error instanceof Error) {
-        const validationError = error as Error & {
-          details?: Record<string, string[]>;
-        };
-
-        setErrors(validationError.details ?? {});
+      if (error instanceof ApiRequestError) {
+        setError(error);
         return;
       }
-
-      console.error(error);
     }
   };
 
   return (
-    <section className="flex h-full flex-col gap-6 p-6">
+    <section className="flex min-h-full flex-col gap-6 p-6">
       <div className="flex flex-1 flex-col gap-8 rounded-lg border border-border bg-menu px-10 py-10">
         <FormTitle title="Create User" />
-        {Object.keys(errors).length > 0 && (
-          <div className="rounded-md border border-red-500 bg-red-500/10 p-4">
-            <p className="font-medium text-red-400">
-              Please fix the following errors:
-            </p>
 
-            <ul className="mt-2 list-disc pl-5 text-red-400">
-              {Object.values(errors)
-                .flat()
-                .map((message, index) => (
-                  <li key={index}>{message}</li>
-                ))}
-            </ul>
-          </div>
-        )}
+        <ErrorList error={error} variant="form" />
+
         <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
           <div className="grid grid-cols-2 gap-x-10 gap-y-5">
             <div>

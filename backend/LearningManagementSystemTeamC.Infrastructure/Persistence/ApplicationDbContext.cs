@@ -1,7 +1,10 @@
 using LearningManagementSystemTeamC.Domain.Activities;
 using LearningManagementSystemTeamC.Domain.ActivityResources;
+using LearningManagementSystemTeamC.Domain.ChatRoomMembers;
+using LearningManagementSystemTeamC.Domain.ChatRooms;
 using LearningManagementSystemTeamC.Domain.Courses;
 using LearningManagementSystemTeamC.Domain.Enrollments;
+using LearningManagementSystemTeamC.Domain.Messages;
 using LearningManagementSystemTeamC.Domain.Modules;
 using LearningManagementSystemTeamC.Domain.PasswordResetTokens;
 using LearningManagementSystemTeamC.Domain.Resources;
@@ -30,6 +33,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Resource> Resources => Set<Resource>();
     public DbSet<ActivityResource> ActivityResources => Set<ActivityResource>();
     public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
+    public DbSet<ChatRoom> ChatRooms => Set<ChatRoom>();
+    public DbSet<ChatRoomMember> ChatRoomMembers => Set<ChatRoomMember>();
+    public DbSet<Message> Messages => Set<Message>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

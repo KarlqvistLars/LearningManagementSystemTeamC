@@ -12,7 +12,7 @@ export interface CreateModule {
     description: string;
     startDate: Date;
     endDate: Date;
-    courseId:string;
+    courseId: string;
 }
 
 export interface EditModule {
