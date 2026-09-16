@@ -44,7 +44,7 @@ export function MessageInput({ onSend, disabled = false }: MessageInputProps) {
         className="min-h-12 flex-1 resize-none rounded-lg border border-border bg-background px-4 py-3 text-primary-title-text outline-none focus:border-button-create disabled:cursor-not-allowed disabled:opacity-50"
       />
 
-      <div className="flex content-center">
+      <div className="flex self-center">
         <Button
           type="button"
           variant="list"

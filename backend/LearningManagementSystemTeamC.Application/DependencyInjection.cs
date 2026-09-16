@@ -1,5 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignmentSubmissions;
 using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
@@ -30,6 +32,7 @@ using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetMySubmission;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourceById;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
@@ -37,9 +40,9 @@ using LearningManagementSystemTeamC.Application.Users.Commands.CreateUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.DeleteUser;
 using LearningManagementSystemTeamC.Application.Users.Commands.ToggleUserStatus;
 using LearningManagementSystemTeamC.Application.Users.Commands.UpdateUser;
+using LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUserById;
 using LearningManagementSystemTeamC.Application.Users.Queries.GetUsers;
-using LearningManagementSystemTeamC.Application.Users.Queries.GetActiveUsersByRole;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LearningManagementSystemTeamC.Application;
@@ -91,6 +94,9 @@ public static class DependencyInjection
         services.AddScoped<IUpdateResourceHandler, UpdateResourceHandler>();
         services.AddScoped<IGetResourceByIdHandler, GetResourceByIdHandler>();
         services.AddScoped<IGetActiveUsersByRoleHandler, GetActiveUsersByRoleHandler>();
+        services.AddScoped<IGetAssignmentsHandler, GetAssignmentsHandler>();
+        services.AddScoped<IGetMySubmissionHandler, GetMySubmissionHandler>();
+        services.AddScoped<IGetAssignmentSubmissionsHandler, GetAssignmentSubmissionsHandler>();
 
 
         // Validators

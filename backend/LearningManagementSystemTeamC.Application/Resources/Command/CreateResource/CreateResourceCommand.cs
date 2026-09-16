@@ -6,5 +6,6 @@ public record CreateResourceCommand(
     string ResourceName,
     string Content,
     string? Url,
-    ResourceType Type
-    );
+    ResourceType Type,
+    Guid? ActivityId
+);
