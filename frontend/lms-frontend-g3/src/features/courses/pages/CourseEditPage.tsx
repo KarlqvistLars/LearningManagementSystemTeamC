@@ -29,7 +29,7 @@ export function CourseEditPage() {
   const [studentsAll, setStudentsAll] = useState<UserSimplified[]>([]);
   const [mentorsAll, setMentorsAll] = useState<UserSimplified[]>([]);
   const [students, setStudents] = useState<string[]>([]);
-  const [mentors, setMentors] = useState<string[]>([]);
+  const [mentors] = useState<string[]>([]);
 
   useEffect(() => {
     if (!isTeacher) {

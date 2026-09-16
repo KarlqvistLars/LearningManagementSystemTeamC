@@ -3,7 +3,7 @@ import type { CreateModule } from "../types";
 import { createModule } from "../api/ModulesApi";
 import { DisplayText } from "../../../shared/components/DisplayText";
 import { ResponseMessage } from "../../../shared/components/ResponseMessage";
-import { ModuleForm, type ModuleFormData } from "../components/ModuleForm";
+import { ModuleForm, type ModuleFormData } from "../components/moduleForm";
 import { useState } from "react";
 
 export function ModuleCreatePage() {

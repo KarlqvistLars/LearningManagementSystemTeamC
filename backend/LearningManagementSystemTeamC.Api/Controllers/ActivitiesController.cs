@@ -3,6 +3,7 @@ using LearningManagementSystemTeamC.Api.Common.Contracts;
 using LearningManagementSystemTeamC.Api.Common.Extensions;
 using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Command.EditActivity;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivities;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignmentSubmissions;

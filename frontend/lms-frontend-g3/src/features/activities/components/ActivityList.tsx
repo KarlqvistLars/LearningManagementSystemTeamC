@@ -1,50 +1,72 @@
+import { Button } from "../../../shared/components/Button";
+import { DisplayText } from "../../../shared/components/DisplayText";
+import { ListItemField } from "../../../shared/components/ListItemField";
 import type { ActivityDto } from "../types";
 
-const ACTIVITY_TYPES = {
-    0: "ELearningSession",
-    1: "Lecture",
-    2: "ExerciseSession",
-    3: "Assignment",
-} as const;
+const ACTIVITY_TYPES: Record<number, string> = {
+  0: "ELearningSession",
+  1: "Lecture",
+  2: "ExerciseSession",
+  3: "Assignment",
+};
 
 interface ActivityListProps {
-    activities: ActivityDto[];
-    onEditActivity?: (activity: ActivityDto) => void;
+  activities: ActivityDto[];
+  onEditActivity?: (activity: ActivityDto) => void;
 }
 
-export function ActivityList({ activities, onEditActivity }: ActivityListProps) {
-    if (activities.length === 0) {
-        return (
-            <div className="rounded-lg border border-dashed border-slate-300 p-8 text-center text-slate-500">
-                No activities in this module yet.
-            </div>
-        );
-    }
+export function ActivityList({
+  activities,
+  onEditActivity,
+}: ActivityListProps) {
+  if (activities.length === 0) {
+    return <DisplayText text="No activities in this module yet." />;
+  }
 
-    return (
-        <ul className="space-y-4">
-            {activities.map((activity) => (
-                <li key={activity.id} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold">{activity.activityName}</h3>
-                        <span className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
-                            {ACTIVITY_TYPES[activity.type as keyof typeof ACTIVITY_TYPES] ?? activity.type}
-                        </span>
-                    </div>
-                    <p className="mt-2 text-sm text-slate-600">{activity.description}</p>
-                    <p className="mt-2 text-xs text-slate-400">
-                        {new Date(activity.startDate).toLocaleString()} – {new Date(activity.endDate).toLocaleString()}
-                    </p>
-                    {onEditActivity && (
-                        <button
-                            onClick={() => onEditActivity(activity)}
-                            className="mt-3 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-700"
-                        >
-                            Edit
-                        </button>
-                    )}
-                </li>
-            ))}
-        </ul>
-    );
+  return (
+    <div className="flex flex-col gap-2">
+      {activities.map((activity) => (
+        <div
+          key={activity.id}
+          className="flex items-center rounded-xl border border-border bg-menu px-4 py-3"
+        >
+          <ListItemField
+            label="Name"
+            value={activity.activityName}
+            className="flex-2"
+          />
+
+          <ListItemField
+            label="Type"
+            value={ACTIVITY_TYPES[activity.type] ?? String(activity.type)}
+            className="flex-2"
+          />
+
+          <ListItemField
+            label="Start date"
+            value={new Date(activity.startDate).toLocaleString()}
+            className="flex-2"
+          />
+
+          <ListItemField
+            label="End date"
+            value={new Date(activity.endDate).toLocaleString()}
+            className="flex-2"
+          />
+
+          {onEditActivity && (
+            <div className="flex items-center gap-3">
+              <Button
+                variant="list"
+                color="edit"
+                onClick={() => onEditActivity(activity)}
+              >
+                Edit
+              </Button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
 }
