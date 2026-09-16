@@ -1,26 +1,66 @@
 import { CourseList } from "../components/courseList";
-import type { User } from "../../users/types/types";
-import ROLES from "../../auth/roleConstants";
+import { useAuth } from "../../auth/AuthContext";
+import { useNavigate } from "react-router";
+import { Suspense } from "react";
+import { SearchInput } from "../../../shared/components/SearchInput";
 import { DisplayText } from "../../../shared/components/DisplayText";
-
-const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-const role = user?.roleName;
-const isTeacher = role === ROLES.TEACHER;
+import { Button } from "../../../shared/components/Button";
+import { useState, useEffect } from "react";
+import { fetchCourses, fetchCoursesByStudent } from "../api/courses";
+import type { Course } from "../types";
 
 export function CoursesPage() {
+  const { user, isTeacher } = useAuth();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const search = searchTerm.toLowerCase();
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const filteredCourses = courses.filter((course) => {
+    return (
+      course.courseName.toLowerCase().includes(search) ||
+      course.description.toLowerCase().includes(search)
+    );
+  });
+
+  useEffect(() => {
+    async function loadCourses() {
+      try {
+        const coursesFetched = isTeacher
+          ? await fetchCourses()
+          : await fetchCoursesByStudent(user?.id || "");
+        setCourses(coursesFetched);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (loading) {
+      loadCourses();
+    }
+  }, [isTeacher, loading, user?.id]);
+
   return (
-    <section className=" px-6 py-20">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="mb-6 uppercase">
-          <DisplayText text="Courses" />
-        </h1>
-        <CourseList />
-      </div>
-      <div className="flex justify-center">
+    <section className="flex flex-col gap-6 p-6 h-full">
+      <h1 className="uppercase">
+        <DisplayText text="Courses" />
+      </h1>
+      <SearchInput
+        value={searchTerm}
+        onChange={setSearchTerm}
+        placeholder="Search courses..."
+      />
+      <Suspense fallback={<DisplayText text="Loading courses..." />}>
+        <CourseList courses={filteredCourses} />
+      </Suspense>
+      <div className="self-center mt-auto pb-6">
         {isTeacher && (
-          <button className="mt-16 px-6 py-5 text-trim bg-button-create text-button-create-text text-sm font-bold rounded hover:cursor-pointer">
+          <Button variant="list" onClick={() => navigate("/courses/create")}>
             Create new course
-          </button>
+          </Button>
         )}
       </div>
     </section>

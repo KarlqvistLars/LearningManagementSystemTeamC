@@ -1,5 +1,6 @@
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Domain.Resources;
+using LearningManagementSystemTeamC.Domain.UserInfos;
 
 namespace LearningManagementSystemTeamC.Application.Common.Mappers;
 
@@ -12,6 +13,23 @@ public static class ResourceMapper
             resource.Content,
             resource.Url,
             resource.CreatedAt,
-            resource.Type
+            resource.Type,
+            resource.CreatedBy
         );
+
+    public static ResourceWithCreatorDto ToResourceWithCreatorDto(
+        Resource resource,
+        UserInfo userInfo)
+    {
+        return new ResourceWithCreatorDto(
+            resource.Id,
+            resource.ResourceName,
+            resource.Content,
+            resource.Url,
+            resource.CreatedAt,
+            resource.Type,
+            resource.CreatedBy,
+            userInfo.FirstName,
+            userInfo.LastName);
+    }
 }

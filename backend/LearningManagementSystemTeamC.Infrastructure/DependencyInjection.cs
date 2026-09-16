@@ -37,7 +37,8 @@ public static class DependencyInjection
         services.Configure<BrevoSettings>(
             config.GetSection("Brevo"));
 
-        services.AddHttpClient<IEmailService, BrevoEmailService>(client => {
+        services.AddHttpClient<IEmailService, BrevoEmailService>(client =>
+        {
             client.BaseAddress = new Uri("https://api.brevo.com/");
             client.DefaultRequestHeaders.Add(
                 "api-key",
@@ -61,6 +62,7 @@ public static class DependencyInjection
         services.AddScoped<IChatRoomReadRepository, ChatRoomReadRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<IMessageReadRepository, MessageReadRepository>();
+        services.AddScoped<IActivityReadRepository, ActivityReadRepository>();
         return services;
     }
 }

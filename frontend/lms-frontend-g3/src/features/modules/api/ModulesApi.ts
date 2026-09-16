@@ -2,8 +2,8 @@ import type { ApiResponse } from "../../../api/types";
 import { apiFetch } from "../../../api/client";
 import type { Module, CreateModule, EditModule } from "../types";
 
-// Fetches modules based on id
-export async function fetchModulesById(id: string): Promise<Module> {
+// Fetches module based on id
+export async function fetchModuleById(id: string): Promise<Module> {
     const result: ApiResponse<Module> = await apiFetch<Module>(`/modules/${id}`);
     if (!result.success) {
         throw new Error(result.error?.message || "Failed to fetch module");

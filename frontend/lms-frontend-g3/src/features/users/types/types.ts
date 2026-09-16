@@ -29,3 +29,9 @@ export interface UpdateUserData {
   roleId: string;
   isActive: boolean;
 }
+
+export interface UserSimplified {
+  id: string;
+  firstName: string;
+  lastName: string;
+}

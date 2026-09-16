@@ -1,37 +1,57 @@
 import type { Module } from "../types";
-import { Link } from "react-router";
+import { ModuleSummaryCard } from "./ModuleSummaryCard";
+import { fetchModules } from "../api/ModulesApi";
+import { useEffect, useState } from "react"
+import { useAuth } from "../../auth/AuthContext";
+
+
 
 interface ModuleListProps {
-  modules: Module[];
+    courseId: string;
+    searchTerm: string;
 }
 
-export function ModuleList({ modules }: ModuleListProps) {
-  if (modules.length === 0) {
-    return (
-      <div className="rounded-lg border border-dashed border-slate-300 p-8 text-center text-slate-500">
-        No modules in this course yet.
-      </div>
-    );
-  }
+export function ModuleList({ courseId, searchTerm}: ModuleListProps){
+    const [modules, setModules] = useState<Module[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const  { isTeacher } = useAuth();
+    
+    useEffect(() => {
+        async function loadModules() {
+            try {
+                const modulesFetched = await fetchModules(courseId);
+                
+                setModules(modulesFetched);
+            } catch (error) {
+                console.error("Failed to load modules.", error);
+                setError("Failed to load modules.");
+            }
+        }
 
-  return (
-    <ul className="space-y-4">
-      {modules.map((module) => (
-        <li
-          key={module.id}
-          className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-        >
-          <Link to={`/modules/${module.id}/activities`}>
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">{module.moduleName}</h3>
-            </div>
-            <p className="mt-2 text-sm text-slate-600">{module.description}</p>
-            <p className="mt-2 text-xs text-slate-400">
-              {new Date(module.startDate).toLocaleString()} -- {new Date(module.endDate).toLocaleString()}
-            </p>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
+        if (courseId) {
+            loadModules();
+        }
+    }, [courseId,  isTeacher]);
+
+    const filteredModules = modules.filter((module) =>
+        module.moduleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        module.description.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort((a, b) =>
+            new Date(a.startDate).getTime() -
+             new Date(b.startDate).getTime()
+        );
+
+    if (error) {
+        return <p>{error}</p>
+    }
+
+    return (
+        <div className="flex flex-col gap-2">
+            {filteredModules.map((module) => (
+                <ModuleSummaryCard
+                    key={module.id}
+                    module={module}/>
+            ))}
+        </div>
+    );
 }

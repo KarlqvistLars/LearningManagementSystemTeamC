@@ -32,7 +32,7 @@ public static class ActivityResourceSeeder
                 activityId["Lecture A part 2"].Id,
                 resourceId["Introduction to Algorithms"].Id
             ),
-                        new ActivityResource
+            new ActivityResource
             (
                 activityId["Lecture A part 3"].Id,
                 resourceId["Clean Code"].Id
@@ -42,7 +42,7 @@ public static class ActivityResourceSeeder
                 activityId["Lecture A part 3"].Id,
                 resourceId["Introduction to Algorithms"].Id
             ),
-                        new ActivityResource
+            new ActivityResource
             (
                 activityId["Lecture A part 4"].Id,
                 resourceId["Clean Code"].Id
@@ -52,7 +52,7 @@ public static class ActivityResourceSeeder
                 activityId["Lecture A part 4"].Id,
                 resourceId["Introduction to Algorithms"].Id
             ),
-                        new ActivityResource
+            new ActivityResource
             (
                 activityId["Lecture A part 5"].Id,
                 resourceId["Clean Code"].Id

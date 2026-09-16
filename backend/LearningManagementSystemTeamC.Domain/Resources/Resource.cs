@@ -1,74 +1,100 @@
-﻿namespace LearningManagementSystemTeamC.Domain.Resources
+﻿using LearningManagementSystemTeamC.Domain.Common.Exceptions;
+
+namespace LearningManagementSystemTeamC.Domain.Resources;
+
+public class Resource
 {
-    public class Resource
+    public Guid Id { get; private set; }
+    public string ResourceName { get; private set; }
+    public string Content { get; private set; }
+    public string? Url { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public ResourceType Type { get; private set; }
+    public Guid CreatedBy { get; private set; }
+
+    public Resource(
+        string resourceName,
+        string content,
+        string? url,
+        ResourceType type,
+        Guid createdBy)
     {
-        public Guid Id { get; set; }
-        public string ResourceName { get; set; }
-        public string Content { get; set; }
-        public string Url { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public ResourceType Type { get; set; }
+        Validate(
+            resourceName,
+            content,
+            url,
+            type,
+            createdBy);
 
-        public Resource(
-            string resourceName,
-            string content,
-            string url,
-            DateTime createdAt,
-            ResourceType type)
+        Id = Guid.NewGuid();
+        ResourceName = resourceName;
+        Content = content;
+        Url = url;
+        CreatedAt = DateTime.UtcNow;
+        Type = type;
+        CreatedBy = createdBy;
+    }
+
+    public void Update(
+        string resourceName,
+        string content,
+        string? url,
+        ResourceType type)
+    {
+        Validate(
+            resourceName,
+            content,
+            url,
+            type,
+            CreatedBy);
+
+        ResourceName = resourceName;
+        Content = content;
+        Url = url;
+        Type = type;
+    }
+
+    private static void Validate(
+        string resourceName,
+        string content,
+        string? url,
+        ResourceType type,
+        Guid createdBy)
+    {
+        if (string.IsNullOrWhiteSpace(resourceName))
         {
-            Validate(
-                resourceName,
-                content,
-                url,
-                createdAt,
-                type);
-
-            Id = Guid.NewGuid();
-            ResourceName = resourceName;
-            Content = content;
-            Url = url;
-            CreatedAt = createdAt;
-            Type = type;
+            throw new DomainException(
+                ResourceRules.ResourceNameRequiredCode,
+                ResourceRules.ResourceNameRequiredMessage);
         }
 
-        public void Update(
-            string resourceName,
-            string content,
-            string url,
-            ResourceType type)
+        if (string.IsNullOrWhiteSpace(content))
         {
-            Validate(
-                resourceName,
-                content,
-                url,
-                CreatedAt,
-                type);
-
-            ResourceName = resourceName;
-            Content = content;
-            Url = url;
-            Type = type;
+            throw new DomainException(
+                ResourceRules.ContentRequiredCode,
+                ResourceRules.ContentRequiredMessage);
         }
 
-        private void Validate(
-            string resourceName,
-            string content,
-            string url,
-            DateTime createdAt,
-            ResourceType type)
+        if (!Enum.IsDefined(type))
         {
-            if (string.IsNullOrWhiteSpace(resourceName))
-            {
-                throw new ArgumentException(
-                    ResourceRules.ResourceNameRequiredMessage,
-                    nameof(resourceName));
-            }
-            if (string.IsNullOrWhiteSpace(content))
-            {
-                throw new ArgumentException(
-                    ResourceRules.ContentRequiredMessage,
-                    nameof(content));
-            }
+            throw new DomainException(
+                ResourceRules.InvalidResourceTypeCode,
+                ResourceRules.InvalidResourceTypeMessage);
+        }
+
+        if (createdBy == Guid.Empty)
+        {
+            throw new DomainException(
+                ResourceRules.CreatedByRequiredCode,
+                ResourceRules.CreatedByRequiredMessage);
+        }
+
+        if (!string.IsNullOrWhiteSpace(url) &&
+            !Uri.TryCreate(url, UriKind.Absolute, out _))
+        {
+            throw new DomainException(
+                ResourceRules.InvalidUrlCode,
+                ResourceRules.InvalidUrlMessage);
         }
     }
 }

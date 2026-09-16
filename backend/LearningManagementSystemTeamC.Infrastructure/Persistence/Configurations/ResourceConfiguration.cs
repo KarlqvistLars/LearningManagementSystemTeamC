@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Domain.Resources;
+using LearningManagementSystemTeamC.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,23 +9,28 @@ internal class ResourceConfiguration : IEntityTypeConfiguration<Resource>
 {
     public void Configure(EntityTypeBuilder<Resource> builder)
     {
-        builder.HasKey(ar => ar.Id);
+        builder.HasKey(r => r.Id);
 
-        builder.Property(ar => ar.ResourceName)
+        builder.Property(r => r.ResourceName)
             .IsRequired()
             .HasMaxLength(ResourceRules.ResourceNameMaxLength);
 
-        builder.Property(ar => ar.Content)
+        builder.Property(r => r.Content)
             .IsRequired()
             .HasMaxLength(ResourceRules.ContentMaxLength);
 
-        builder.Property(ar => ar.Url)
+        builder.Property(r => r.Url)
             .HasMaxLength(ResourceRules.UrlMaxLength);
 
-        builder.Property(ar => ar.CreatedAt)
+        builder.Property(r => r.CreatedAt)
             .IsRequired();
 
-        builder.Property(ar => ar.Type)
+        builder.Property(r => r.Type)
             .IsRequired();
+
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(r => r.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

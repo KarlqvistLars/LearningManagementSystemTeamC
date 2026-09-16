@@ -1,6 +1,8 @@
 ﻿using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Mappers;
 using LearningManagementSystemTeamC.Application.Roles;
+using LearningManagementSystemTeamC.Domain.Roles;
+using LearningManagementSystemTeamC.Domain.Users;
 
 namespace LearningManagementSystemTeamC.Application.Users.Queries.GetUsers
 {
@@ -10,7 +12,10 @@ namespace LearningManagementSystemTeamC.Application.Users.Queries.GetUsers
         private readonly IRoleRepository _roleRepository;
         private readonly IUserInfoRepository _userInfoRepository;
 
-        public GetUsersHandler(IUserRepository userRepository, IRoleRepository roleRepository, IUserInfoRepository userInfoRepository)
+        public GetUsersHandler(
+            IUserRepository userRepository,
+            IRoleRepository roleRepository,
+            IUserInfoRepository userInfoRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
@@ -19,9 +24,22 @@ namespace LearningManagementSystemTeamC.Application.Users.Queries.GetUsers
 
         public async Task<IReadOnlyList<UserDto>> HandleAsync(
             GetUsersQuery query,
+            string userRole,
             CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetAllAsync(cancellationToken);
+            IEnumerable<User> users;
+
+            if (userRole == RoleRules.StudentRoleCode)
+            {
+                users = await _userRepository.GetAllActiveAsync(
+                    cancellationToken);
+            }
+            else
+            {
+                users = await _userRepository.GetAllAsync(
+                    cancellationToken);
+            }
+
             var roles = await _roleRepository.GetAllAsync(cancellationToken);
             var userInfos = await _userInfoRepository.GetAllAsync(cancellationToken);
 

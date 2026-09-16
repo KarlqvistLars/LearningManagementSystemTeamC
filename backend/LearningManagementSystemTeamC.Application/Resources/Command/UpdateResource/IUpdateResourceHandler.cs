@@ -4,7 +4,9 @@ namespace LearningManagementSystemTeamC.Application.Resources.Command.UpdateReso
 
 public interface IUpdateResourceHandler
 {
-    Task<ResourceDto?> Handle(
+    Task<ResourceDto> HandleAsync(
         UpdateResourceCommand command,
+        Guid userId,
+        string roleCode,
         CancellationToken cancellationToken);
 }

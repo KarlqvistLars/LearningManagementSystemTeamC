@@ -18,28 +18,47 @@ public class AuthController : ControllerBase
     {
     }
 
+    /// <summary>
+    /// Registers a new user account as student.
+    /// </summary>
+    /// <param name="command">The user registration data.</param>
+    /// <returns>The newly registered user's information.</returns>
     [HttpPost]
-    public async Task<IActionResult> Create(RegisterUserCommand command, [FromServices] IRegisterUserHandler registerUserHandler, [FromServices] IValidator<RegisterUserCommand> registerUserValidator, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create(
+        RegisterUserCommand command,
+        [FromServices] IRegisterUserHandler registerUserHandler,
+        [FromServices] IValidator<RegisterUserCommand> registerUserValidator,
+        CancellationToken cancellationToken)
     {
         var details = registerUserValidator.Validate(command);
 
         if (details.Count > 0)
             return BadRequest(ApiResponse<Dictionary<string, string[]>>.Fail(
-                    ExceptionConstants.ValidationFailedCode,
-                    ExceptionConstants.ValidationFailedMessage,
-                    details));
+                ExceptionConstants.ValidationFailedCode,
+                ExceptionConstants.ValidationFailedMessage,
+                details));
 
-        var userDto = await registerUserHandler.HandleAsync(command, cancellationToken);
-        return CreatedAtRoute(EndpointNameConstants.GetUserById, new { id = userDto.Id }, ApiResponse<UserDto>.Ok(userDto));
+        var userDto = await registerUserHandler.HandleAsync(
+            command,
+            cancellationToken);
+
+        return CreatedAtRoute(
+            EndpointNameConstants.GetUserById,
+            new { id = userDto.Id },
+            ApiResponse<UserDto>.Ok(userDto));
     }
 
+    /// <summary>
+    /// Authenticates a user and returns an access token.
+    /// </summary>
+    /// <param name="command">The user's login credentials.</param>
+    /// <returns>The authentication result containing the access token.</returns>
     [HttpPost("login")]
     public async Task<IActionResult> Login(
         LoginCommand command,
         [FromServices] ILoginHandler loginHandler,
         [FromServices] IValidator<LoginCommand> loginValidator,
-        CancellationToken cancellationToken
-    )
+        CancellationToken cancellationToken)
     {
         var details = loginValidator.Validate(command);
 
@@ -49,11 +68,18 @@ public class AuthController : ControllerBase
                 ExceptionConstants.ValidationFailedMessage,
                 details));
 
-        var result = await loginHandler.HandleAsync(command, cancellationToken);
+        var result = await loginHandler.HandleAsync(
+            command,
+            cancellationToken);
 
         return Ok(ApiResponse<LoginResultDto>.Ok(result));
     }
 
+    /// <summary>
+    /// Sends a password reset email to the specified user.
+    /// </summary>
+    /// <param name="command">The email address associated with the user account.</param>
+    /// <returns>A confirmation that the password reset email was sent.</returns>
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword(
         ForgotPasswordCommand command,
@@ -77,15 +103,23 @@ public class AuthController : ControllerBase
             cancellationToken);
 
         return Ok(
-            ApiResponse<string>.Ok(ForgotPasswordRules.ResetEmailSentMessage));
+            ApiResponse<string>.Ok(
+                ForgotPasswordRules.ResetEmailSentMessage));
     }
 
+    /// <summary>
+    /// Resets a user's password using a valid reset token.
+    /// </summary>
+    /// <param name="command">
+    /// The password reset data containing the reset token and new password.
+    /// </param>
+    /// <returns>A confirmation that the password was successfully reset.</returns>
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(
-    ResetPasswordCommand command,
-    [FromServices] IResetPasswordHandler resetPasswordHandler,
-    [FromServices] IValidator<ResetPasswordCommand> resetPasswordValidator,
-    CancellationToken cancellationToken)
+        ResetPasswordCommand command,
+        [FromServices] IResetPasswordHandler resetPasswordHandler,
+        [FromServices] IValidator<ResetPasswordCommand> resetPasswordValidator,
+        CancellationToken cancellationToken)
     {
         var details = resetPasswordValidator.Validate(command);
 
@@ -103,6 +137,7 @@ public class AuthController : ControllerBase
             cancellationToken);
 
         return Ok(
-            ApiResponse<string>.Ok(ResetPasswordRules.ResetPasswordSuccessMessage));
+            ApiResponse<string>.Ok(
+                ResetPasswordRules.ResetPasswordSuccessMessage));
     }
 }

@@ -25,4 +25,13 @@ public static class UserMapper
             user.CreatedAt
         );
     }
+
+    public static UserSimplifiedDto ToLightDto(User user, UserInfo userInfo)
+    {
+        return new UserSimplifiedDto(
+            user.Id,
+            userInfo.FirstName,
+            userInfo.LastName
+        );
+    }
 }
