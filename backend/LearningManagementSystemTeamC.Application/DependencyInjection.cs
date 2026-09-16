@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivity;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignmentSubmissions;
 using LearningManagementSystemTeamC.Application.ActivityResources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Auth.Commands.ForgotPassword;
 using LearningManagementSystemTeamC.Application.Auth.Commands.Login;
@@ -95,6 +96,7 @@ public static class DependencyInjection
         services.AddScoped<IGetActiveUsersByRoleHandler, GetActiveUsersByRoleHandler>();
         services.AddScoped<IGetAssignmentsHandler, GetAssignmentsHandler>();
         services.AddScoped<IGetMySubmissionHandler, GetMySubmissionHandler>();
+        services.AddScoped<IGetAssignmentSubmissionsHandler, GetAssignmentSubmissionsHandler>();
 
 
         // Validators

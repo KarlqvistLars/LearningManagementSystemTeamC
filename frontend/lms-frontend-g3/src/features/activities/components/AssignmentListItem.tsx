@@ -47,11 +47,12 @@ export function AssignmentListItem({ assignment }: AssignmentListItemProps) {
 
   const isLate =
     isSubmitted &&
+    submission.createdAt !== null &&
     new Date(submission.createdAt) > new Date(assignment.endDate);
 
   const handleDetails = () => {
     if (isTeacher) {
-      navigate(`/activities/${assignment.id}/details`);
+      navigate(`/activities/${assignment.id}/submissions`);
       return;
     }
 

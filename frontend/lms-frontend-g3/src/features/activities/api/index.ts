@@ -1,6 +1,7 @@
 import { apiFetch } from "../../../api/client";
 import type { ActivityDto, ActivityDetailsDto } from "../types";
 import { apiRequest } from "../../../api/request";
+import type { AssignmentSubmissionDto } from "../types";
 
 export async function getActivitiesByModule(
   moduleId: string,
@@ -14,4 +15,12 @@ export async function getActivitiesByModule(
 
 export async function getAssignments(): Promise<ActivityDetailsDto[]> {
   return apiRequest<ActivityDetailsDto[]>("/activities/assignments");
+}
+
+export async function getAssignmentSubmissions(
+  activityId: string,
+): Promise<AssignmentSubmissionDto[]> {
+  return apiRequest<AssignmentSubmissionDto[]>(
+    `/activities/${activityId}/submissions`,
+  );
 }

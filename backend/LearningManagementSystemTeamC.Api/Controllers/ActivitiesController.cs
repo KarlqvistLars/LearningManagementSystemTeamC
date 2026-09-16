@@ -5,6 +5,7 @@ using LearningManagementSystemTeamC.Application.Activities.Command.CreateActivit
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivities;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetActivitiesByModuleId;
 using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignments;
+using LearningManagementSystemTeamC.Application.Activities.Queries.GetAssignmentSubmissions;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -130,5 +131,22 @@ public class ActivitiesController : ControllerBase
             cancellationToken);
 
         return Ok(ApiResponse<IReadOnlyList<ActivityDetailsDto>>.Ok(assignments));
+    }
+
+    [HttpGet("activities/{activityId:guid}/submissions")]
+    [Authorize(Policy = PolicyConstants.TeacherOnly)]
+    public async Task<IActionResult> GetAssignmentSubmissions(
+        Guid activityId,
+        [FromServices]
+        IGetAssignmentSubmissionsHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var submissions = await handler.HandleAsync(
+            new GetAssignmentSubmissionsQuery(activityId),
+            cancellationToken);
+
+        return Ok(
+            ApiResponse<IReadOnlyList<AssignmentSubmissionDto>>.Ok(
+                submissions));
     }
 }

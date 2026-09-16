@@ -86,4 +86,72 @@ public class ActivityReadRepository : IActivityReadRepository
             ))
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<List<AssignmentSubmissionReadModel>>
+    GetAssignmentSubmissionsAsync(
+        Guid activityId,
+        CancellationToken cancellationToken)
+    {
+        var query =
+            from activity in _context.Activities
+            join module in _context.Modules
+                on activity.ModuleId equals module.Id
+            join enrollment in _context.Enrollments
+                on module.CourseId equals enrollment.CourseId
+            join userInfo in _context.UserInfos
+                on enrollment.UserId equals userInfo.UserId
+            where activity.Id == activityId
+                  && activity.Type == ActivityType.Assignment
+                  && enrollment.IsActive
+            orderby userInfo.LastName, userInfo.FirstName
+            select new
+            {
+                StudentId = enrollment.UserId,
+                StudentFirstName = userInfo.FirstName,
+                StudentLastName = userInfo.LastName,
+                ActivityId = activity.Id,
+                ActivityName = activity.ActivityName,
+                EndDate = activity.EndDate,
+
+                SubmissionId = _context.ActivityResources
+                    .Where(ar => ar.ActivityId == activity.Id)
+                    .Join(
+                        _context.Resources,
+                        ar => ar.ResourceId,
+                        resource => resource.Id,
+                        (ar, resource) => resource)
+                    .Where(resource =>
+                        resource.Type == ResourceType.Submission &&
+                        resource.CreatedBy == enrollment.UserId)
+                    .Select(resource => (Guid?)resource.Id)
+                    .FirstOrDefault(),
+
+                SubmittedAt = _context.ActivityResources
+                    .Where(ar => ar.ActivityId == activity.Id)
+                    .Join(
+                        _context.Resources,
+                        ar => ar.ResourceId,
+                        resource => resource.Id,
+                        (ar, resource) => resource)
+                    .Where(resource =>
+                        resource.Type == ResourceType.Submission &&
+                        resource.CreatedBy == enrollment.UserId)
+                    .Select(resource => (DateTime?)resource.CreatedAt)
+                    .FirstOrDefault()
+            };
+
+        var results = await query.ToListAsync(cancellationToken);
+
+        return results
+            .Select(x => new AssignmentSubmissionReadModel(
+                x.StudentId,
+                x.StudentFirstName,
+                x.StudentLastName,
+                x.ActivityId,
+                x.ActivityName,
+                x.EndDate,
+                x.SubmissionId,
+                x.SubmittedAt))
+            .ToList();
+    }
 }

@@ -8,4 +8,8 @@ public interface IActivityReadRepository
         Guid userId,
         string roleCode,
         CancellationToken cancellationToken);
+
+    Task<List<AssignmentSubmissionReadModel>> GetAssignmentSubmissionsAsync(
+        Guid activityId,
+        CancellationToken cancellationToken);
 }

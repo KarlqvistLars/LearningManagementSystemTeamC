@@ -1,53 +1,45 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { SearchInput } from "../../../shared/components/SearchInput";
 import { DisplayText } from "../../../shared/components/DisplayText";
-import { Button } from "../../../shared/components/Button";
-import { ErrorList } from "../../../shared/components/ErrorList";
-import { AssignmentList } from "../components/AssignmentList";
-import { getAssignments } from "../api";
+import { SearchInput } from "../../../shared/components/SearchInput";
 import type { ActivityDetailsDto } from "../types";
-import type { ApiError } from "../../../api/types";
-import { ApiRequestError } from "../../../api/error";
-import { useAuth } from "../../auth/AuthContext";
+import { AssignmentList } from "../components/AssignmentList";
+import { getAssignments } from "../api/index";
 
 export function AssignmentPage() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [assignments, setAssignments] = useState<ActivityDetailsDto[]>([]);
-  const [error, setError] = useState<ApiError | undefined>();
 
-  const navigate = useNavigate();
-  const { isTeacher } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchAssignments = async () => {
-    try {
-      const assignments = await getAssignments();
-      setAssignments(assignments);
-    } catch (error) {
-      if (error instanceof ApiRequestError) {
-        setError(error);
-        return;
-      }
-    }
-  };
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchAssignments();
+    const loadAssignments = async () => {
+      try {
+        const result = await getAssignments();
+
+        setAssignments(result);
+      } catch (error) {
+        console.error(error);
+        setError("Could not load assignments.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadAssignments();
   }, []);
 
   const search = searchTerm.toLowerCase().trim();
 
-  const filteredAssignments = assignments.filter((assignment) => {
-    return (
-      assignment.activityName.toLowerCase().includes(search) ||
-      assignment.moduleName.toLowerCase().includes(search) ||
-      assignment.courseName.toLowerCase().includes(search)
-    );
-  });
+  const filteredAssignments = assignments.filter((assignment) =>
+    assignment.activityName.toLowerCase().includes(search),
+  );
 
   return (
-    <section className="flex flex-col gap-6 p-6 min-h-full">
-      <DisplayText text="ASSIGNMENTS" />
+    <section className="flex h-full flex-col gap-6 p-6">
+      <DisplayText text="Assignments" />
 
       <SearchInput
         value={searchTerm}
@@ -55,20 +47,14 @@ export function AssignmentPage() {
         placeholder="Search assignments..."
       />
 
-      <ErrorList error={error} variant="list" />
+      {loading && <DisplayText text="Loading assignments..." />}
 
-      <AssignmentList assignments={filteredAssignments} />
+      {error && (
+        <p className="rounded-lg bg-red-100 p-3 text-red-700">{error}</p>
+      )}
 
-      {isTeacher && (
-        <div className="self-center mt-auto">
-          <Button
-            type="button"
-            children="Create new activity"
-            variant="list"
-            color="create"
-            onClick={() => navigate("/activities/create")}
-          />
-        </div>
+      {!loading && !error && (
+        <AssignmentList assignments={filteredAssignments} />
       )}
     </section>
   );

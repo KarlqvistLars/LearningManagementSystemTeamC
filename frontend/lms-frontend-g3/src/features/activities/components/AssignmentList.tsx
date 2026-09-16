@@ -1,6 +1,6 @@
+import { DisplayText } from "../../../shared/components/DisplayText";
 import type { ActivityDetailsDto } from "../types";
 import { AssignmentListItem } from "./AssignmentListItem";
-import { DisplayText } from "../../../shared/components/DisplayText";
 
 interface AssignmentListProps {
   assignments: ActivityDetailsDto[];

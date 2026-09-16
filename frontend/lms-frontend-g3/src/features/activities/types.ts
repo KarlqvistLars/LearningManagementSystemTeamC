@@ -22,3 +22,16 @@ export interface ActivityDetailsDto {
   submittedCount: number;
   totalStudents: number;
 }
+
+export interface AssignmentSubmissionDto {
+  studentId: string;
+  studentFirstName: string;
+  studentLastName: string;
+
+  activityId: string;
+  activityName: string;
+  endDate: string;
+
+  submissionId: string | null;
+  submittedAt: string | null;
+}
