@@ -54,7 +54,16 @@ export function AppRoutes() {
             element={<ModuleActivitiesPage />}
           />
           <Route path="/resources" element={<ResourcePage />} />
-          <Route path="/resources/create" element={<ResourceEditPage />} />
+          <Route
+            path="/activities/:activityId/submission"
+            element={<ResourceEditPage />}
+          />
+
+          <Route
+            path="/activities/:activityId/submission/:resourceId/edit"
+            element={<ResourceEditPage />}
+          />
+
           <Route
             path="/resources/:resourceId/edit"
             element={<ResourceEditPage />}

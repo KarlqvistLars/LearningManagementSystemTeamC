@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystemTeamC.Application.ActivityResources;
 using LearningManagementSystemTeamC.Application.Common.DTOs;
 using LearningManagementSystemTeamC.Application.Common.Interfaces;
+using LearningManagementSystemTeamC.Domain.ActivityResources;
 using LearningManagementSystemTeamC.Domain.Common.Exceptions;
 using LearningManagementSystemTeamC.Domain.Resources;
 using LearningManagementSystemTeamC.Domain.Roles;
@@ -26,12 +27,22 @@ public class CreateResourceHandler : ICreateResourceHandler
         string roleCode,
         CancellationToken cancellationToken)
     {
-        if (roleCode == RoleRules.StudentRoleCode &&
-            command.Type != ResourceType.Submission)
+        if (roleCode == RoleRules.StudentRoleCode)
         {
-            throw new DomainException(
-                ResourceRules.InvalidStudentResourceTypeCode,
-                ResourceRules.InvalidStudentResourceTypeMessage);
+            if (command.Type != ResourceType.Submission)
+            {
+                throw new DomainException(
+                    ResourceRules.InvalidStudentResourceTypeCode,
+                    ResourceRules.InvalidStudentResourceTypeMessage);
+            }
+
+            if (!command.ActivityId.HasValue ||
+                command.ActivityId.Value == Guid.Empty)
+            {
+                throw new DomainException(
+                    ResourceRules.ActivityIdRequiredCode,
+                    ResourceRules.ActivityIdRequiredMessage);
+            }
         }
 
         var resource = new Resource(
@@ -44,6 +55,17 @@ public class CreateResourceHandler : ICreateResourceHandler
         await _resourceRepository.AddAsync(
             resource,
             cancellationToken);
+
+        if (command.ActivityId.HasValue)
+        {
+            var activityResource = new ActivityResource(
+                command.ActivityId.Value,
+                resource.Id);
+
+            await _resourceRepository.AddActivityResourceAsync(
+                activityResource,
+                cancellationToken);
+        }
 
         await _unitOfWork.SaveChangesAsync(
             cancellationToken);

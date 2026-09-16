@@ -31,6 +31,7 @@ using LearningManagementSystemTeamC.Application.Modules.Queries.GetModules;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetMySubmission;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourceById;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourcesByActivityId;
 using LearningManagementSystemTeamC.Application.Roles.Queries.GetRoles;
@@ -93,6 +94,7 @@ public static class DependencyInjection
         services.AddScoped<IGetResourceByIdHandler, GetResourceByIdHandler>();
         services.AddScoped<IGetActiveUsersByRoleHandler, GetActiveUsersByRoleHandler>();
         services.AddScoped<IGetAssignmentsHandler, GetAssignmentsHandler>();
+        services.AddScoped<IGetMySubmissionHandler, GetMySubmissionHandler>();
 
 
         // Validators

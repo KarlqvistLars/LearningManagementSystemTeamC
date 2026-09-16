@@ -25,6 +25,7 @@ export interface CreateResource {
   content: string;
   url: string | null;
   type: string;
+  activityId: string | null;
 }
 
 export interface EditResource {
@@ -35,6 +36,15 @@ export interface EditResource {
 }
 
 export interface ResourceTypeOption {
-  value: string;
+  value: number;
   name: string;
+}
+
+export interface StudentSubmissionDto {
+  id: string;
+  resourceName: string;
+  content: string;
+  url: string | null;
+  createdAt: string;
+  type: string;
 }

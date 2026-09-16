@@ -19,12 +19,17 @@ import { DisplayText } from "../../../shared/components/DisplayText";
 
 export function ResourceEditPage() {
   const navigate = useNavigate();
-  const { resourceId } = useParams<{ resourceId: string }>();
+
+  const { resourceId, activityId } = useParams<{
+    resourceId?: string;
+    activityId?: string;
+  }>();
 
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [url, setUrl] = useState("");
   const [type, setType] = useState("");
+
   const [resourceTypes, setResourceTypes] = useState<ResourceTypeOption[]>([]);
 
   const [error, setError] = useState("");
@@ -32,6 +37,7 @@ export function ResourceEditPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const isEditing = Boolean(resourceId);
+  const isSubmission = Boolean(activityId);
 
   useEffect(() => {
     const loadData = async () => {
@@ -39,6 +45,11 @@ export function ResourceEditPage() {
       setError("");
 
       try {
+        if (isSubmission && !resourceId) {
+          setType("Submission");
+          return;
+        }
+
         const types = await getResourceTypes();
         setResourceTypes(types);
 
@@ -61,12 +72,17 @@ export function ResourceEditPage() {
     };
 
     void loadData();
-  }, [resourceId]);
+  }, [resourceId, activityId]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!type) {
+    if (isSubmission && !activityId) {
+      setError("Activity ID is required.");
+      return;
+    }
+
+    if (!isSubmission && !type) {
       setError("Please select a resource type.");
       return;
     }
@@ -84,15 +100,29 @@ export function ResourceEditPage() {
         };
 
         await updateResource(resourceId, edit);
-      } else {
-        const create: CreateResource = {
-          resourceName: name,
-          content,
-          url: url || null,
-          type,
-        };
 
-        await createResource(create);
+        if (isSubmission) {
+          navigate("/activities/assignments");
+          return;
+        }
+
+        navigate(`/resources/${resourceId}`);
+        return;
+      }
+
+      const create: CreateResource = {
+        resourceName: name,
+        content,
+        url: url || null,
+        type: isSubmission ? "Submission" : type,
+        activityId: isSubmission ? activityId! : null,
+      };
+
+      await createResource(create);
+
+      if (isSubmission) {
+        navigate("/activities/assignments");
+        return;
       }
 
       navigate("/resources");
@@ -118,7 +148,15 @@ export function ResourceEditPage() {
   return (
     <section className="flex min-h-full w-full flex-col gap-8 p-6">
       <div className="w-full rounded-lg border border-border bg-menu px-10 py-5">
-        <FormTitle title={isEditing ? "Edit Resource" : "Create Resource"} />
+        <FormTitle
+          title={
+            isSubmission
+              ? "Submit Assignment"
+              : isEditing
+                ? "Edit Resource"
+                : "Create Resource"
+          }
+        />
 
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="grid grid-cols-2 gap-x-10 gap-y-5">
@@ -137,33 +175,35 @@ export function ResourceEditPage() {
               />
             </div>
 
-            <div>
-              <FormLabel htmlFor="resourceType" className="text-white">
-                Resource type
-              </FormLabel>
+            {!isSubmission && (
+              <div>
+                <FormLabel htmlFor="resourceType" className="text-white">
+                  Resource type
+                </FormLabel>
 
-              <select
-                id="resourceType"
-                value={type}
-                onChange={(event) => setType(event.target.value)}
-                required
-                className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
-              >
-                <option value="" disabled>
-                  Select resource type
-                </option>
-
-                {resourceTypes.map((option) => (
-                  <option key={option.value} value={option.name}>
-                    {option.name}
+                <select
+                  id="resourceType"
+                  value={type}
+                  onChange={(event) => setType(event.target.value)}
+                  required
+                  className="w-full rounded-md bg-form-input px-4 py-3 text-primary-display-text"
+                >
+                  <option value="" disabled>
+                    Select resource type
                   </option>
-                ))}
-              </select>
-            </div>
 
-            <div>
+                  {resourceTypes.map((option) => (
+                    <option key={option.value} value={option.name}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div className={isSubmission ? "col-span-2" : ""}>
               <FormLabel htmlFor="content" className="text-white">
-                Description
+                {isSubmission ? "Submission" : "Description"}
               </FormLabel>
 
               <textarea
@@ -172,7 +212,11 @@ export function ResourceEditPage() {
                 onChange={(event) => setContent(event.target.value)}
                 required
                 rows={8}
-                placeholder="Enter resource description"
+                placeholder={
+                  isSubmission
+                    ? "Enter your submission"
+                    : "Enter resource description"
+                }
                 className="min-h-48 w-full resize-y rounded-md bg-form-input px-4 py-3 text-primary-display-text"
               />
             </div>
@@ -196,9 +240,11 @@ export function ResourceEditPage() {
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? "Submitting..."
-                : isEditing
-                  ? "Update resource"
-                  : "Submit resource"}
+                : isSubmission
+                  ? "Submit assignment"
+                  : isEditing
+                    ? "Update resource"
+                    : "Create resource"}
             </Button>
           </div>
 

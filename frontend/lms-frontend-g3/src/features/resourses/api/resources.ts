@@ -1,91 +1,56 @@
-import type { ApiResponse } from "../../../api/types";
-import { apiFetch } from "../../../api/client";
-import type { ResourceDto, CreateResource } from "../types/interfaces";
-import type { ResourceTypeOption } from "../types/interfaces";
+import { apiRequest } from "../../../api/request";
+import type {
+  ResourceDto,
+  CreateResource,
+  EditResource,
+  ResourceTypeOption,
+  ResourceWithCreatorDto,
+  StudentSubmissionDto,
+} from "../types/interfaces";
 
-// Fetches modules based on id
-export async function fetchResourcesById(id: string): Promise<ResourceDto> {
-  const result: ApiResponse<ResourceDto> = await apiFetch<ResourceDto>(
-    `/resources/${id}`,
-  );
-  if (!result.success) {
-    throw new Error(result.error?.message || "Failed to fetch resource");
-  }
-
-  return result.data;
+export async function getResourceById(
+  resourceId: string,
+): Promise<ResourceWithCreatorDto> {
+  return apiRequest<ResourceWithCreatorDto>(`/resources/${resourceId}`);
 }
 
-// Fetches resources by activity id
-export async function fetchResources(
+export async function getResourcesByActivity(
   activityId: string,
 ): Promise<ResourceDto[]> {
-  const result: ApiResponse<ResourceDto[]> = await apiFetch<ResourceDto[]>(
-    `/resources/activity/${activityId}`,
-  );
-  if (!result.success) {
-    throw new Error(result.error?.message || "Failed to fetch resources");
-  }
-
-  return result.data;
+  return apiRequest<ResourceDto[]>(`/activities/${activityId}/resources`);
 }
 
-// Creates a module
+export async function getAllResources(): Promise<ResourceDto[]> {
+  return apiRequest<ResourceDto[]>("/resources");
+}
+
 export async function createResource(
   resource: CreateResource,
 ): Promise<ResourceDto> {
-  const result: ApiResponse<ResourceDto> = await apiFetch<ResourceDto>(
-    `/resources`,
-    {
-      method: "POST",
-      body: JSON.stringify(resource),
-    },
-  );
-
-  if (!result.success) {
-    console.error("API response:", result);
-    console.error(
-      "Validation details:",
-      JSON.stringify(result.error.details, null, 2),
-    );
-    console.log("Resource being sent:", resource);
-
-    throw new Error(result.error.message || "Failed to create resource");
-  }
-
-  // if (!result.success) {
-  //     console.error("API response:", result);
-  //     console.error("Validation errors:", result?.error);
-  //     console.log("Resource being sent:", JSON.stringify(resource));
-  //     throw new Error(result.error?.message || "Failed to create resource");
-  // }
-
-  return result.data;
+  return apiRequest<ResourceDto>("/resources", {
+    method: "POST",
+    body: JSON.stringify(resource),
+  });
 }
 
-// Edits a resource
-export async function editResource(
-  resource: ResourceDto,
+export async function updateResource(
+  resourceId: string,
+  resource: EditResource,
 ): Promise<ResourceDto> {
-  const result: ApiResponse<ResourceDto> = await apiFetch<ResourceDto>(
-    `/resources`,
-    {
-      method: "PUT",
-      body: JSON.stringify(resource),
-    },
-  );
-  if (!result.success) {
-    throw new Error(result.error?.message || "Failed to edit resource");
-  }
-
-  return result.data;
+  return apiRequest<ResourceDto>(`/resources/${resourceId}`, {
+    method: "PUT",
+    body: JSON.stringify(resource),
+  });
 }
 
 export async function getResourceTypes(): Promise<ResourceTypeOption[]> {
-  const result = await apiFetch<ResourceTypeOption[]>("/resources/types");
+  return apiRequest<ResourceTypeOption[]>("/resources/types");
+}
 
-  if (!result.success) {
-    throw new Error(result.error.message || "Failed to load resource types");
-  }
-
-  return result.data;
+export async function getMySubmission(
+  activityId: string,
+): Promise<StudentSubmissionDto | null> {
+  return apiRequest<StudentSubmissionDto | null>(
+    `/activities/${activityId}/submission`,
+  );
 }

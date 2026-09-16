@@ -7,6 +7,7 @@ using LearningManagementSystemTeamC.Application.Common.Interfaces;
 using LearningManagementSystemTeamC.Application.Resources.Command.CreateResource;
 using LearningManagementSystemTeamC.Application.Resources.Command.UpdateResource;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetAllResources;
+using LearningManagementSystemTeamC.Application.Resources.Queries.GetMySubmission;
 using LearningManagementSystemTeamC.Application.Resources.Queries.GetResourceById;
 using LearningManagementSystemTeamC.Domain.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -170,5 +171,24 @@ public class ResourcesController : ControllerBase
             .ToList();
 
         return Ok(ApiResponse<object>.Ok(resourceTypes));
+    }
+
+    [HttpGet("activities/{activityId:guid}/submission")]
+    public async Task<IActionResult> GetMySubmission(
+        Guid activityId,
+        [FromServices] IGetMySubmissionHandler getMySubmissionHandler,
+        CancellationToken cancellationToken)
+    {
+        var userId = User.GetUserId();
+
+        var submission =
+            await getMySubmissionHandler.HandleAsync(
+                new GetMySubmissionQuery(
+                    activityId,
+                    userId),
+                cancellationToken);
+
+        return Ok(
+            ApiResponse<ResourceDto?>.Ok(submission));
     }
 }
