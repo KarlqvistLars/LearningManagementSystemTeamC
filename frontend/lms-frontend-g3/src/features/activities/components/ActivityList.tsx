@@ -7,7 +7,12 @@ const ACTIVITY_TYPES = {
     3: "Assignment",
 } as const;
 
-export function ActivityList({ activities }: { activities: ActivityDto[] }) {
+interface ActivityListProps {
+    activities: ActivityDto[];
+    onEditActivity?: (activity: ActivityDto) => void;
+}
+
+export function ActivityList({ activities, onEditActivity }: ActivityListProps) {
     if (activities.length === 0) {
         return (
             <div className="rounded-lg border border-dashed border-slate-300 p-8 text-center text-slate-500">
@@ -30,6 +35,14 @@ export function ActivityList({ activities }: { activities: ActivityDto[] }) {
                     <p className="mt-2 text-xs text-slate-400">
                         {new Date(activity.startDate).toLocaleString()} – {new Date(activity.endDate).toLocaleString()}
                     </p>
+                    {onEditActivity && (
+                        <button
+                            onClick={() => onEditActivity(activity)}
+                            className="mt-3 rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-700"
+                        >
+                            Edit
+                        </button>
+                    )}
                 </li>
             ))}
         </ul>
