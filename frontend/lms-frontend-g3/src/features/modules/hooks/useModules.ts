@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchModules } from "../api";
+import { fetchModules } from "../api/ModulesApi";
 import type { Module } from "../types";
 
 export function useModules(courseId: string | undefined) {

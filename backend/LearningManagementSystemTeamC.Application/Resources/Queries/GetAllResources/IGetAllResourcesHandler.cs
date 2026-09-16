@@ -4,7 +4,7 @@ namespace LearningManagementSystemTeamC.Application.Resources.Queries.GetAllReso
 
 public interface IGetAllResourcesHandler
 {
-    Task<IReadOnlyList<ResourceDto>> Handle(
+    Task<IReadOnlyList<ResourceWithCreatorDto>> HandleAsync(
         GetAllResourcesQuery query,
         CancellationToken cancellationToken);
 }

@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystemTeamC.Application.ActivityResources;
+using LearningManagementSystemTeamC.Domain.ActivityResources;
 using LearningManagementSystemTeamC.Domain.Resources;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,14 +8,28 @@ namespace LearningManagementSystemTeamC.Infrastructure.Persistence.Repositories;
 public class ResourceRepository : IResourceRepository
 {
     private readonly ApplicationDbContext _context;
+
     public ResourceRepository(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task AddAsync(Resource resource, CancellationToken cancellationToken)
+    public async Task AddAsync(
+        Resource resource,
+        CancellationToken cancellationToken)
     {
-        await _context.Resources.AddAsync(resource, cancellationToken);
+        await _context.Resources.AddAsync(
+            resource,
+            cancellationToken);
+    }
+
+    public async Task AddActivityResourceAsync(
+        ActivityResource activityResource,
+        CancellationToken cancellationToken)
+    {
+        await _context.ActivityResources.AddAsync(
+            activityResource,
+            cancellationToken);
     }
 
     public async Task<IReadOnlyList<Resource>>
@@ -23,9 +38,9 @@ public class ResourceRepository : IResourceRepository
             CancellationToken cancellationToken)
     {
         var resourceIds = await _context.ActivityResources
-       .Where(ar => ar.ActivityId == activityId)
-       .Select(ar => ar.ResourceId)
-       .ToListAsync(cancellationToken);
+            .Where(ar => ar.ActivityId == activityId)
+            .Select(ar => ar.ResourceId)
+            .ToListAsync(cancellationToken);
 
         return await _context.Resources
             .Where(resource => resourceIds.Contains(resource.Id))
@@ -39,9 +54,32 @@ public class ResourceRepository : IResourceRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Resource?> GetResourceByIdAsync(Guid resourceId, CancellationToken cancellationToken)
+    public async Task<Resource?> GetResourceByIdAsync(
+        Guid resourceId,
+        CancellationToken cancellationToken)
     {
         return await _context.Resources
-            .FirstOrDefaultAsync(resource => resource.Id == resourceId, cancellationToken);
+            .FirstOrDefaultAsync(
+                resource => resource.Id == resourceId,
+                cancellationToken);
+    }
+
+    public async Task<Resource?> GetSubmissionByActivityAndUserIdAsync(
+        Guid activityId,
+        Guid userId,
+        CancellationToken cancellationToken)
+    {
+        var resourceIds = await _context.ActivityResources
+            .Where(ar => ar.ActivityId == activityId)
+            .Select(ar => ar.ResourceId)
+            .ToListAsync(cancellationToken);
+
+        return await _context.Resources
+            .FirstOrDefaultAsync(
+                resource =>
+                    resourceIds.Contains(resource.Id) &&
+                    resource.CreatedBy == userId &&
+                    resource.Type == ResourceType.Submission,
+                cancellationToken);
     }
 }

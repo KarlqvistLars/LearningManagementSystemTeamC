@@ -23,7 +23,6 @@ public class RegisterUserHandlerTests
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
         var unitOfWork = new Mock<IUnitOfWork>();
-        var userInfoRepository = new Mock<IUserInfoRepository>();
 
         var studentRole = new Role(
             RoleRules.StudentRoleName,
@@ -96,7 +95,6 @@ public class RegisterUserHandlerTests
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
         var unitOfWork = new Mock<IUnitOfWork>();
-        var userInfoRepository = new Mock<IUserInfoRepository>();
 
         var testEmail = "test@lms.com";
         var testPass = "testpass";
@@ -166,7 +164,6 @@ public class RegisterUserHandlerTests
         var roleRepository = new Mock<IRoleRepository>();
         var passwordHasher = new Mock<IPasswordHasher>();
         var unitOfWork = new Mock<IUnitOfWork>();
-        var userInfoRepository = new Mock<IUserInfoRepository>();
 
         var testEmail = "test@lms.com";
         var testPass = "testpass";

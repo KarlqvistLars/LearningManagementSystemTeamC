@@ -1,4 +1,6 @@
 import { Route, Routes } from "react-router";
+import { ResourcePage } from "../features/resourses/pages/ResourcePage";
+import { ResourceEditPage } from "../features/resourses/pages/ResourceEditPage";
 
 import { MainLayout } from "../layouts/MainLayout";
 import { MainPage } from "../features/MainPage";
@@ -7,7 +9,6 @@ import { NotFoundPage } from "../features/not-found/NotFoundPage";
 import { LoginPage } from "../features/auth/pages/LoginPage";
 import { RegisterPage } from "../features/auth/pages/RegisterPage";
 import { ModuleActivitiesPage } from "../features/activities/pages/ModuleActivitiesPage";
-import { CourseModulesPage } from "../features/modules/pages/CourseModulesPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
 import { ModulePage } from "../features/modules/pages/ModulePage";
 import { ForgotPasswordPage } from "../features/auth/pages/ForgotPasswordPage";
@@ -16,6 +17,14 @@ import { UserPage } from "../features/users/pages/UserPage";
 import { EditUserPage } from "../features/users/pages/EditUserPage";
 import { CreateUserPage } from "../features/users/pages/CreateUserPage";
 import { CourseDetailsPage } from "../features/courses/pages/CourseDetailsPage";
+import { ChatPage } from "../features/chat/pages/ChatPage";
+import { ModuleEditPage } from "../features/modules/pages/ModuleEditPage";
+import { CourseEditPage } from "../features/courses/pages/CourseEditPage";
+import { ModuleCreatePage } from "../features/modules/pages/ModuleCreatePage";
+import { ModuleDetailsPage } from "../features/modules/pages/ModuleDetailsPage";
+import { AssignmentPage } from "../features/activities/pages/AssignmentPage";
+import { AssignmentSubmissionsPage } from "../features/activities/pages/AssignmentSubmissionsPage";
+import { CourseCreatePage } from "../features/courses/pages/CourseCreatePage";
 
 export function AppRoutes() {
   return (
@@ -29,17 +38,67 @@ export function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
+          <Route path="/courses/create" element={<CourseCreatePage />} />
+
+          <Route path="/courses/:courseId">
+            <Route index element={<CourseDetailsPage />} />
+            <Route path="edit" element={<CourseEditPage />} />
+          </Route>
+
           <Route path="courses/:courseId/modules" element={<ModulePage />} />
+
+          <Route path="modules/:moduleId" element={<ModuleDetailsPage />} />
+
+          <Route
+            path="courses/:courseId/modules/create"
+            element={<ModuleCreatePage />}
+          />
+
+          <Route path="modules/:moduleId/edit" element={<ModuleEditPage />} />
+
           <Route
             path="/modules/:moduleId/activities"
             element={<ModuleActivitiesPage />}
           />
 
+          <Route path="/resources" element={<ResourcePage />} />
+          <Route path="/resources/:resourceId" element={<ResourcePage />} />
+
+          <Route
+            path="/activities/:activityId/submission"
+            element={<ResourceEditPage />}
+          />
+
+          <Route path="/resources/create" element={<ResourceEditPage />} />
+
+          <Route
+            path="/activities/:activityId/submission/:resourceId/edit"
+            element={<ResourceEditPage />}
+          />
+
+          <Route
+            path="/resources/:resourceId/edit"
+            element={<ResourceEditPage />}
+          />
+
+          <Route path="activities">
+            <Route path="assignments" element={<AssignmentPage />} />
+
+            <Route
+              path=":activityId/submissions"
+              element={<AssignmentSubmissionsPage />}
+            />
+          </Route>
+
           <Route path="users">
             <Route index element={<UserPage />} />
             <Route path="create" element={<CreateUserPage />} />
             <Route path=":userId/edit" element={<EditUserPage />} />
+          </Route>
+
+          <Route path="chat">
+            <Route index element={<ChatPage />} />
+            <Route path=":chatRoomId" element={<ChatPage />} />
           </Route>
         </Route>
       </Route>

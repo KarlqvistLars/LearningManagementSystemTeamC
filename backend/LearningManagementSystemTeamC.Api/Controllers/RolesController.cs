@@ -12,6 +12,10 @@ namespace LearningManagementSystemTeamC.Api.Controllers;
 [Route("api/roles")]
 public class RolesController : ControllerBase
 {
+    /// <summary>
+    /// Gets all available user roles.
+    /// </summary>
+    /// <returns>A list of available roles.</returns>
     [HttpGet]
     public async Task<IActionResult> GetRoles(
         [FromServices] IGetRolesHandler getRolesHandler,

@@ -5,7 +5,7 @@ namespace LearningManagementSystemTeamC.Application.Modules.Commands.CreateModul
 
 public class CreateModuleValidator : IValidator<CreateModuleCommand>
 {
-    public Dictionary<string, string[]> Validate(CreateModuleCommand command, CancellationToken cancellationToken)
+    public Dictionary<string, string[]> Validate(CreateModuleCommand command)
     {
         var errors = new Dictionary<string, string[]>();
 
